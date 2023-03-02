@@ -4,6 +4,7 @@ import './bootstrap.min.css';
 import SearchInput from './Search_input';
 import Thanks from './ThankYou'
 import Name from './Name'
+import Hello from './Hello'
 
 function Header(){
   return(
@@ -19,8 +20,11 @@ function App() {
 
   return (
     <div className="App">
+
+     
     
       <header className="App-header">
+      <Hello />
       <p>
           <Thanks />
         </p>
