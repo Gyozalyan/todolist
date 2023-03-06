@@ -19,7 +19,6 @@ function App() {
 class Product extends Component{
 
   render(){
-    console.log(this.name)
     return(
       <div>
       
