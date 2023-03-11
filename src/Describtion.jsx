@@ -3,9 +3,9 @@ import { Component } from 'react';
 class Description extends Component{
  
     render(){
-      return (<p>
- {this.props.description}
-      </p>
+      return (<div>
+ Description:{this.props.describtion}
+      </div>
        )
     }
 }
