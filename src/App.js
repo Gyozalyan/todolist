@@ -1,83 +1,44 @@
-import './App.css';
-import { Component } from 'react';
-import Name from './Name'
-import Price from './Price'
-import Describtion from './Describtion'
+import "./App.css";
+import { Component } from "react";
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+
+
+
 
 class App extends Component {
+  render() {
+    return (    
+     
+       <Container>
+        <Row>
+          <Col className="heading mt-5">
+          <p class="text-center mt-4 fs-1">
+              Hello Tamara. What are we going to success today?
+            </p>
 
-  state={
- 
-    products:[
-      {
-        name: "banana",
-        price: "5$",
-        describtion: "Bananas from ecuador"
-      },
-      {
-        name: "apple",
-        price: "4$",
-        describtion: "Fresh apples from Georgia",
-      },
-      {
-        name: "pear",
-        price: "8$",
-        describtion: "Fresh pears from Goris",
-      },
-
-      {
-        name: "melon",
-        price: "9$",
-        describtion: "Fresh pears from Gyumri",
-      },
-      {
-        name: "watermelon",
-        price: "18$",
-        describtion: "Fresh pears from Lori",
-      },
-    ]
+            <InputGroup className="mb-3">
+        <Form.Control
+         type="text"
+          placeholder="Great job! Next one?"         
+          aria-describedby="basic-addon2"
+        />
+        <Button variant="success" id="button-addon2">
+          +Add
+        </Button>
+      </InputGroup>
+          </Col>
+        </Row>
+        </Container>
+        
+       )
+    
   }
-
-  
-  render(){
-
-    const productsArray = this.state.products.map((product)=>{
-     return <Product name = {product.name} price = {product.price} describtion = {product.describtion}/>
-    })
-
-
-    return (
-      <div className="App">        
-      {productsArray}
-
-      
-      </div>
-    );
-  }
-
 }
-
-class Product extends Component{
-
-  
-
-  render(){
-    let {name, price, describtion} = this.props;
-    return(
-      <div>
-      
-        <Name name ={name}/> 
-        <Price price ={price}/> 
-        <Describtion describtion ={describtion}/>
-        <hr/>
-  
-      </div>
-    )
-  }
-
-}
-
-
-
 
 export default App;
