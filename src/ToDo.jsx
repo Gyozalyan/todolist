@@ -9,7 +9,31 @@ import Task from "./Task";
 
 
 export default class ToDo extends Component {
+
+state={
+  tasks:[],
+  counter:0
+}
+
+template =()=>{
+
+  const task = [...this.state.tasks]
+  task.push(this.state.counter)
+  this.setState({
+    task,
+   counter: this.state.counter+1
+  })
+
+
+  }
+
     render() {
+
+      const taskJsx  = this.state.tasks.map((task)=>{
+        return(<Task/>)
+      })
+
+
       return (
        <Container>
         <Row>
@@ -31,10 +55,7 @@ export default class ToDo extends Component {
         </Col>
         </Row>
         <Row className="mt-5">
-          <Task />
-          <Task />
-          <Task />
-          <Task />
+         {taskJsx}
         </Row>
         </Container>
       );
