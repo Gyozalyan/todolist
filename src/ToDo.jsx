@@ -3,11 +3,16 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Component } from "react";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Task from "./Task";
 
 
 export default class ToDo extends Component {
     render() {
       return (
+       <Container>
+        <Row>
         <Col className="heading mt-5">
           <p className="text-center mt-4 fs-1">
             Hello Tamara. What are we going to success today?
@@ -24,6 +29,14 @@ export default class ToDo extends Component {
             </Button>
           </InputGroup>
         </Col>
+        </Row>
+        <Row className="mt-5">
+          <Task />
+          <Task />
+          <Task />
+          <Task />
+        </Row>
+        </Container>
       );
     }
   }
