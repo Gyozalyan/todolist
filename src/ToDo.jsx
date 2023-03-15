@@ -17,10 +17,10 @@ state={
 
 template =()=>{
 
-  const task = [...this.state.tasks]
-  task.push(this.state.counter)
+  const tasks = [...this.state.tasks]
+  tasks.push(this.state.counter)
   this.setState({
-    task,
+    tasks,
    counter: this.state.counter+1
   })
 
