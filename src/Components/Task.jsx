@@ -2,11 +2,18 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Input from 'react-bootstrap/InputGroup';
 import { Col, Form, FloatingLabel } from 'react-bootstrap';
+import React, { useState } from 'react';
+// import { idGenerator } from '../Utils/Helper';
 
 
 export default function Task({taskObj,data, deleteTask, onChangeVal}){
 
+  const [valueOfTask, setVal] = useState(data)
+  
+   let makeTextEditable = () =>{
+   
 
+  }
 
 
 return(
@@ -17,14 +24,15 @@ return(
       </Input>
     <Card.Body>
     <FloatingLabel
+    id="foo"
         controlId="floatingTextarea"
         label="Must do"
         className="mb-3"
       >
-        <Form.Control as="textarea" placeholder="Leave a comment here" value={data} onChange ={onChangeVal} />
+        <Form.Control  as="textarea" placeholder="Leave a comment here" value={valueOfTask} onChange ={(e)=>{setVal(e.target.value)}} />
       </FloatingLabel>
       <Button variant="outline-danger" className="float-end" onClick = {()=>{deleteTask(taskObj)}}>Delete</Button>
-      <Button variant="outline-success" className="float-end btns">Edit</Button>
+      <Button variant="outline-success" className="float-end btns" onClick = {()=>{makeTextEditable()}}>Edit</Button>
     
     </Card.Body>
   </Card>
