@@ -8,7 +8,7 @@ import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 export default function Task({ data, deleteTask }) {
   const ref = useRef(null)
 
-  const [valueOfTask, setVal] = useState(data)
+  const [valueOfTask, setVal] = useState(data.text)
 
   let makeTextEditable = () => {
     ref.current.focus()
