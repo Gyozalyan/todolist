@@ -1,6 +1,6 @@
 import { Component } from "react";
 import {Col, Container, Row, InputGroup, Form, Button} from "react-bootstrap";
-import Task from "../Task";
+import Task from "../Components/Task";
 import { idGenerator } from "../Utils/Helper";
 
 export default class ToDo extends Component {
@@ -42,10 +42,18 @@ if(this.state.newText === ""){
     }
   }
 
+
+  deleteTask=(currentTask)=>{
+    console.log(id)
+     this.setState({
+      tasks: this.state.tasks.filter((task)=>{return task!==currentTask})
+    })
+  }
+
+
   render() {
     const taskJsx = this.state.tasks.map((task) => {
-      console.log(task.newText);
-      return <Task data={task.text} key={task.id} />;
+      return <Task taskObj={task} data={task.text} key={task.id} deleteTask={this.deleteTask}/>;
     });
 
     const isButtonDisabled = !this.state.newText
