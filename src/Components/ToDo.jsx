@@ -52,7 +52,7 @@ if(this.state.newText === ""){
 
   render() {
     const taskJsx = this.state.tasks.map((task) => {
-      return <Task taskObj={task} data={task.text} key={task.id} deleteTask={this.deleteTask} onChangeVal = {this.getValue}/>;
+      return <Task taskObj={task} data={task.text} key={task.id} deleteTask={this.deleteTask} />;
     });
 
     const isButtonDisabled = !this.state.newText

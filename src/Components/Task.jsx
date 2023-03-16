@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import {useRef} from 'react';
 
 
-export default function Task({taskObj,data, deleteTask, onChangeVal}){
+export default function Task({taskObj,data, deleteTask,}){
   const ref = useRef(null);
 
   const [valueOfTask, setVal] = useState(data)
