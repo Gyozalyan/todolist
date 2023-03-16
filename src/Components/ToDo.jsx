@@ -39,10 +39,10 @@ export default class ToDo extends Component {
     }
   }
 
-  deleteTask = (currentTask) => {
+  deleteTask = (id) => {
     this.setState({
       tasks: this.state.tasks.filter((task) => {
-        return task !== currentTask
+        return task.id !== id
       }),
     })
   }
@@ -51,8 +51,8 @@ export default class ToDo extends Component {
     const taskJsx = this.state.tasks.map((task) => {
       return (
         <Task
-          taskObj={task}
-          data={task.text}
+        
+          data={task}
           key={task.id}
           deleteTask={this.deleteTask}
         />

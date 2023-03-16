@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
-export default function Task({ taskObj, data, deleteTask }) {
+export default function Task({ data, deleteTask }) {
   const ref = useRef(null)
 
   const [valueOfTask, setVal] = useState(data)
@@ -38,7 +38,7 @@ export default function Task({ taskObj, data, deleteTask }) {
             variant="outline-danger"
             className="float-end"
             onClick={() => {
-              deleteTask(taskObj)
+              deleteTask(data.id)
             }}
           >
             <FontAwesomeIcon icon={faTrashCan} />
