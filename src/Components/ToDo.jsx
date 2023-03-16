@@ -44,7 +44,6 @@ if(this.state.newText === ""){
 
 
   deleteTask=(currentTask)=>{
-    console.log(id)
      this.setState({
       tasks: this.state.tasks.filter((task)=>{return task!==currentTask})
     })
@@ -53,7 +52,7 @@ if(this.state.newText === ""){
 
   render() {
     const taskJsx = this.state.tasks.map((task) => {
-      return <Task taskObj={task} data={task.text} key={task.id} deleteTask={this.deleteTask}/>;
+      return <Task taskObj={task} data={task.text} key={task.id} deleteTask={this.deleteTask} onChangeVal = {this.getValue}/>;
     });
 
     const isButtonDisabled = !this.state.newText
