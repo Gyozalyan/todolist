@@ -9,6 +9,7 @@ export default function Task({ data, deleteTask }) {
   const ref = useRef(null)
 
   const [valueOfTask, setVal] = useState(data.text)
+  const [checkBox, setCheck] = useState(false)
 
   let makeTextEditable = () => {
     ref.current.focus()
@@ -21,6 +22,11 @@ export default function Task({ data, deleteTask }) {
           <Input.Checkbox
             aria-label="Checkbox for following text input"
             className="inputCheckBox"
+            checked = {checkBox}
+            onChange={(e)=>{
+              setCheck(e.target.checked)
+        
+            }}
           />
         </Input>
         <Card.Body>
