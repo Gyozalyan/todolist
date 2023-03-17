@@ -2,6 +2,8 @@ import { Component } from 'react'
 import { Col, Container, Row, InputGroup, Form, Button } from 'react-bootstrap'
 import Task from '../Components/Task'
 import { idGenerator } from '../Utils/Helper'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 export default class ToDo extends Component {
   state = {
@@ -89,7 +91,15 @@ export default class ToDo extends Component {
             </InputGroup>
           </Col>
         </Row>
+        <Row>
+          <Col  >
+          <Button variant="danger" className="delete-selected mt-2 mb-3 "> Delete Selected </Button>  
+          </Col>
+        </Row>
+        
         <Row>{taskJsx}</Row>
+        
+       
       </Container>
     )
   }
