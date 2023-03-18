@@ -1,8 +1,9 @@
 import {Button, Modal} from 'react-bootstrap';
 
 function ConfirmDialog() {
+ 
   return (
-  
+
       <Modal
       size = "sm"
       show={false}
@@ -23,6 +24,7 @@ function ConfirmDialog() {
       </Modal>
 
   );
+
 }
 
 export default ConfirmDialog;
