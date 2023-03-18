@@ -10,6 +10,7 @@ export default class ToDo extends Component {
     tasks: [],
     newText: "",
     selectedTasks: new Set(),
+    openModal:false
   };
 
   getValue = (event) => {
@@ -75,6 +76,7 @@ export default class ToDo extends Component {
     this.setState({
       tasks: savedTasks,
       selectedTasks: new Set(),
+      openModal:false
     });
   };
 
@@ -90,6 +92,17 @@ export default class ToDo extends Component {
 
   }
 
+  isShown=()=>{
+   this.setState({
+    openModal: true
+  })}
+  
+  toCancel=()=>{
+    this.setState({
+      openModal:false
+    })
+  }
+
   render() {
     const taskJsx = this.state.tasks.map((task) => {
       return (
@@ -101,6 +114,7 @@ export default class ToDo extends Component {
         />
       );
     });
+
 
     return (
       <Container>
@@ -135,7 +149,8 @@ export default class ToDo extends Component {
             <Button
               variant="danger"
               className={styles.deleteselected}
-              onClick={this.deleteSelectedTasks}
+              // onClick={this.deleteSelectedTasks}
+              onClick={this.isShown}
               disabled={this.state.selectedTasks.size === 0}
             >
               Delete Selected
@@ -144,7 +159,11 @@ export default class ToDo extends Component {
         </Row>
 
         <Row>{taskJsx}</Row>
-        <ConfirmDialog/>
+        <ConfirmDialog 
+        isOpen = {this.state.openModal}
+        confirmDelete = {this.deleteSelectedTasks}
+        cancellation = {this.toCancel}
+        />
       </Container>
     );
   }

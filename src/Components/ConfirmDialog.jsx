@@ -1,14 +1,15 @@
 import {Button, Modal} from 'react-bootstrap';
 
-function ConfirmDialog() {
- 
-  return (
+function ConfirmDialog({isOpen, confirmDelete, cancellation}) {
+
+return !isOpen ? null :  (
 
       <Modal
+ 
       size = "sm"
-      show={false}
+      show={isOpen}
       onHide={()=>{}}>
-        <Modal.Header closeButton>
+        <Modal.Header >
           <Modal.Title> </Modal.Title>
         </Modal.Header>
 
@@ -18,8 +19,8 @@ function ConfirmDialog() {
         </Modal.Body>
 
         <Modal.Footer>
-        <Button variant="danger">Yes</Button>
-          <Button variant="success">No</Button>
+        <Button variant="danger" onClick = {confirmDelete}>Yes</Button>
+          <Button variant="success" onClick = {cancellation}>No</Button>
         </Modal.Footer>
       </Modal>
 
