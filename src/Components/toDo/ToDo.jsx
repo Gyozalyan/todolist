@@ -78,6 +78,18 @@ export default class ToDo extends Component {
     });
   };
 
+  checkedTasks = (id) =>{
+    const selectedTasksCopy = new Set(this.state.selectedTasks);
+    if (selectedTasksCopy.has(id)) {
+      selectedTasksCopy.delete(id);
+    } else {
+      this.setState({
+        selectedTasks: selectedTasksCopy.add(id),
+      });
+    }
+
+  }
+
   render() {
     const taskJsx = this.state.tasks.map((task) => {
       return (
@@ -85,18 +97,7 @@ export default class ToDo extends Component {
           data={task}
           key={task.id}
           deleteTask={this.deleteTask}
-          selecteTasks={(id) => {
-            const selectedTasksCopy = new Set(this.state.selectedTasks);
-            if (selectedTasksCopy.has(id)) {
-              selectedTasksCopy.delete(id);
-            } else {
-              this.setState({
-                selectedTasks: selectedTasksCopy.add(id),
-              });
-            }
-
-            console.log(this.state.selectedTasks);
-          }}
+          selecteTasks={this.checkedTasks}
         />
       );
     });
