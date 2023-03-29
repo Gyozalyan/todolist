@@ -13,8 +13,6 @@ const Counter = () => {
     } else if (counter === 0) {
       setCounterState("Zero");
     }
-
-    console.log("useffect update");
   }, [counter]);
 
   return (
