@@ -65,7 +65,6 @@ export default class ToDo extends Component {
   deleteSelectedTasks = () => {
     const { tasks, selectedTasks } = this.state;
     const savedTasks = [];
-    console.log(selectedTasks);
 
     tasks.forEach((task) => {
       if (!selectedTasks.has(task.id)) {
