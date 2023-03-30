@@ -7,7 +7,7 @@ const Counter = () => {
 
   useEffect(() => {
 
-    return counter > 0?setCounterState("Positive"):counter < 0? setCounterState("Negative"): counter === 0?  setCounterState("Zero"):null},
+    return counter > 0?setCounterState("Positive"):counter < 0? setCounterState("Negative"): setCounterState("Zero")},
     [counter]);
 
   return (
