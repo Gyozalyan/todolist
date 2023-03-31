@@ -148,7 +148,6 @@ export default class ToDo extends Component {
             <Button
               variant="danger"
               className={styles.deleteselected}
-              // onClick={this.deleteSelectedTasks}
               onClick={this.isShown}
               disabled={this.state.selectedTasks.size === 0}
             >
@@ -159,6 +158,7 @@ export default class ToDo extends Component {
 
         <Row>{taskJsx}</Row>
         <ConfirmDialog 
+        taskCount = {this.state.selectedTasks.size}
         isOpen = {this.state.openModal}
         confirmDelete = {this.deleteSelectedTasks}
         cancellation = {this.toCancel}

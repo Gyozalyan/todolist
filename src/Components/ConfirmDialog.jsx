@@ -1,13 +1,13 @@
 import { Button, Modal } from 'react-bootstrap'
 
-function ConfirmDialog({ isOpen, confirmDelete, cancellation }) {
+function ConfirmDialog({ isOpen, confirmDelete, cancellation, taskCount }) {
   return !isOpen ? null : (
-    <Modal size="sm" show={isOpen} onHide={() => {}}>
+    <Modal size="sm" show={isOpen} onHide={() => {cancellation()}}>
       <Modal.Header>
         <Modal.Title> </Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>Are you sure you want to delete the task?</Modal.Body>
+      <Modal.Body>Are you sure you want to delete {taskCount} {taskCount>1?"tasks":'task'}?</Modal.Body>
 
       <Modal.Footer>
         <Button variant="danger" onClick={confirmDelete}>
