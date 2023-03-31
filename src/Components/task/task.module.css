@@ -5,3 +5,41 @@
   .selectTask input{
     cursor: pointer;
   }
+
+  .task{
+    display: flex;
+    padding: 15px;
+    border: 4px double rgb(255, 255, 255);
+    margin: 15px auto;
+    width: 70%;
+}
+
+.strong{
+  float: start
+}
+
+.checkBody{
+  display: flex;
+  align-items: center
+}
+.taskBackground{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  width: 100%;
+  padding: 20px;
+
+}
+
+.taskContent{
+  width: 89%;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.actionButtons{
+  display: flex;
+  margin: 3px;
+}
+

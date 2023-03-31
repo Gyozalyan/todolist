@@ -9,15 +9,27 @@ export default class ToDo extends Component {
   state = {
     tasks: [],
     newText: "",
+    body:"",
     selectedTasks: new Set(),
     openModal:false
   };
 
-  getValue = (event) => {
+  getValueTitle = (event) => {
     const newText = event.target.value.trim();
     this.setState({
       newText,
+    
     });
+  };
+  getValueBody = (event) => {
+
+  
+    const body = event.target.value.trim();
+    this.setState({
+      body:body
+    
+    });
+
   };
 
   addTemplate = () => {
@@ -28,12 +40,14 @@ export default class ToDo extends Component {
     const tasks = [...this.state.tasks];
     tasks.push({
       id: idGenerator(),
-      text: this.state.newText,
+      title: this.state.newText,
+      body: this.state.body,
     });
 
     this.setState({
       tasks,
       newText: "",
+      body:""
     });
   };
 
@@ -103,13 +117,14 @@ export default class ToDo extends Component {
   }
 
   render() {
-    const taskJsx = this.state.tasks.map((task) => {
+    const taskJsx = this.state.tasks.map((task, index) => {
       return (
         <Task
           data={task}
           key={task.id}
           deleteTask={this.deleteTask}
           selecteTasks={this.checkedTasks}
+          number = {index+1}
         />
       );
     });
@@ -123,15 +138,27 @@ export default class ToDo extends Component {
               Hello Tamara. What are we going to success today?
             </p>
 
-            <InputGroup className="mb-3">
-              <Form.Control
+            <InputGroup className={styles.inputName}>
+              <Form.Control              
                 type="text"
-                placeholder="Great job! Next one?"
+                placeholder="Please type the name of the task"
                 aria-describedby="basic-addon2"
-                onChange={this.getValue}
+                onChange={this.getValueTitle}
                 onKeyDown={this.handleEvent}
                 value={this.state.newText}
               />
+               </InputGroup>
+
+              <InputGroup className={styles.inputName}>
+              <Form.Control
+                type="text"
+                placeholder="Please type the description of the task"
+                aria-describedby="basic-addon2"
+                value = {this.state.body}
+                onChange ={this.getValueBody}
+
+              />
+        
               <Button
                 variant="success"
                 id="button-addon2"
@@ -141,6 +168,7 @@ export default class ToDo extends Component {
                 +Add
               </Button>
             </InputGroup>
+           
           </Col>
         </Row>
         <Row>

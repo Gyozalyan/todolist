@@ -5,3 +5,8 @@
   z-index: 2;
   
   }
+
+  .inputName{
+    width: 50%;
+    margin: 10px auto;
+  }
