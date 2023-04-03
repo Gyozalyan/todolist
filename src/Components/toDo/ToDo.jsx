@@ -1,35 +1,32 @@
 import { Component } from "react";
-import styles from "./todo.module.css";
 import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
-import Task from "../task/Task";
 import { idGenerator } from "../../Utils/Helper";
-import ConfirmDialog from "../ConfirmDialog";
+import styles from "./todo.module.css";
+import Task from "../Tasks/Task";
+import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
+import MySelect from "../Select/MySelect";
 
 export default class ToDo extends Component {
   state = {
     tasks: [],
     newText: "",
-    body:"",
+    body: "",
     selectedTasks: new Set(),
-    openModal:false
+    openModal: false,
+    filterTasksBy: "",
   };
 
   getValueTitle = (event) => {
     const newText = event.target.value.trim();
     this.setState({
-      newText,
-    
+      newText
     });
   };
   getValueBody = (event) => {
-
-  
     const body = event.target.value.trim();
     this.setState({
-      body:body
-    
+      body
     });
-
   };
 
   addTemplate = () => {
@@ -47,7 +44,7 @@ export default class ToDo extends Component {
     this.setState({
       tasks,
       newText: "",
-      body:""
+      body: "",
     });
   };
 
@@ -89,11 +86,11 @@ export default class ToDo extends Component {
     this.setState({
       tasks: savedTasks,
       selectedTasks: new Set(),
-      openModal:false
+      openModal: false,
     });
   };
 
-  checkedTasks = (id) =>{
+  checkedTasks = (id) => {
     const selectedTasksCopy = new Set(this.state.selectedTasks);
     if (selectedTasksCopy.has(id)) {
       selectedTasksCopy.delete(id);
@@ -102,19 +99,29 @@ export default class ToDo extends Component {
         selectedTasks: selectedTasksCopy.add(id),
       });
     }
+  };
 
-  }
-
-  isShown=()=>{
-   this.setState({
-    openModal: true
-  })}
-  
-  toCancel=()=>{
+  isShown = () => {
     this.setState({
-      openModal:false
-    })
-  }
+      openModal: true,
+    });
+  };
+
+  toCancel = () => {
+    this.setState({
+      openModal: false,
+    });
+  };
+
+  filterTasks = (sortby) => {
+   this.setState({
+      tasks: this.state.tasks.sort((a, b) => {
+        return a[sortby].localeCompare(b[sortby]);
+      }),
+      filterTasksBy: sortby
+
+    });
+  };
 
   render() {
     const taskJsx = this.state.tasks.map((task, index) => {
@@ -124,22 +131,21 @@ export default class ToDo extends Component {
           key={task.id}
           deleteTask={this.deleteTask}
           selecteTasks={this.checkedTasks}
-          number = {index+1}
+          number={index + 1}
         />
       );
     });
-
 
     return (
       <Container>
         <Row>
           <Col className="heading mt-5">
             <p className="text-center mt-4 fs-1">
-              Hello Tamara. What are we going to success today?
+              Hello Tamara. What are we going to succeed today?
             </p>
 
             <InputGroup className={styles.inputName}>
-              <Form.Control              
+              <Form.Control
                 type="text"
                 placeholder="Please type the name of the task"
                 aria-describedby="basic-addon2"
@@ -147,18 +153,17 @@ export default class ToDo extends Component {
                 onKeyDown={this.handleEvent}
                 value={this.state.newText}
               />
-               </InputGroup>
+            </InputGroup>
 
-              <InputGroup className={styles.inputName}>
+            <InputGroup className={styles.inputName}>
               <Form.Control
                 type="text"
                 placeholder="Please type the description of the task"
                 aria-describedby="basic-addon2"
-                value = {this.state.body}
-                onChange ={this.getValueBody}
-
+                value={this.state.body}
+                onChange={this.getValueBody}
               />
-        
+
               <Button
                 variant="success"
                 id="button-addon2"
@@ -168,7 +173,16 @@ export default class ToDo extends Component {
                 +Add
               </Button>
             </InputGroup>
-           
+
+            <MySelect
+              defaultValue="Filter tasks by"
+              filterBy={[
+                { name: "Name", value: "title" },
+                { name: "Description", value: "body" },
+              ]}
+              value={this.state.filterTasksBy}
+              onChange={this.filterTasks}
+            />
           </Col>
         </Row>
         <Row>
@@ -185,11 +199,11 @@ export default class ToDo extends Component {
         </Row>
 
         <Row>{taskJsx}</Row>
-        <ConfirmDialog 
-        taskCount = {this.state.selectedTasks.size}
-        isOpen = {this.state.openModal}
-        confirmDelete = {this.deleteSelectedTasks}
-        cancellation = {this.toCancel}
+        <ConfirmDialog
+          taskCount={this.state.selectedTasks.size}
+          isOpen={this.state.openModal}
+          confirmDelete={this.deleteSelectedTasks}
+          cancellation={this.toCancel}
         />
       </Container>
     );
