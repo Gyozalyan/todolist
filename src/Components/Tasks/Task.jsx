@@ -8,18 +8,24 @@ import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 export default function Task({ data, deleteTask, selecteTasks, number }) {
   return (
     <div className={styles.task}>
+      
       <div className={styles.taskBackground}>
+     
         <div className={styles.checkBody}>
+        <div> {data.date}</div>
+       
+        
           <Form.Check
             className={styles.selectTask}
             onClick={() => {
               selecteTasks(data.id);
             }}
           />
-
+             
           <div className={styles.taskContent}>
+    
             <strong>
-              {number}. {data.title}{" "}
+               {number}. {data.title}{" "}
             </strong>{" "}
             : {data.body}
           </div>

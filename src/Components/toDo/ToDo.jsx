@@ -5,6 +5,7 @@ import styles from "./todo.module.css";
 import Task from "../Tasks/Task";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import MySelect from "../Select/MySelect";
+import { creationDate } from "../Date";
 
 export default class ToDo extends Component {
   state = {
@@ -14,6 +15,7 @@ export default class ToDo extends Component {
     selectedTasks: new Set(),
     openModal: false,
     filterTasksBy: "",
+  
   };
 
   getValueTitle = (event) => {
@@ -39,12 +41,14 @@ export default class ToDo extends Component {
       id: idGenerator(),
       title: this.state.newText,
       body: this.state.body,
+      date:  creationDate()
     });
 
     this.setState({
       tasks,
       newText: "",
       body: "",
+    
     });
   };
 
@@ -132,6 +136,7 @@ export default class ToDo extends Component {
           deleteTask={this.deleteTask}
           selecteTasks={this.checkedTasks}
           number={index + 1}
+  
         />
       );
     });
@@ -179,6 +184,7 @@ export default class ToDo extends Component {
               filterBy={[
                 { name: "Name", value: "title" },
                 { name: "Description", value: "body" },
+                { name: "Date", value: "date" }
               ]}
               value={this.state.filterTasksBy}
               onChange={this.filterTasks}
