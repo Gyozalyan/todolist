@@ -15,19 +15,32 @@ export default class ToDo extends Component {
     selectedTasks: new Set(),
     openModal: false,
     filterTasksBy: "",
-  
+    searchQuery: "",
+  };
+
+  getSearchQuery = (event) => {
+    const searchQuery = event.target.value;
+
+    this.setState({ 
+      searchQuery,
+      tasks: [...this.state.tasks].filter((task)=>{
+        return task.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())})
+    });
+
+   
+    
   };
 
   getValueTitle = (event) => {
     const newText = event.target.value.trim();
     this.setState({
-      newText
+      newText,
     });
   };
   getValueBody = (event) => {
     const body = event.target.value.trim();
     this.setState({
-      body
+      body,
     });
   };
 
@@ -41,14 +54,13 @@ export default class ToDo extends Component {
       id: idGenerator(),
       title: this.state.newText,
       body: this.state.body,
-      date:  creationDate()
+      date: creationDate(),
     });
 
     this.setState({
       tasks,
       newText: "",
       body: "",
-    
     });
   };
 
@@ -118,12 +130,11 @@ export default class ToDo extends Component {
   };
 
   filterTasks = (sortby) => {
-   this.setState({
+    this.setState({
       tasks: this.state.tasks.sort((a, b) => {
         return a[sortby].localeCompare(b[sortby]);
       }),
-      filterTasksBy: sortby
-
+      filterTasksBy: sortby,
     });
   };
 
@@ -136,7 +147,6 @@ export default class ToDo extends Component {
           deleteTask={this.deleteTask}
           selecteTasks={this.checkedTasks}
           number={index + 1}
-  
         />
       );
     });
@@ -179,16 +189,30 @@ export default class ToDo extends Component {
               </Button>
             </InputGroup>
 
-            <MySelect
+            <div className={styles.filterAndSearch}>
+              <MySelect
               defaultValue="Filter tasks by"
               filterBy={[
                 { name: "Name", value: "title" },
                 { name: "Description", value: "body" },
-                { name: "Date", value: "date" }
+                { name: "Date", value: "date" },
               ]}
               value={this.state.filterTasksBy}
               onChange={this.filterTasks}
             />
+
+
+              <input
+              className={styles.search}
+              placeholder="Search task..."
+              value={this.state.value}
+              onChange={this.getSearchQuery}></input>
+
+
+  
+            </div>
+
+            
           </Col>
         </Row>
         <Row>

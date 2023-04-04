@@ -10,3 +10,14 @@
     width: 50%;
     margin: 10px auto;
   }
+
+  .filterAndSearch{
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .search{
+    width: 20%;
+    border: 4px solid #f2dada;
+  }
