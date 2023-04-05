@@ -12,7 +12,5 @@ export function creationDate() {
     day = "0" + day;
   }
 
-  console.log(new Date().getDate());
-
-  return `${month}/${day}/${year}`;
+ return `${month}/${day}/${year}`;
 }

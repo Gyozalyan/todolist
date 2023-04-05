@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState } from "react";
 import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
 import { idGenerator } from "../../Utils/Helper";
 import styles from "./todo.module.css";
@@ -7,74 +7,75 @@ import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import MySelect from "../Select/MySelect";
 import { creationDate } from "../Date";
 
-export default class ToDo extends Component {
-  state = {
-    tasks: [],
-    newText: "",
-    body: "",
-    selectedTasks: new Set(),
-    openModal: false,
-    filterTasksBy: "",
-    searchQuery: "",
-  };
+export default function ToDo() { 
 
-  getSearchQuery = (event) => {
-    const searchQuery = event.target.value;
+  const [tasks, setTasks] = useState([])
+    const [newText, setNewText] = useState("")
+    const [body, setBody] = useState("")
+    const [selectedTasks, setSelectedTasks] = useState(new Set())
+    const [openModal, setOpenModal] = useState(false)
+    // const [filterTasksBy, setFilterTasksBy] = useState("")
+    // const [searchQuery, setSearchQuery] = useState("")
 
-    this.setState({ 
-      searchQuery,
-      tasks: [...this.state.tasks].filter((task)=>{
-        return task.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())})
-    });
 
-   
-    
-  };
+    // getSearchQuery = (event) => {
+    //   const searchQuery = event.target.value;
 
-  getValueTitle = (event) => {
+    //   this.setState({ 
+    //     searchQuery,
+    //     tasks: [...this.state.tasks].filter((task)=>{
+    //       return task.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())})
+    //   });
+
+
+
+    //  };
+
+  const getValueTitle = (event) => {
     const newText = event.target.value.trim();
-    this.setState({
-      newText,
-    });
-  };
-  getValueBody = (event) => {
-    const body = event.target.value.trim();
-    this.setState({
-      body,
-    });
+
+    setNewText(newText)
+
   };
 
-  addTemplate = () => {
-    if (this.state.newText === "") {
+  const getValueBody = (event) => {
+    const body = event.target.value.trim();
+    setBody(body)
+
+  };
+
+  const addTemplate = () => {
+    if (newText === "") {
       return;
     }
 
-    const tasks = [...this.state.tasks];
-    tasks.push({
+    const tasksCopy = [...tasks];
+    tasksCopy.push({
       id: idGenerator(),
-      title: this.state.newText,
-      body: this.state.body,
+      title: newText,
+      body: body,
       date: creationDate(),
     });
 
-    this.setState({
-      tasks,
-      newText: "",
-      body: "",
-    });
+
+    setTasks(tasksCopy)
+    setNewText("")
+    setBody("")
+
   };
 
-  handleEvent = (event) => {
+  const handleEvent = (event) => {
     if (event.key === "Enter") {
       this.addTemplate();
     }
   };
 
-  deleteTask = (id) => {
-    const { tasks, selectedTasks } = this.state;
+  const deleteTask = (id) => {
+
     const savedTasks = tasks.filter((task) => {
       return task.id !== id;
     });
+    setTasks(savedTasks)
 
     const updatedState = {
       tasks: savedTasks,
@@ -83,14 +84,14 @@ export default class ToDo extends Component {
     if (selectedTasks.has(id)) {
       const selectedTasksCopy = new Set(selectedTasks);
       selectedTasksCopy.delete(id);
-      updatedState.selectedTasks = selectedTasksCopy;
+      setSelectedTasks(updatedState)
     }
 
-    this.setState(updatedState);
+    ;
   };
 
-  deleteSelectedTasks = () => {
-    const { tasks, selectedTasks } = this.state;
+  const deleteSelectedTasks = () => {
+
     const savedTasks = [];
 
     tasks.forEach((task) => {
@@ -99,143 +100,144 @@ export default class ToDo extends Component {
       }
     });
 
-    this.setState({
-      tasks: savedTasks,
-      selectedTasks: new Set(),
-      openModal: false,
-    });
+
+    setTasks(savedTasks)
+    setSelectedTasks(new Set())
+    setOpenModal(false)
+
   };
 
-  checkedTasks = (id) => {
-    const selectedTasksCopy = new Set(this.state.selectedTasks);
+  const checkedTasks = (id) => {
+    const selectedTasksCopy = new Set(selectedTasks);
     if (selectedTasksCopy.has(id)) {
       selectedTasksCopy.delete(id);
     } else {
-      this.setState({
-        selectedTasks: selectedTasksCopy.add(id),
-      });
+
+      setSelectedTasks(selectedTasksCopy.add(id))
+
     }
   };
 
-  isShown = () => {
-    this.setState({
-      openModal: true,
-    });
+  const isShown = () => {
+    setOpenModal(true)
+
   };
 
-  toCancel = () => {
-    this.setState({
-      openModal: false,
-    });
+  const toCancel = () => {
+    setOpenModal(false)
   };
 
-  filterTasks = (sortby) => {
-    this.setState({
-      tasks: this.state.tasks.sort((a, b) => {
-        return a[sortby].localeCompare(b[sortby]);
-      }),
-      filterTasksBy: sortby,
-    });
-  };
+  // const filterTasks = (sortby) => {
 
-  render() {
-    const taskJsx = this.state.tasks.map((task, index) => {
-      return (
-        <Task
-          data={task}
-          key={task.id}
-          deleteTask={this.deleteTask}
-          selecteTasks={this.checkedTasks}
-          number={index + 1}
-        />
-      );
-    });
-
-    return (
-      <Container>
-        <Row>
-          <Col className="heading mt-5">
-            <p className="text-center mt-4 fs-1">
-              Hello Tamara. What are we going to succeed today?
-            </p>
-
-            <InputGroup className={styles.inputName}>
-              <Form.Control
-                type="text"
-                placeholder="Please type the name of the task"
-                aria-describedby="basic-addon2"
-                onChange={this.getValueTitle}
-                onKeyDown={this.handleEvent}
-                value={this.state.newText}
-              />
-            </InputGroup>
-
-            <InputGroup className={styles.inputName}>
-              <Form.Control
-                type="text"
-                placeholder="Please type the description of the task"
-                aria-describedby="basic-addon2"
-                value={this.state.body}
-                onChange={this.getValueBody}
-              />
-
-              <Button
-                variant="success"
-                id="button-addon2"
-                onClick={this.addTemplate}
-                disabled={!this.state.newText}
-              >
-                +Add
-              </Button>
-            </InputGroup>
-
-            <div className={styles.filterAndSearch}>
-              <MySelect
-              defaultValue="Filter tasks by"
-              filterBy={[
-                { name: "Name", value: "title" },
-                { name: "Description", value: "body" },
-                { name: "Date", value: "date" },
-              ]}
-              value={this.state.filterTasksBy}
-              onChange={this.filterTasks}
-            />
+  //   this.setState({
+  //     tasks: this.state.tasks.sort((a, b) => {
+  //       return a[sortby].localeCompare(b[sortby]);
+  //     }),
+  //     filterTasksBy: sortby,
+  //   });
+  // };
 
 
-              <input
-              className={styles.search}
-              placeholder="Search task..."
-              value={this.state.value}
-              onChange={this.getSearchQuery}></input>
+ const taskJsx = tasks.map((task, index) => {
+  return (
+    <Task
+      data={task}
+      key={task.id}
+      deleteTask={deleteTask}
+      selecteTasks={checkedTasks}
+      number={index + 1}
+    />
+  );
+ });
+
+   return (
+  <Container>
+    <Row>
+      <Col className="heading mt-5">
+        <p className="text-center mt-4 fs-1">
+          Hello Tamara. What are we going to succeed today?
+        </p>
+
+        <InputGroup className={styles.inputName}>
+          <Form.Control
+            type="text"
+            placeholder="Please type the name of the task"
+            aria-describedby="basic-addon2"
+            onChange={getValueTitle}
+            onKeyDown={handleEvent}
+            value={newText}
+          />
+        </InputGroup>
+
+        <InputGroup className={styles.inputName}>
+          <Form.Control
+            type="text"
+            placeholder="Please type the description of the task"
+            aria-describedby="basic-addon2"
+            value={body}
+            onChange={getValueBody}
+          />
+
+          <Button
+            variant="success"
+            id="button-addon2"
+            onClick={addTemplate}
+            disabled={!newText}
+          >
+            +Add
+          </Button>
+        </InputGroup>
+
+        {/* <div className={styles.filterAndSearch}> */}
+        {/* <MySelect */}
+        {/* defaultValue="Filter tasks by" */}
+        {/* filterBy={[ */}
+        {/* { name: "Name", value: "title" }, */}
+        {/* { name: "Description", value: "body" }, */}
+        {/* { name: "Date", value: "date" }, */}
+        {/* ]} */}
+        {/* value={this.state.filterTasksBy} */}
+        {/* onChange={this.filterTasks} */}
+        {/* /> */}
+        {/*  */}
+        {/*  */}
+        {/* <input */}
+        {/* className={styles.search} */}
+        {/* placeholder="Search task..." */}
+        {/* value={this.state.value} */}
+        {/* onChange={this.getSearchQuery}></input> */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/* </div> */}
 
 
-  
-            </div>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Button
+          variant="danger"
+          className={styles.deleteselected}
+          onClick={isShown}
+          disabled={selectedTasks.size === 0}
+        >
+          Delete Selected
+        </Button>
+      </Col>
+    </Row>
 
-            
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button
-              variant="danger"
-              className={styles.deleteselected}
-              onClick={this.isShown}
-              disabled={this.state.selectedTasks.size === 0}
-            >
-              Delete Selected
-            </Button>
-          </Col>
-        </Row>
-
-        <Row>{taskJsx}</Row>
-        <ConfirmDialog
-          taskCount={this.state.selectedTasks.size}
-          isOpen={this.state.openModal}
-          confirmDelete={this.deleteSelectedTasks}
-          cancellation={this.toCancel}
-        />
-      </Container>
-    );
-  }
+    <Row>{taskJsx}</Row>
+    <ConfirmDialog
+      taskCount={selectedTasks.size}
+      isOpen={openModal}
+      confirmDelete={deleteSelectedTasks}
+      cancellation={toCancel}
+    />
+  </Container>
+);
 }
+
+    
+  
+   
