@@ -7,7 +7,7 @@ function ConfirmDialog({ isOpen, confirmDelete, cancellation, taskCount }) {
         <Modal.Title> </Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>Are you sure you want to delete {taskCount} {taskCount>1?"tasks":'task'}?</Modal.Body>
+      <Modal.Body>Are you sure you want to delete {taskCount!==0? taskCount : null} {taskCount>1?"tasks":'task'}?</Modal.Body>
 
       <Modal.Footer>
         <Button variant="danger" onClick={confirmDelete}>
