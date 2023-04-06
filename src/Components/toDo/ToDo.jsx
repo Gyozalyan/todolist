@@ -3,7 +3,7 @@ import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
 import { idGenerator } from "../../Utils/Helper";
 import styles from "./todo.module.css";
 import Task from "../Tasks/Task";
-import MySelect from "../Select/MySelect";
+import MySelect from "../select/MySelect";
 import { creationDate } from "../Date";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
@@ -36,45 +36,37 @@ export default function ToDo() {
       return;
     }
 
-    // const apiURL = 'http://localhost:3001'
+    const newTask = {
+      title:newText,
+      description:body,
+    }
+    fetch('http://localhost:3001/task',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTask)
+    })
+    .then((result)=> result.json())
+    .then((task)=>{
+      const tasksCopy = [...tasks];
+      tasksCopy.push(task);
+      setTasks(tasksCopy);
+      setNewText('');
+      setBody('');
+    })
 
-    // const newTask = {
-    //   title:newText,
-    //   description:body,
-    //   date: creationDate()
-    // }
+    // const tasksCopy = [...tasks];
+    // tasksCopy.push({
+    //   id: idGenerator(),
+    //   title: newText,
+    //   body: body,
+    //   date: creationDate(),
+    // });
 
-
-    // fetch('http://localhost:3001',{
-    //   method: 'POST',
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(newTask)
-    // })
-    // .then((result)=> result.json())
-    // .then((task)=>{
-    //   const tasksCopy = [...tasks]
-    //   tasksCopy.push({
-    //     task
-        
-    //   })
-    //   setTasks(tasksCopy)
-    //   setNewText("")
-    //   setBody("")
-    // })
-
-    const tasksCopy = [...tasks];
-    tasksCopy.push({
-      id: idGenerator(),
-      title: newText,
-      body: body,
-      date: creationDate(),
-    });
-
-    setTasks(tasksCopy);
-    setNewText("");
-    setBody("");
+    // setTasks(tasksCopy);
+    // setNewText("");
+    // setBody("");
   };
 
   const handleEvent = (event) => {
@@ -105,7 +97,7 @@ export default function ToDo() {
 
     tasks.forEach((task) => {
       if (!selectedTasks.has(task.id)) {
-        savedTasks.push(task.id);
+        savedTasks.push(task);
       }
     });
 
