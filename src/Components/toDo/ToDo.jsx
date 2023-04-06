@@ -3,19 +3,20 @@ import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
 import { idGenerator } from "../../Utils/Helper";
 import styles from "./todo.module.css";
 import Task from "../Tasks/Task";
-import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import MySelect from "../Select/MySelect";
 import { creationDate } from "../Date";
+import DeleteSelected from "../DeleteSelected/DeleteSelected";
+import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
   const [newText, setNewText] = useState("");
   const [body, setBody] = useState("");
   const [selectedTasks, setSelectedTasks] = useState(new Set());
-  const [openModal, setOpenModal] = useState(false);
-
   const [filterTasksBy, setFilterTasksBy] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
 
   const getValueTitle = (event) => {
     const newText = event.target.value.trim();
@@ -80,7 +81,7 @@ export default function ToDo() {
 
     setTasks(savedTasks);
     setSelectedTasks(new Set());
-    setOpenModal(false);
+ 
   };
 
   const checkedTasks = (id) => {
@@ -92,13 +93,7 @@ export default function ToDo() {
     }
   };
 
-  const isShown = () => {
-    setOpenModal(true);
-  };
-
-  const toCancel = () => {
-    setOpenModal(false);
-  };
+ 
 
   const FilterTasksBy = (sortby) => {
     setFilterTasksBy(sortby);
@@ -119,17 +114,8 @@ export default function ToDo() {
     );
   };
 
-  const taskJsx = tasks.map((task, index) => {
-    return (
-      <Task
-        data={task}
-        key={task.id}
-        deleteTask={deleteTask}
-        selecteTasks={checkedTasks}
-        number={index + 1}
-      />
-    );
-  });
+  
+
 
   return (
     <Container>
@@ -190,26 +176,36 @@ export default function ToDo() {
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <Button
-            variant="danger"
-            className={styles.deleteselected}
-            onClick={isShown}
-            disabled={selectedTasks.size === 0}
-          >
-            Delete Selected
-          </Button>
-        </Col>
-      </Row>
 
-      <Row>{taskJsx}</Row>
-      <ConfirmDialog
-        taskCount={selectedTasks.size}
-        isOpen={openModal}
-        confirmDelete={deleteSelectedTasks}
-        cancellation={toCancel}
+     <div>{tasks.map((task, index) => {
+    return (
+      <Task
+        data={task}
+        key={task.id}
+        deleteTask={(id)=>{setTaskToDelete(id)}}
+        selecteTasks={checkedTasks}
+        number={index + 1}
       />
+    );
+  })}</div>
+
+      <DeleteSelected
+      disabled={!selectedTasks.size}
+      taskCount = {selectedTasks.size}
+      confirmDelete={deleteSelectedTasks}    
+      />
+
+
+      {taskToDelete && (<ConfirmDialog
+        isOpen={taskToDelete}
+       taskCount = {1}
+       cancellation = {()=>{setTaskToDelete(null)}}
+       confirmDelete={()=>{
+        deleteTask(taskToDelete);
+         setTaskToDelete(null);
+         }}
+       />)}
+
     </Container>
   );
 }
