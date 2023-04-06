@@ -18,6 +18,8 @@ export default function ToDo() {
   const [taskToDelete, setTaskToDelete] = useState(null);
 
 
+
+
   const getValueTitle = (event) => {
     const newText = event.target.value.trim();
 
@@ -33,6 +35,34 @@ export default function ToDo() {
     if (newText === "") {
       return;
     }
+
+    // const apiURL = 'http://localhost:3001'
+
+    // const newTask = {
+    //   title:newText,
+    //   description:body,
+    //   date: creationDate()
+    // }
+
+
+    // fetch('http://localhost:3001',{
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(newTask)
+    // })
+    // .then((result)=> result.json())
+    // .then((task)=>{
+    //   const tasksCopy = [...tasks]
+    //   tasksCopy.push({
+    //     task
+        
+    //   })
+    //   setTasks(tasksCopy)
+    //   setNewText("")
+    //   setBody("")
+    // })
 
     const tasksCopy = [...tasks];
     tasksCopy.push({
@@ -86,11 +116,13 @@ export default function ToDo() {
 
   const checkedTasks = (id) => {
     const selectedTasksCopy = new Set(selectedTasks);
-    if (selectedTasksCopy.has(id)) {
-      selectedTasksCopy.delete(id);
-    } else {
+    if (!selectedTasksCopy.has(id)) {
       setSelectedTasks(selectedTasksCopy.add(id));
+      
+    } else {
+      selectedTasksCopy.delete(id);
     }
+
   };
 
  
