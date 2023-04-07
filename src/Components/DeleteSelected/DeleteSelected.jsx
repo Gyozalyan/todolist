@@ -37,7 +37,7 @@ import { Col, Row,  Button } from "react-bootstrap";
             toggleConfirmDialog()
         }}
 
-        cancellation={toggleConfirmDialog}
+        confirmCancellation={toggleConfirmDialog}
       />
       </>
     )

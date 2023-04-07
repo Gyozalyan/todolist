@@ -2,16 +2,16 @@ import { useState } from "react";
 import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
 import { idGenerator } from "../../Utils/Helper";
 import styles from "./todo.module.css";
-import Task from "../Tasks/Task";
-import MySelect from "../select/MySelect";
+import Task from "../Task/Task";
+import MySelect from "../Select/MySelect";
 import { creationDate } from "../Date";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
-  const [newText, setNewText] = useState("");
-  const [body, setBody] = useState("");
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [filterTasksBy, setFilterTasksBy] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,58 +20,58 @@ export default function ToDo() {
 
 
 
-  const getValueTitle = (event) => {
-    const newText = event.target.value.trim();
+  const getTitleValue = (event) => {
+    const taskTitle = event.target.value.trim();
 
-    setNewText(newText);
+    setTaskTitle(taskTitle);
   };
 
-  const getValueBody = (event) => {
-    const body = event.target.value.trim();
-    setBody(body);
+  const getTaskDescriptionValue = (event) => {
+    const taskDescription = event.target.value.trim();
+    setTaskDescription(taskDescription);
   };
 
-  const addTemplate = () => {
-    if (newText === "") {
+  const addTaskTemplate = () => {
+    if (taskTitle === "") {
       return;
     }
 
-    const newTask = {
-      title:newText,
-      description:body,
-    }
-    fetch('http://localhost:3001/task',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newTask)
-    })
-    .then((result)=> result.json())
-    .then((task)=>{
-      const tasksCopy = [...tasks];
-      tasksCopy.push(task);
-      setTasks(tasksCopy);
-      setNewText('');
-      setBody('');
-    })
+    // const newTask = {
+    //   title:taskTitle,
+    //   description:taskDescription,
+    // }
+    // fetch('http://localhost:3001/task',{
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(newTask)
+    // })
+    // .then((result)=> result.json())
+    // .then((task)=>{
+    //   const tasksCopy = [...tasks];
+    //   tasksCopy.push(task);
+    //   setTasks(tasksCopy);
+    //   setTaskTitle('');
+    //   setTaskDescription('');
+    // })
 
-    // const tasksCopy = [...tasks];
-    // tasksCopy.push({
-    //   id: idGenerator(),
-    //   title: newText,
-    //   body: body,
-    //   date: creationDate(),
-    // });
+    const tasksCopy = [...tasks];
+    tasksCopy.push({
+      id: idGenerator(),
+      title: taskTitle,
+      taskDescription: taskDescription,
+      date: creationDate(),
+    });
 
-    // setTasks(tasksCopy);
-    // setNewText("");
-    // setBody("");
+    setTasks(tasksCopy);
+    setTaskTitle("");
+    setTaskDescription("");
   };
 
   const handleEvent = (event) => {
     if (event.key === "Enter") {
-      this.addTemplate();
+      this.addTaskTemplate();
     }
   };
 
@@ -154,9 +154,9 @@ export default function ToDo() {
               type="text"
               placeholder="Please type the name of the task"
               aria-describedby="basic-addon2"
-              onChange={getValueTitle}
+              onChange={getTitleValue}
               onKeyDown={handleEvent}
-              value={newText}
+              value={taskTitle}
             />
           </InputGroup>
 
@@ -165,15 +165,15 @@ export default function ToDo() {
               type="text"
               placeholder="Please type the description of the task"
               aria-describedby="basic-addon2"
-              value={body}
-              onChange={getValueBody}
+              value={taskDescription}
+              onChange={getTaskDescriptionValue}
             />
 
             <Button
               variant="success"
               id="button-addon2"
-              onClick={addTemplate}
-              disabled={!newText}
+              onClick={addTaskTemplate}
+              disabled={!taskTitle}
             >
               +Add
             </Button>
@@ -184,7 +184,7 @@ export default function ToDo() {
               defaultValue="Filter tasks by"
               filterBy={[
                 { name: "Name", value: "title" },
-                { name: "Description", value: "body" },
+                { name: "Description", value: "taskDescription" },
                 { name: "Date", value: "date" },
               ]}
               value={filterTasksBy}
