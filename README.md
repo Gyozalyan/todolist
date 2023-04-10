@@ -6,6 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+Copy the file `.env.sample` and remove the `.sample` extension from configuration file and configure the variables according to the environment.
+    ```sh
+    env.sample -> .env
+    ```
+
 ### `npm start`
 
 Runs the app in the development mode.\

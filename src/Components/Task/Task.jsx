@@ -23,7 +23,7 @@ import { memo } from "react";
             <strong>
               {number}. {data.title}{" "}
             </strong>{" "}
-            : {data.body}
+            : {data.taskDescription}
           </div>
         </div>
 
@@ -47,6 +47,11 @@ import { memo } from "react";
         </div>
       </div>
     </div>
+
+   
+
   );
 }
+
+
 export default memo(Task)

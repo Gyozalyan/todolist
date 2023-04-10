@@ -4,9 +4,13 @@ import { idGenerator } from "../../Utils/Helper";
 import styles from "./todo.module.css";
 import Task from "../Task/Task";
 import MySelect from "../Select/MySelect";
-import { creationDate } from "../Date";
+// import { creationDate } from "../Date";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
+import { useEffect } from "react";
+import TaskAPI from '../../API/TaskAPI';
+
+const taskApi = new TaskAPI();
 
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
@@ -17,8 +21,11 @@ export default function ToDo() {
   const [searchQuery, setSearchQuery] = useState("");
   const [taskToDelete, setTaskToDelete] = useState(null);
 
-
-
+  useEffect(() => {
+    taskApi.get().then((tasks) => {
+      setTasks(tasks);
+    });
+  }, []);
 
   const getTitleValue = (event) => {
     const taskTitle = event.target.value.trim();
@@ -36,42 +43,23 @@ export default function ToDo() {
       return;
     }
 
-    // const newTask = {
-    //   title:taskTitle,
-    //   description:taskDescription,
-    // }
-    // fetch('http://localhost:3001/task',{
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(newTask)
-    // })
-    // .then((result)=> result.json())
-    // .then((task)=>{
-    //   const tasksCopy = [...tasks];
-    //   tasksCopy.push(task);
-    //   setTasks(tasksCopy);
-    //   setTaskTitle('');
-    //   setTaskDescription('');
-    // })
-
-    const tasksCopy = [...tasks];
-    tasksCopy.push({
-      id: idGenerator(),
+    const newTask = {
       title: taskTitle,
-      taskDescription: taskDescription,
-      date: creationDate(),
-    });
+      description: taskDescription,
+    };
 
-    setTasks(tasksCopy);
-    setTaskTitle("");
-    setTaskDescription("");
+    taskApi.add(newTask).then((task) => {
+      const tasksCopy = [...tasks];
+      tasksCopy.push(task);
+      setTasks(tasksCopy);
+      setTaskTitle("");
+      setTaskDescription("");
+    });
   };
 
   const handleEvent = (event) => {
     if (event.key === "Enter") {
-      this.addTaskTemplate();
+      addTaskTemplate();
     }
   };
 
@@ -103,21 +91,17 @@ export default function ToDo() {
 
     setTasks(savedTasks);
     setSelectedTasks(new Set());
- 
   };
 
   const checkedTasks = (id) => {
     const selectedTasksCopy = new Set(selectedTasks);
-    if (!selectedTasksCopy.has(id)) {
-      setSelectedTasks(selectedTasksCopy.add(id));
-      
+
+    if (selectedTasksCopy.has(id)) {
+      setSelectedTasks(selectedTasksCopy.delete(id));
     } else {
-      selectedTasksCopy.delete(id);
+      setSelectedTasks(selectedTasksCopy.add(id));
     }
-
   };
-
- 
 
   const FilterTasksBy = (sortby) => {
     setFilterTasksBy(sortby);
@@ -137,9 +121,6 @@ export default function ToDo() {
       })
     );
   };
-
-  
-
 
   return (
     <Container>
@@ -201,35 +182,41 @@ export default function ToDo() {
         </Col>
       </Row>
 
-     <div>{tasks.map((task, index) => {
-    return (
-      <Task
-        data={task}
-        key={task.id}
-        deleteTask={(id)=>{setTaskToDelete(id)}}
-        selecteTasks={checkedTasks}
-        number={index + 1}
-      />
-    );
-  })}</div>
+      <div>
+        {tasks.map((task, index) => {
+          return (
+            <Task
+              data={task}
+              key={task.id}
+              deleteTask={(id) => {
+                setTaskToDelete(id);
+              }}
+              selecteTasks={checkedTasks}
+              number={index + 1}
+            />
+          );
+        })}
+      </div>
 
       <DeleteSelected
-      disabled={!selectedTasks.size}
-      taskCount = {selectedTasks.size}
-      confirmDelete={deleteSelectedTasks}    
+        disabled={!selectedTasks.size}
+        taskCount={selectedTasks.size}
+        confirmDelete={deleteSelectedTasks}
       />
 
-
-      {taskToDelete && (<ConfirmDialog
-        isOpen={taskToDelete}
-       taskCount = {1}
-       cancellation = {()=>{setTaskToDelete(null)}}
-       confirmDelete={()=>{
-        deleteTask(taskToDelete);
-         setTaskToDelete(null);
-         }}
-       />)}
-
+      {taskToDelete && (
+        <ConfirmDialog
+          isOpen={taskToDelete}
+          taskCount={1}
+          cancellation={() => {
+            setTaskToDelete(null);
+          }}
+          confirmDelete={() => {
+            deleteTask(taskToDelete);
+            setTaskToDelete(null);
+          }}
+        />
+      )}
     </Container>
   );
 }

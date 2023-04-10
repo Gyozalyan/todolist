@@ -1,16 +1,16 @@
-export function creationDate() {
-  let currentDate = new Date();
+// export function creationDate() {
+//   const currentDate = new Date();
 
-  let month = currentDate.getMonth();
-  let day = currentDate.getDate();
-  let year = currentDate.getFullYear();
+//   const month = currentDate.getMonth();
+//   const day = currentDate.getDate();
+//   const year = currentDate.getFullYear();
 
-  if (month < 10) {
-    month = "0" + month;
-  }
-  if (day < 10) {
-    day = "0" + day;
-  }
+//   if (month < 10) {
+//     month = "0" + month;
+//   }
+//   if (day < 10) {
+//     day = "0" + day;
+//   }
 
- return `${month}/${day}/${year}`;
-}
+//  return `${month}/${day}/${year}`;
+// }
