@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
-import { idGenerator } from "../../Utils/Helper";
 import styles from "./todo.module.css";
 import Task from "../Task/Task";
 import MySelect from "../Select/MySelect";
 // import { creationDate } from "../Date";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
-import { useEffect } from "react";
-import TaskAPI from '../../API/TaskAPI';
+import TaskAPI from "../../API/TaskAPI";
+
 
 const taskApi = new TaskAPI();
 
@@ -28,24 +27,25 @@ export default function ToDo() {
   }, []);
 
   const getTitleValue = (event) => {
-    const taskTitle = event.target.value.trim();
 
-    setTaskTitle(taskTitle);
+    setTaskTitle(event.target.value);
   };
 
   const getTaskDescriptionValue = (event) => {
-    const taskDescription = event.target.value.trim();
-    setTaskDescription(taskDescription);
+    setTaskDescription(event.target.value);
   };
 
   const addTaskTemplate = () => {
+    const trimmedTitle = taskTitle.trim()
+    const trimmedDescription = taskDescription.trim()
+
     if (taskTitle === "") {
       return;
     }
 
     const newTask = {
-      title: taskTitle,
-      description: taskDescription,
+      title: trimmedTitle,
+      description: trimmedDescription,
     };
 
     taskApi.add(newTask).then((task) => {
@@ -63,9 +63,10 @@ export default function ToDo() {
     }
   };
 
-  const deleteTask = (id) => {
+  const deleteTask = (_id) => {
+    console.log(selectedTasks)
     const savedTasks = tasks.filter((task) => {
-      return task.id !== id;
+      return task._id !== _id;
     });
     setTasks(savedTasks);
 
@@ -73,9 +74,9 @@ export default function ToDo() {
       tasks: savedTasks,
     };
 
-    if (selectedTasks.has(id)) {
+    if (selectedTasks.has(_id)) {
       const selectedTasksCopy = new Set(selectedTasks);
-      selectedTasksCopy.delete(id);
+      selectedTasksCopy.delete(_id);
       setSelectedTasks(updatedState);
     }
   };
@@ -84,7 +85,7 @@ export default function ToDo() {
     const savedTasks = [];
 
     tasks.forEach((task) => {
-      if (!selectedTasks.has(task.id)) {
+      if (!selectedTasks.has(task._id)) {
         savedTasks.push(task);
       }
     });
@@ -93,14 +94,18 @@ export default function ToDo() {
     setSelectedTasks(new Set());
   };
 
-  const checkedTasks = (id) => {
+  const checkedTasks = (_id) => {
+    console.log(selectedTasks)
     const selectedTasksCopy = new Set(selectedTasks);
 
-    if (selectedTasksCopy.has(id)) {
-      setSelectedTasks(selectedTasksCopy.delete(id));
+    if (selectedTasksCopy.has(_id)) {
+    
+      selectedTasksCopy.delete(_id);
+      setSelectedTasks(selectedTasksCopy);
     } else {
-      setSelectedTasks(selectedTasksCopy.add(id));
+      selectedTasksCopy.add(_id);
     }
+    setSelectedTasks(selectedTasksCopy)
   };
 
   const FilterTasksBy = (sortby) => {
@@ -187,9 +192,9 @@ export default function ToDo() {
           return (
             <Task
               data={task}
-              key={task.id}
-              deleteTask={(id) => {
-                setTaskToDelete(id);
+              key={task._id}
+              deleteTask={(_id) => {
+                setTaskToDelete(_id);
               }}
               selecteTasks={checkedTasks}
               number={index + 1}

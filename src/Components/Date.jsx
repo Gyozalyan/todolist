@@ -1,16 +1,10 @@
-// export function creationDate() {
-//   const currentDate = new Date();
+import moment from "moment/moment";
 
-//   const month = currentDate.getMonth();
-//   const day = currentDate.getDate();
-//   const year = currentDate.getFullYear();
+export default function creationDate() {
 
-//   if (month < 10) {
-//     month = "0" + month;
-//   }
-//   if (day < 10) {
-//     day = "0" + day;
-//   }
+  
+   return moment().subtract(10, 'days').calendar();
+  }
 
-//  return `${month}/${day}/${year}`;
-// }
+
+

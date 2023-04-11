@@ -3,19 +3,24 @@ import { Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { memo } from "react";
+import { PropTypes } from "prop-types";
+import Date from '../Date'
+
 
  function Task({ data, deleteTask, selecteTasks, number }) {
 
   return (
     <div className={styles.task}>
+      
       <div className={styles.taskBackground}>
+     
         <div className={styles.checkBody}>
-          <div> {data.date}</div>
-
+          
+        <div> <Date/> </div>
           <Form.Check
             className={styles.selectTask}
             onClick={() => {
-              selecteTasks(data.id);
+              selecteTasks(data._id);
             }}
           />
 
@@ -23,7 +28,7 @@ import { memo } from "react";
             <strong>
               {number}. {data.title}{" "}
             </strong>{" "}
-            : {data.taskDescription}
+            : <br/> {data.description}
           </div>
         </div>
 
@@ -32,7 +37,7 @@ import { memo } from "react";
             variant="outline-danger"
             className="float-end btns"
             onClick={() => {
-              deleteTask(data.id);
+              deleteTask(data._id);
             }}
           >
             <FontAwesomeIcon icon={faTrashCan} />
@@ -53,5 +58,11 @@ import { memo } from "react";
   );
 }
 
+
+Task.propTypes= {
+  data: PropTypes.object.isRequired,
+  deleteTask:PropTypes.func.isRequired,
+  selecteTasks:PropTypes.func.isRequired,
+}
 
 export default memo(Task)
