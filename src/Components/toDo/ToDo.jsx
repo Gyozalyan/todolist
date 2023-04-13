@@ -1,24 +1,25 @@
-import { useState,useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
 import styles from "./todo.module.css";
+import "react-toastify/dist/ReactToastify.css";
 import Task from "../Task/Task";
 import MySelect from "../Select/MySelect";
 // import { creationDate } from "../Date";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import TaskAPI from "../../API/TaskAPI";
-
+import TaskModal from "../TaskModal/TaskModal";
+import { ToastContainer, toast } from "react-toastify";
 
 const taskApi = new TaskAPI();
 
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
-  const [taskTitle, setTaskTitle] = useState("");
-  const [taskDescription, setTaskDescription] = useState("");
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [filterTasksBy, setFilterTasksBy] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
 
   useEffect(() => {
     taskApi.get().then((tasks) => {
@@ -26,45 +27,23 @@ export default function ToDo() {
     });
   }, []);
 
-  const getTitleValue = (event) => {
-
-    setTaskTitle(event.target.value);
-  };
-
-  const getTaskDescriptionValue = (event) => {
-    setTaskDescription(event.target.value);
-  };
-
-  const addTaskTemplate = () => {
-    const trimmedTitle = taskTitle.trim()
-    const trimmedDescription = taskDescription.trim()
-
-    if (taskTitle === "") {
-      return;
-    }
-
-    const newTask = {
-      title: trimmedTitle,
-      description: trimmedDescription,
-    };
-
-    taskApi.add(newTask).then((task) => {
-      const tasksCopy = [...tasks];
-      tasksCopy.push(task);
-      setTasks(tasksCopy);
-      setTaskTitle("");
-      setTaskDescription("");
-    });
-  };
-
-  const handleEvent = (event) => {
-    if (event.key === "Enter") {
-      addTaskTemplate();
-    }
+  const addTaskTemplate = (newTask) => {
+    taskApi
+      .add(newTask)
+      .then((task) => {
+        const tasksCopy = [...tasks];
+        tasksCopy.push(task);
+        setTasks(tasksCopy);
+        setAddTaskModalOpen(false);
+        toast.success("Your task has been added successfully");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
 
   const deleteTask = (_id) => {
-    console.log(selectedTasks)
+    console.log(selectedTasks);
     const savedTasks = tasks.filter((task) => {
       return task._id !== _id;
     });
@@ -95,17 +74,16 @@ export default function ToDo() {
   };
 
   const checkedTasks = (_id) => {
-    console.log(selectedTasks)
+    console.log(selectedTasks);
     const selectedTasksCopy = new Set(selectedTasks);
 
     if (selectedTasksCopy.has(_id)) {
-    
       selectedTasksCopy.delete(_id);
       setSelectedTasks(selectedTasksCopy);
     } else {
       selectedTasksCopy.add(_id);
     }
-    setSelectedTasks(selectedTasksCopy)
+    setSelectedTasks(selectedTasksCopy);
   };
 
   const FilterTasksBy = (sortby) => {
@@ -135,35 +113,23 @@ export default function ToDo() {
             Hello Tamara. What are we going to succeed today?
           </p>
 
-          <InputGroup className={styles.inputName}>
-            <Form.Control
-              type="text"
-              placeholder="Please type the name of the task"
-              aria-describedby="basic-addon2"
-              onChange={getTitleValue}
-              onKeyDown={handleEvent}
-              value={taskTitle}
-            />
-          </InputGroup>
+          <Button
+            variant="success"
+            id="button-addon2"
+            onClick={() => setAddTaskModalOpen(true)}
+            // disabled={!taskTitle}
+          >
+            +Add
+          </Button>
 
-          <InputGroup className={styles.inputName}>
-            <Form.Control
-              type="text"
-              placeholder="Please type the description of the task"
-              aria-describedby="basic-addon2"
-              value={taskDescription}
-              onChange={getTaskDescriptionValue}
+          {isAddTaskModalOpen && (
+            <TaskModal
+              onCancel={() => {
+                setAddTaskModalOpen(false);
+              }}
+              onSave={addTaskTemplate}
             />
-
-            <Button
-              variant="success"
-              id="button-addon2"
-              onClick={addTaskTemplate}
-              disabled={!taskTitle}
-            >
-              +Add
-            </Button>
-          </InputGroup>
+          )}
 
           <div className={styles.filterAndSearch}>
             <MySelect
@@ -222,6 +188,18 @@ export default function ToDo() {
           }}
         />
       )}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </Container>
   );
 }

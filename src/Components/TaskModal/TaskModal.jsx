@@ -1,29 +1,110 @@
 import { useState, useEffect } from "react";
-import { Button, Modal } from 'react-bootstrap'
+import { InputGroup, Form, Button, Modal } from 'react-bootstrap'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import styles from './TaskModal.module.css'
+import 'react-toastify/dist/ReactToastify.css';
+
+import Task from "../Task/Task";
+import MySelect from "../Select/MySelect";
+// import { creationDate } from "../Date";
+import DeleteSelected from "../DeleteSelected/DeleteSelected";
+import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
+import TaskAPI from "../../API/TaskAPI";
+import PropTypes from 'prop-types'
+
+const taskApi = new TaskAPI();
 
 
+export default function TaskModal({onCancel, onSave}) {
 
-export default function TaskModal() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [isTitleValid, setTitleValid] = useState(false);
+
+  const SaveTask = ()=>{
+
+
+    const newTask = {
+      title: title.trim(),
+      description:description.trim()
+    }
+
+    onSave(newTask)
+  }
+
+  const onTitleChange=(event)=>{
+    const {value} = event.target
+      const trimmedTitle = value.trim()
+      setTitleValid(!!trimmedTitle)
+       setTitle(value)
+
+    
+  }
+
+
+  const handleEvent = (event) => {
+    if (event.key === "Enter") {
+      console.log('a')
+      // addTaskTemplate();
+    }
+  };
   
   return (
-    <Modal size="sm" show={false} onHide={() => {confirmCancellation()}}>
+    <Modal size="md" show={true} onHide={onCancel} >
       <Modal.Header>
         <Modal.Title> Add new Task </Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>Are you sure you want to delete {taskCount!==0? taskCount : null} {taskCount>1?"tasks":'task'}?</Modal.Body>
+      <Modal.Body>
+      <InputGroup className={styles.inputName}>
+            <Form.Control
+              as = 'textarea'
+              rows = {1}
+              className = {!isTitleValid ? styles.invalid: ''}
+              placeholder="Task title"
+              aria-describedby="basic-addon2"
+              onChange={onTitleChange}
+              onKeyDown={handleEvent}
+              value={title}
+            />
+          </InputGroup>
+
+          <InputGroup className={styles.inputName}>
+            <Form.Control
+               as = 'textarea'
+               rows = {5}
+              placeholder="Task description"
+              aria-describedby="basic-addon2"
+              value={description}
+              onChange={(event)=>{setDescription(event.target.value)}}
+            />
+
+            
+          </InputGroup>
+          <h6      className="mt-3">Set the deadline:</h6>
+          <DatePicker
+      showIcon
+      selected={startDate}
+      onChange={setStartDate}
+      className="mt-1"
+    />
+          </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success" onClick={confirmDelete}>
-          Yes
+        <Button variant="success" disabled = {!isTitleValid} onClick={SaveTask}>
+          Save
         </Button>
-        <Button variant="warning" onClick={confirmCancellation}>
-          No
+        <Button variant="warning" onClick={onCancel}>
+          Cancel
         </Button>
       </Modal.Footer>
     </Modal>
   );
+}
+
+TaskModal.propTypes = {
+  onCancel : PropTypes.func.isRequired,
+  // onSave : PropTypes.func.isRequired
 }
