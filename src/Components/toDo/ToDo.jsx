@@ -42,35 +42,57 @@ export default function ToDo() {
       });
   };
 
-  const deleteTask = (_id) => {
-    console.log(selectedTasks);
-    const savedTasks = tasks.filter((task) => {
-      return task._id !== _id;
-    });
-    setTasks(savedTasks);
+  const deleteTask = (taskID) => {
 
-    const updatedState = {
-      tasks: savedTasks,
-    };
-
-    if (selectedTasks.has(_id)) {
-      const selectedTasksCopy = new Set(selectedTasks);
-      selectedTasksCopy.delete(_id);
-      setSelectedTasks(updatedState);
-    }
+    taskApi
+      .delete(taskID)
+      .then(() => {
+        const savedTasks = tasks.filter((task) => {
+          return task._id !== taskID;
+        });
+        setTasks(savedTasks);
+    
+        const updatedState = {
+          tasks: savedTasks,
+        };
+    
+        if (selectedTasks.has(taskID)) {
+          const selectedTasksCopy = new Set(selectedTasks);
+          selectedTasksCopy.delete(taskID);
+          setSelectedTasks(updatedState);
+        }
+        toast.success("Your task has been deleted successfully");
+      })
+      .catch((err) => {
+        console.log("err", err)
+        toast.error(err.message);
+      });
+   
   };
 
   const deleteSelectedTasks = () => {
-    const savedTasks = [];
-
-    tasks.forEach((task) => {
-      if (!selectedTasks.has(task._id)) {
-        savedTasks.push(task);
-      }
-    });
-
-    setTasks(savedTasks);
-    setSelectedTasks(new Set());
+    
+    taskApi
+    .deleteSelectedTasks([...selectedTasks])
+      .then(() => {
+        const savedTasks = [];
+        const deletedTasksCount = selectedTasks.size;
+        tasks.forEach((task) => {
+          if (!selectedTasks.has(task._id)) {
+            savedTasks.push(task);
+          }
+        });
+    
+        setTasks(savedTasks);
+        setSelectedTasks(new Set());
+        toast.success( `${deletedTasksCount} have been deleted successfully`);
+      })
+      .catch((err) => {
+        console.log("err", err)
+        toast.error(err.message);
+      });
+   
+    
   };
 
   const checkedTasks = (_id) => {

@@ -1,48 +1,48 @@
-
 const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
 
-
 export default class TaskAPI {
-
-  #request(method, body=null){
-    const params = {
-      
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+  #request(method, data = {}) {
+    const { body, params } = data;
+    const factors = {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
     };
 
-    if(body!==null){
-      params.body = JSON.stringify(body)
+    if (body) {
+      factors.body = JSON.stringify(body);
     }
 
-    return fetch(taskApiUrl, params)
-    .then((result) => result.json())
-    .then((data)=>{
-      if(data.error){
-        throw data.error
-      }
-    return data
-    })
+    if (params) {
+      return taskApiUrl + "/" + params;
+    }
+
+    return fetch(taskApiUrl, factors)
+      .then((result) => result.json())
+      .then((data) => {
+        if (data.error) {
+          throw data.error;
+        }
+        return data;
+      });
   }
 
   get() {
-
-    return this.#request("GET")
-    
-    
+    return this.#request("GET");
   }
 
   add(task) {
-
-    return this.#request("POST", task)
-
+    return this.#request("POST", { body: task });
   }
 
   put() {}
 
-  delete() {}
+  delete(taskID) {
+    return this.#request("DELETE", { params: taskID });
+  }
+
+  deleteSelectedTasks(taskIDs){
+    return this.#request("PATCH", {body: taskIDs});
+  }
 }
-
-

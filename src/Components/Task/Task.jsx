@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { memo } from "react";
 import { PropTypes } from "prop-types";
-import { formatDate } from "../../utils/helper";
+import { formatDate, curtailText } from "../../utils/helper";
+
 
 function Task({ data, deleteTask, selecteTasks, number }) {
   return (
@@ -12,7 +13,7 @@ function Task({ data, deleteTask, selecteTasks, number }) {
       <div className={styles.task}>
         <div className={styles.taskBackground}>
           <div className={styles.checkBody}>
-            <div> {formatDate(data.created_at)} </div>
+        
             <Form.Check
               className={styles.selectTask}
               onClick={() => {
@@ -21,21 +22,24 @@ function Task({ data, deleteTask, selecteTasks, number }) {
             />
 
             <Card.Title className={styles.textElipsis}>
-              {number}. {data.title} :
+              {number}. {data.title} 
             </Card.Title>
-            <Card.Text>   {data.description}</Card.Text>
+            
           </div>
-
+          <Card.Text  className={ `${styles.taskContent} ${styles.textElipsis}`}>  Description: {data.description}</Card.Text>
           <div className={` ${styles.taskDetails} mt-3`}>
 
+          <div className={styles.dataDate}>
           <Card.Text>Status: {data.status}</Card.Text>
-          <Card.Text>Deadline: {formatDate(data.date)}</Card.Text>
 
+          <Card.Text>Created: {formatDate(data.created_at)}</Card.Text>
+          <Card.Text>Deadline: {formatDate(data.date)}</Card.Text>
+          </div>
 
             <div className={styles.actionButtons}>
               <Button
                 variant="outline-danger"
-                className="float-end btns"
+                className="float-end btns action"
                 onClick={() => {
                   deleteTask(data._id);
                 }}
@@ -44,7 +48,7 @@ function Task({ data, deleteTask, selecteTasks, number }) {
               </Button>
               <Button
                 variant="outline-warning"
-                className="float-end btns"
+                className="float-end btns action"
                 // onClick={makeTextEditable}
               >
                 <FontAwesomeIcon icon={faPenToSquare} />

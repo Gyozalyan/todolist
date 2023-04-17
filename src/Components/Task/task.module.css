@@ -40,12 +40,24 @@
 
 .taskDetails{
   display: flex;
-  justify-content: space-between;
+    justify-content: space-between;
+}
+
+.textElipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dataDate{
+  display: flex;
+  flex-direction: column;
 }
 
 .actionButtons{
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
   margin: 3px;
 }
+
 

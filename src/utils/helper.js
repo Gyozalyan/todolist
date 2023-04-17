@@ -1,4 +1,4 @@
-export function formatDate(date) {
+export const formatDate = (date) => {
 
     if (date instanceof Date) {
       return date.toISOString().slice(0, 10);
@@ -7,11 +7,11 @@ export function formatDate(date) {
       return date.slice(0, 10);
     }
     throw new Error("Date must be object or string");
-  }
+  };
   
-  export function truncateText(text = '', maxLength = 30) {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
+  export const curtailText = (text = '') =>{
+    if (text.length > 50) {
+      return text.slice(0, 50) + "...";
     }
     return text;
   }
