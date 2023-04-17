@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from "react";
-import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Col, Container, Row, Button } from "react-bootstrap";
 import styles from "./todo.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import Task from "../Task/Task";
 import MySelect from "../Select/MySelect";
-// import { creationDate } from "../Date";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import TaskAPI from "../../API/TaskAPI";
@@ -38,6 +37,7 @@ export default function ToDo() {
         toast.success("Your task has been added successfully");
       })
       .catch((err) => {
+        console.log("err", err)
         toast.error(err.message);
       });
   };

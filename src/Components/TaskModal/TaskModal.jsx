@@ -1,19 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { InputGroup, Form, Button, Modal } from 'react-bootstrap'
+import { formatDate } from "../../utils/helper";
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import styles from './TaskModal.module.css'
 import 'react-toastify/dist/ReactToastify.css';
-
-import Task from "../Task/Task";
-import MySelect from "../Select/MySelect";
-// import { creationDate } from "../Date";
-import DeleteSelected from "../DeleteSelected/DeleteSelected";
-import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
-import TaskAPI from "../../API/TaskAPI";
 import PropTypes from 'prop-types'
 
-const taskApi = new TaskAPI();
 
 
 export default function TaskModal({onCancel, onSave}) {
@@ -25,13 +18,14 @@ export default function TaskModal({onCancel, onSave}) {
 
   const SaveTask = ()=>{
 
-
     const newTask = {
       title: title.trim(),
-      description:description.trim()
+      description:description.trim(),
+      date: formatDate(startDate)
     }
 
     onSave(newTask)
+    console.log(newTask.date)
   }
 
   const onTitleChange=(event)=>{

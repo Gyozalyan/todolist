@@ -7,7 +7,7 @@
   }
 
   .task{
-    display: flex;
+    /* display: flex; */
     padding: 15px;
     border: 4px double rgb(255, 255, 255);
     margin: 15px auto;
@@ -23,7 +23,7 @@
   align-items: center
 }
 .taskBackground{
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   align-items: center;
   background: white;
@@ -38,8 +38,14 @@
   word-break: break-all;
 }
 
+.taskDetails{
+  display: flex;
+  justify-content: space-between;
+}
+
 .actionButtons{
   display: flex;
+  justify-content: flex-end;
   margin: 3px;
 }
 
