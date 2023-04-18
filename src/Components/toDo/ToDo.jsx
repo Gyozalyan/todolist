@@ -3,7 +3,7 @@ import { Col, Container, Row, Button } from "react-bootstrap";
 import styles from "./todo.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import Task from "../Task/Task";
-import MySelect from "../Select/MySelect";
+
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import TaskAPI from "../../API/TaskAPI";
@@ -120,14 +120,8 @@ export default function ToDo() {
   const onEditTask = (taskForEditing) => {
     taskApi
       .update(taskForEditing)
-      .then((taskForEditing) => {
-        const tasksCopy = [...tasks];
-        const taskIndex = tasksCopy.findIndex(
-          (task) => task._id === taskForEditing._id
-        );
-        tasksCopy[taskIndex].title = taskForEditing.title;
-        tasksCopy[taskIndex].description = taskForEditing.description;
-        setTasks(tasksCopy);
+      .then((task) => {
+        console.log("task", task);
 
         toast.success(`Task has been updated successfully`);
         setEditableTask(null);
@@ -191,25 +185,7 @@ export default function ToDo() {
             />
           )}
 
-          <div className={styles.filterAndSearch}>
-            <MySelect
-              defaultValue="Filter tasks by"
-              filterBy={[
-                { name: "Name", value: "title" },
-                { name: "Description", value: "taskDescription" },
-                { name: "Date", value: "date" },
-              ]}
-              value={filterTasksBy}
-              onChange={FilterTasksBy}
-            />
-
-            <input
-              className={searchQuery}
-              placeholder="Search task..."
-              value={searchQuery}
-              onChange={getSearchQuery}
-            ></input>
-          </div>
+          
         </Col>
       </Row>
 

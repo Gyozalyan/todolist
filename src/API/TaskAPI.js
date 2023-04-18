@@ -1,4 +1,4 @@
-let taskApiUrl = process.env.REACT_APP_API_URL + "/task";
+const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
 
 export default class TaskAPI {
   #request(method, data = {}) {
@@ -14,9 +14,11 @@ export default class TaskAPI {
       factors.body = JSON.stringify(body);
     }
 
-    if (params) {
-      taskApiUrl = `${taskApiUrl}/${params}`;
+    let url = taskApiUrl;
+    if(params){
+      url = `${url}/${params}`;
     }
+  
 
     return fetch(taskApiUrl, factors)
       .then((result) => result.json())
