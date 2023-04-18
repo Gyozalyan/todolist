@@ -9,9 +9,3 @@ export const formatDate = (date) => {
     throw new Error("Date must be object or string");
   };
   
-  export const curtailText = (text = '') =>{
-    if (text.length > 50) {
-      return text.slice(0, 50) + "...";
-    }
-    return text;
-  }

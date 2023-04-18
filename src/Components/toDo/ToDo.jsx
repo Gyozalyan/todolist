@@ -19,6 +19,7 @@ export default function ToDo() {
   const [searchQuery, setSearchQuery] = useState("");
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
+  const [editableTask, setEditableTask] = useState(null);
 
   useEffect(() => {
     taskApi.get().then((tasks) => {
@@ -37,43 +38,35 @@ export default function ToDo() {
         toast.success("Your task has been added successfully");
       })
       .catch((err) => {
-        console.log("err", err)
+        console.log("err", err);
         toast.error(err.message);
       });
   };
 
   const deleteTask = (taskID) => {
-
+    console.log(taskID);
     taskApi
       .delete(taskID)
       .then(() => {
-        const savedTasks = tasks.filter((task) => {
-          return task._id !== taskID;
-        });
-        setTasks(savedTasks);
-    
-        const updatedState = {
-          tasks: savedTasks,
-        };
-    
+        const newTasks = tasks.filter((task) => task._id !== taskID);
+        setTasks(newTasks);
+
         if (selectedTasks.has(taskID)) {
-          const selectedTasksCopy = new Set(selectedTasks);
-          selectedTasksCopy.delete(taskID);
-          setSelectedTasks(updatedState);
+          const newSelectedTasks = new Set(selectedTasks);
+          newSelectedTasks.delete(taskID);
+          setSelectedTasks(newSelectedTasks);
         }
-        toast.success("Your task has been deleted successfully");
+
+        toast.success("The task has been deleted successfully!");
       })
       .catch((err) => {
-        console.log("err", err)
         toast.error(err.message);
       });
-   
   };
 
   const deleteSelectedTasks = () => {
-    
     taskApi
-    .deleteSelectedTasks([...selectedTasks])
+      .deleteSelectedTasks([...selectedTasks])
       .then(() => {
         const savedTasks = [];
         const deletedTasksCount = selectedTasks.size;
@@ -82,21 +75,18 @@ export default function ToDo() {
             savedTasks.push(task);
           }
         });
-    
+
         setTasks(savedTasks);
         setSelectedTasks(new Set());
-        toast.success( `${deletedTasksCount} have been deleted successfully`);
+        toast.success(`${deletedTasksCount} have been deleted successfully`);
       })
       .catch((err) => {
-        console.log("err", err)
+        console.log("err", err);
         toast.error(err.message);
       });
-   
-    
   };
 
   const checkedTasks = (_id) => {
-    console.log(selectedTasks);
     const selectedTasksCopy = new Set(selectedTasks);
 
     if (selectedTasksCopy.has(_id)) {
@@ -127,6 +117,27 @@ export default function ToDo() {
     );
   };
 
+  const onEditTask = (taskForEditing) => {
+    taskApi
+      .update(taskForEditing)
+      .then((taskForEditing) => {
+        const tasksCopy = [...tasks];
+        const taskIndex = tasksCopy.findIndex(
+          (task) => task._id === taskForEditing._id
+        );
+        tasksCopy[taskIndex].title = taskForEditing.title;
+        tasksCopy[taskIndex].description = taskForEditing.description;
+        setTasks(tasksCopy);
+
+        toast.success(`Task has been updated successfully`);
+        setEditableTask(null);
+      })
+
+      .catch((err) => {
+        console.log("err", err);
+        toast.error(err.message);
+      });
+  };
   return (
     <Container>
       <Row>
@@ -143,6 +154,23 @@ export default function ToDo() {
           >
             +Add
           </Button>
+          <Button
+            variant="danger"
+            id="button-addon2"
+            onClick={() => {
+              const taskIDs = tasks.map((task) => task._id);
+              setSelectedTasks(new Set(taskIDs));
+            }}
+          >
+            Select All
+          </Button>
+          <Button
+            id="button-addon2"
+            variant="primary"
+            onClick={() => setSelectedTasks(new Set())}
+          >
+            Reset
+          </Button>
 
           {isAddTaskModalOpen && (
             <TaskModal
@@ -150,6 +178,16 @@ export default function ToDo() {
                 setAddTaskModalOpen(false);
               }}
               onSave={addTaskTemplate}
+            />
+          )}
+
+          {editableTask && (
+            <TaskModal
+              onCancel={() => {
+                setEditableTask(null);
+              }}
+              onSave={onEditTask}
+              data={editableTask}
             />
           )}
 
@@ -185,6 +223,8 @@ export default function ToDo() {
                 setTaskToDelete(_id);
               }}
               selecteTasks={checkedTasks}
+              checked={selectedTasks.has(task._id)}
+              taskEdit={setEditableTask}
               number={index + 1}
             />
           );
@@ -201,7 +241,7 @@ export default function ToDo() {
         <ConfirmDialog
           isOpen={taskToDelete}
           taskCount={1}
-          cancellation={() => {
+          confirmCancellation={() => {
             setTaskToDelete(null);
           }}
           confirmDelete={() => {

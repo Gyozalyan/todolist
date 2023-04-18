@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { memo } from "react";
 import { PropTypes } from "prop-types";
-import { formatDate, curtailText } from "../../utils/helper";
+import { formatDate } from "../../utils/helper";
 
 
-function Task({ data, deleteTask, selecteTasks, number }) {
+function Task({ data, deleteTask, selecteTasks, checked, number, taskEdit }) {
   return (
     <Card.Body>
       <div className={styles.task}>
@@ -16,9 +16,10 @@ function Task({ data, deleteTask, selecteTasks, number }) {
         
             <Form.Check
               className={styles.selectTask}
-              onClick={() => {
+              onChange={() => {
                 selecteTasks(data._id);
               }}
+              checked = {checked}
             />
 
             <Card.Title className={styles.textElipsis}>
@@ -49,7 +50,7 @@ function Task({ data, deleteTask, selecteTasks, number }) {
               <Button
                 variant="outline-warning"
                 className="float-end btns action"
-                // onClick={makeTextEditable}
+                onClick={()=>{taskEdit(data)}}
               >
                 <FontAwesomeIcon icon={faPenToSquare} />
               </Button>
@@ -65,6 +66,8 @@ Task.propTypes = {
   data: PropTypes.object.isRequired,
   deleteTask: PropTypes.func.isRequired,
   selecteTasks: PropTypes.func.isRequired,
+  checked: PropTypes.bool.isRequired,
+  taskEdit: PropTypes.func
 };
 
 export default memo(Task);

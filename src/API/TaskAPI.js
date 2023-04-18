@@ -1,4 +1,4 @@
-const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
+let taskApiUrl = process.env.REACT_APP_API_URL + "/task";
 
 export default class TaskAPI {
   #request(method, data = {}) {
@@ -15,7 +15,7 @@ export default class TaskAPI {
     }
 
     if (params) {
-      return taskApiUrl + "/" + params;
+      taskApiUrl = `${taskApiUrl}/${params}`;
     }
 
     return fetch(taskApiUrl, factors)
@@ -36,13 +36,15 @@ export default class TaskAPI {
     return this.#request("POST", { body: task });
   }
 
-  put() {}
+  update(editedTask) {
+    return this.#request("PUT", { body: editedTask, params: editedTask._id });
+  }
 
   delete(taskID) {
     return this.#request("DELETE", { params: taskID });
   }
 
-  deleteSelectedTasks(taskIDs){
-    return this.#request("PATCH", {body: taskIDs});
+  deleteSelectedTasks(taskIDs) {
+    return this.#request("PATCH", { body: { tasks: taskIDs } });
   }
 }
