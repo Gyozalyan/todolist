@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
-import styles from "./todo.module.css";
+// import styles from "./todo.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import Task from "../Task/Task";
-import MySelect from "../Select/MySelect";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import TaskAPI from "../../API/TaskAPI";
@@ -15,21 +14,21 @@ const taskApi = new TaskAPI();
 export default function ToDo() {
   const [tasks, setTasks] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState(new Set());
-  const [filterTasksBy, setFilterTasksBy] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [editableTask, setEditableTask] = useState(null);
 
   useEffect(() => {
-    taskApi.get().then((tasks) => {
+    taskApi.getAllTasks()
+    .then((tasks) => {
       setTasks(tasks);
     });
   }, []);
 
   const addTaskTemplate = (newTask) => {
+
     taskApi
-      .add(newTask)
+      .addTask(newTask)
       .then((task) => {
         const tasksCopy = [...tasks];
         tasksCopy.push(task);
@@ -46,7 +45,7 @@ export default function ToDo() {
   const deleteTask = (taskID) => {
     console.log(taskID);
     taskApi
-      .delete(taskID)
+      .deleteIdenticalTask(taskID)
       .then(() => {
         const newTasks = tasks.filter((task) => task._id !== taskID);
         setTasks(newTasks);
@@ -98,26 +97,10 @@ export default function ToDo() {
     setSelectedTasks(selectedTasksCopy);
   };
 
-  const FilterTasksBy = (sortby) => {
-    setFilterTasksBy(sortby);
+   
+  const updateTask = (taskForEditing) => {
 
-    setTasks(
-      tasks.sort((a, b) => {
-        return a[sortby].localeCompare(b[sortby]);
-      })
-    );
-  };
 
-  const getSearchQuery = (event) => {
-    setSearchQuery(event.target.value);
-    setTasks(
-      [...tasks].filter((task) => {
-        return task.title.toLowerCase().includes(searchQuery.toLowerCase());
-      })
-    );
-  };
-
-  const onEditTask = (taskForEditing) => {
     taskApi
       .update(taskForEditing)
       .then((taskForEditing) => {
@@ -186,30 +169,12 @@ export default function ToDo() {
               onCancel={() => {
                 setEditableTask(null);
               }}
-              onSave={onEditTask}
+              onSave={updateTask}
               data={editableTask}
             />
           )}
 
-          <div className={styles.filterAndSearch}>
-            <MySelect
-              defaultValue="Filter tasks by"
-              filterBy={[
-                { name: "Name", value: "title" },
-                { name: "Description", value: "taskDescription" },
-                { name: "Date", value: "date" },
-              ]}
-              value={filterTasksBy}
-              onChange={FilterTasksBy}
-            />
-
-            <input
-              className={searchQuery}
-              placeholder="Search task..."
-              value={searchQuery}
-              onChange={getSearchQuery}
-            ></input>
-          </div>
+     
         </Col>
       </Row>
 

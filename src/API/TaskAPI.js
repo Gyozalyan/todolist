@@ -1,9 +1,10 @@
-let taskApiUrl = process.env.REACT_APP_API_URL + "/task";
+const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
 
 export default class TaskAPI {
   #request(method, data = {}) {
-    const { body, params } = data;
-    const factors = {
+    const { body, id } = data;
+
+    const fetchObj = {
       method: method,
       headers: {
         "Content-Type": "application/json",
@@ -11,40 +12,43 @@ export default class TaskAPI {
     };
 
     if (body) {
-      factors.body = JSON.stringify(body);
+      fetchObj.body = JSON.stringify(body);
     }
 
-    if (params) {
-      taskApiUrl = `${taskApiUrl}/${params}`;
+    let url = taskApiUrl;
+    if (id) {
+      url = `${url}/${id}`;
     }
 
-    return fetch(taskApiUrl, factors)
-      .then((result) => result.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error;
-        }
-        return data;
-      });
+   return fetch(url, fetchObj)
+    .then((result) => result.json())
+    .then((request)=>{
+      if(request.error){
+        throw request.error
+      }
+      return request
+    })
   }
 
-  get() {
-    return this.#request("GET");
+  getAllTasks(){
+    return this.#request("GET")
   }
 
-  add(task) {
-    return this.#request("POST", { body: task });
+  addTask (newTask){
+    return this.#request("POST", {body:newTask})
   }
 
-  update(editedTask) {
-    return this.#request("PUT", { body: editedTask, params: editedTask._id });
+  update(taskToUpdate){
+    return this.#request("PUT", {body: taskToUpdate, id: taskToUpdate._id});  
   }
 
-  delete(taskID) {
-    return this.#request("DELETE", { params: taskID });
+  deleteIdenticalTask(taskId){
+    return this.#request("DELETE",{id:taskId})
   }
 
-  deleteSelectedTasks(taskIDs) {
-    return this.#request("PATCH", { body: { tasks: taskIDs } });
+  deleteSelectedTasks (taskIdsArray){
+
+    return this.#request("PATCH", {body:{tasks:taskIdsArray}})
+
   }
 }
