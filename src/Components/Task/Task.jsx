@@ -39,6 +39,7 @@ function Task({ data, deleteTask, selecteTasks, checked, number, taskEdit }) {
 
             <div className={styles.actionButtons}>
               <Button
+              title='Delete'
                 variant="outline-danger"
                 className="float-end btns action"
                 onClick={() => {
@@ -48,6 +49,8 @@ function Task({ data, deleteTask, selecteTasks, checked, number, taskEdit }) {
                 <FontAwesomeIcon icon={faTrashCan} />
               </Button>
               <Button
+                            title='edit'
+
                 variant="outline-warning"
                 className="float-end btns action"
                 onClick={()=>{taskEdit(data)}}

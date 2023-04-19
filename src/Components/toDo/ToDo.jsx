@@ -8,6 +8,8 @@ import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import TaskAPI from "../../API/TaskAPI";
 import TaskModal from "../TaskModal/TaskModal";
 import { ToastContainer, toast } from "react-toastify";
+import SearchAndFilter from "../SearchAndFilter/SearchAndFilter";
+import Header from "../Header/Header";
 
 const taskApi = new TaskAPI();
 
@@ -22,7 +24,10 @@ export default function ToDo() {
     taskApi.getAllTasks()
     .then((tasks) => {
       setTasks(tasks);
-    });
+    })
+    .catch((error)=>{
+      toast.error(error.message)
+    })
   }, []);
 
   const addTaskTemplate = (newTask) => {
@@ -43,7 +48,6 @@ export default function ToDo() {
   };
 
   const deleteTask = (taskID) => {
-    console.log(taskID);
     taskApi
       .deleteIdenticalTask(taskID)
       .then(() => {
@@ -129,6 +133,8 @@ export default function ToDo() {
             Hello Tamara. What are we going to succeed today?
           </p>
 
+              {/* <Header/> */}
+            <SearchAndFilter/>
           <Button
             variant="success"
             id="button-addon2"

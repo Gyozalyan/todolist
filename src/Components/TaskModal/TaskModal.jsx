@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { InputGroup, Form, Button, Modal } from "react-bootstrap";
 import { formatDate } from "../../utils/helper";
 import DatePicker from "react-datepicker";
@@ -7,7 +7,7 @@ import styles from "./TaskModal.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 
-export default function TaskModal({ onCancel, onSave, data }) {
+ function TaskModal({ onCancel, onSave, data }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState(new Date());
@@ -107,3 +107,6 @@ TaskModal.propTypes = {
   data: PropTypes.object,
   // onSave : PropTypes.func.isRequired
 };
+
+
+export default memo(TaskModal)
