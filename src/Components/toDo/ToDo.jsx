@@ -10,34 +10,29 @@ import TaskModal from "../TaskModal/TaskModal";
 import { ToastContainer, toast } from "react-toastify";
 import SearchAndFilter from "../SearchAndFilter/SearchAndFilter";
 
-
-
-
 const taskApi = new TaskAPI();
 
 export default function ToDo() {
-  const [name] = useState('');
+  const [name] = useState("");
   const [tasks, setTasks] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [editableTask, setEditableTask] = useState(null);
-
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    taskApi.getAllTasks()
-    .then((tasks) => {
-      setTasks(tasks);
-    })
-    .catch((error)=>{
-      toast.error(error.message)
-    })
+    taskApi
+      .getAllTasks()
+      .then((tasks) => {
+        setTasks(tasks);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   }, []);
 
-
-
   const addTaskTemplate = (newTask) => {
-
     taskApi
       .addTask(newTask)
       .then((task) => {
@@ -107,10 +102,7 @@ export default function ToDo() {
     setSelectedTasks(selectedTasksCopy);
   };
 
-   
   const updateTask = (taskForEditing) => {
-
-
     taskApi
       .update(taskForEditing)
       .then((taskForEditing) => {
@@ -119,15 +111,15 @@ export default function ToDo() {
           (task) => task._id === taskForEditing._id
         );
 
-        const updated = tasksCopy.map((task, index)=>{
-          if(index === taskIndex){
-            task.title =  taskForEditing.title
-            task.description =  taskForEditing.description
-            task.status =  taskForEditing.status
+        const updated = tasksCopy.map((task, index) => {
+          if (index === taskIndex) {
+            task.title = taskForEditing.title;
+            task.description = taskForEditing.description;
+            task.status = taskForEditing.status;
           }
 
-          return task
-        })
+          return task;
+        });
 
         setTasks(updated);
 
@@ -141,24 +133,32 @@ export default function ToDo() {
       });
   };
 
+  const searchTask = (tasks) => {
+    taskApi.searchTasks(tasks).then((tasks) => {
+      const filteredTasks = [...tasks].filter((task) =>
+        task.title.toLowerCase().includes(searchValue.toLowerCase()) || task.description.toLowerCase().includes(searchValue.toLowerCase())
+      );
 
-
-  const searchTask = ()=>{
-
-  }
+      setTasks(filteredTasks);
+    })
+    .catch((err) => {
+      console.log("err", err);
+      toast.error(err.message);
+    });
+  };
   return (
-      <Container>
-   
-   
+    <Container>
       <Row>
         <Col className="heading mt-5">
           <p className="text-center mt-4 fs-1">
             Hello {name}. What are we going to succeed today?
           </p>
 
-            <SearchAndFilter
-            searchTask={searchTask}
-            />
+          <SearchAndFilter
+            searchTask={() => searchTask(tasks)}
+            value={searchValue}
+            onChange={(targetVal) => setSearchValue(targetVal)}
+          />
           <Button
             variant="success"
             id="button-addon2"
@@ -203,8 +203,6 @@ export default function ToDo() {
               data={editableTask}
             />
           )}
-
-     
         </Col>
       </Row>
 

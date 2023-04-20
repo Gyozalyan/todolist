@@ -5,10 +5,9 @@ import { faSearch, faRefresh, faFilter } from "@fortawesome/free-solid-svg-icons
 import DatePicker from "react-datepicker";
 import styles from "./filters.module.css";
 
-function SearchAndFilter({ searchTask}) {
+function SearchAndFilter({ value, onChange, searchTask}) {
 
   const [date, setDate] = useState(new Date())
-
 
 
 
@@ -25,6 +24,8 @@ function SearchAndFilter({ searchTask}) {
               placeholder="Search"
               className="me-2"
               aria-label="Search"
+              value = {value}
+              onChange={(event)=>onChange(event.target.value)}
             />
             <span
               className="btn btn-outline-success me-2"
