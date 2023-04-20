@@ -51,4 +51,8 @@ export default class TaskAPI {
     return this.#request("PATCH", {body:{tasks:taskIdsArray}})
 
   }
+
+  searchTasks(){
+    return this.#request("GET")
+  }
 }

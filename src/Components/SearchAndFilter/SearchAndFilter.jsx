@@ -1,17 +1,23 @@
 import { memo, useState } from "react";
 import { Accordion, Form, Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faRefresh, faFilter } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import styles from "./filters.module.css";
 
-function SearchAndFilter() {
+function SearchAndFilter({ searchTask}) {
+
+  const [date, setDate] = useState(new Date())
+
+
+
+
   return (
     <Accordion className="mb-4">
       <Accordion.Item eventKey="0">
         <Accordion.Header>
           <Form
-          // className={`${styles.form} d-flex`}
+          className={styles.accordion} 
           onClick={(parent) => parent.stopPropagation()}
           >
             <Form.Control
@@ -22,9 +28,16 @@ function SearchAndFilter() {
             />
             <span
               className="btn btn-outline-success me-2"
-              title="Apply filters"
+              title="Apply search"
+              onClick={searchTask}
             >
               <FontAwesomeIcon icon={faSearch} />
+            </span>
+            <span
+              className="btn btn-outline-warning me-2"
+              title="Apply filters"
+            >
+              <FontAwesomeIcon icon={faFilter} />
             </span>
             <span className="btn btn-outline-info" title="Reset filters">
               <FontAwesomeIcon icon={faRefresh} />
@@ -39,8 +52,8 @@ function SearchAndFilter() {
                   <legend>Created lte</legend>
                   <DatePicker
                     showIcon
-                    // selected={date}
-                    // onChange={setDate}
+                    selected={date}
+                    onChange={setDate}
                   />
                 </fieldset>
               </Col>
@@ -49,8 +62,8 @@ function SearchAndFilter() {
                   <legend>Created gte</legend>
                   <DatePicker
                     showIcon
-                    // selected={date}
-                    // onChange={setDate}
+                    selected={date}
+                    onChange={setDate}
                   />
                 </fieldset>
               </Col>
@@ -59,8 +72,8 @@ function SearchAndFilter() {
                   <legend>Completed lte</legend>
                   <DatePicker
                     showIcon
-                    // selected={date}
-                    // onChange={setDate}
+                    selected={date}
+                    onChange={setDate}
                   />
                 </fieldset>
               </Col>
@@ -69,8 +82,8 @@ function SearchAndFilter() {
                   <legend>Completed gte</legend>
                   <DatePicker
                     showIcon
-                    // selected={date}
-                    // onChange={setDate}
+                    selected={date}
+                    onChange={setDate}
                   />
                 </fieldset>
               </Col>
@@ -84,7 +97,7 @@ function SearchAndFilter() {
                     // onChange={onStatusChange}
                   >
                     <option value="active">Active</option>
-                    <option value="completed">Done</option>
+                    <option value="done">Done</option>
                   </Form.Select>
                 </fieldset>
               </Col>
@@ -92,8 +105,12 @@ function SearchAndFilter() {
                 <fieldset>
                   <legend>Sort</legend>
                   <Form.Select aria-label="Status">
-                    <option value="a-z">A-Z</option>
-                    <option value="z-a">Z-A</option>
+                    <option value='a-z'>Task Z-A</option>
+                    <option value='z-a'>Task Z-A</option>
+                    <option value='creation_date_oldest'>The older tasks</option>
+                    <option value='creation_date_newest'>The fresh tasks</option>
+                    <option value='completion_date_oldest'>Old completed tasks</option>
+                    <option value='completion_date_newest'>Fresh completed tasks</option>
                   </Form.Select>
                 </fieldset>
               </Col>

@@ -36,11 +36,12 @@
   width: 89%;
   overflow-wrap: break-word;
   word-break: break-all;
+  margin-bottom:50px
 }
 
 .taskDetails{
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .textElipsis{
@@ -48,7 +49,8 @@
   overflow: hidden;
   white-space: nowrap;
 }
-.dataDate{
+.dataFeatures{
+
   display: flex;
   flex-direction: column;
 }

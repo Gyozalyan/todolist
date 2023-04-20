@@ -9,16 +9,20 @@ import TaskAPI from "../../API/TaskAPI";
 import TaskModal from "../TaskModal/TaskModal";
 import { ToastContainer, toast } from "react-toastify";
 import SearchAndFilter from "../SearchAndFilter/SearchAndFilter";
-import Header from "../Header/Header";
+
+
+
 
 const taskApi = new TaskAPI();
 
 export default function ToDo() {
+  const [name] = useState('');
   const [tasks, setTasks] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [editableTask, setEditableTask] = useState(null);
+
 
   useEffect(() => {
     taskApi.getAllTasks()
@@ -29,6 +33,8 @@ export default function ToDo() {
       toast.error(error.message)
     })
   }, []);
+
+
 
   const addTaskTemplate = (newTask) => {
 
@@ -112,9 +118,18 @@ export default function ToDo() {
         const taskIndex = tasksCopy.findIndex(
           (task) => task._id === taskForEditing._id
         );
-        tasksCopy[taskIndex].title = taskForEditing.title;
-        tasksCopy[taskIndex].description = taskForEditing.description;
-        setTasks(tasksCopy);
+
+        const updated = tasksCopy.map((task, index)=>{
+          if(index === taskIndex){
+            task.title =  taskForEditing.title
+            task.description =  taskForEditing.description
+            task.status =  taskForEditing.status
+          }
+
+          return task
+        })
+
+        setTasks(updated);
 
         toast.success(`Task has been updated successfully`);
         setEditableTask(null);
@@ -125,16 +140,25 @@ export default function ToDo() {
         toast.error(err.message);
       });
   };
+
+
+
+  const searchTask = ()=>{
+
+  }
   return (
-    <Container>
+      <Container>
+   
+   
       <Row>
         <Col className="heading mt-5">
           <p className="text-center mt-4 fs-1">
-            Hello Tamara. What are we going to succeed today?
+            Hello {name}. What are we going to succeed today?
           </p>
 
-              {/* <Header/> */}
-            <SearchAndFilter/>
+            <SearchAndFilter
+            searchTask={searchTask}
+            />
           <Button
             variant="success"
             id="button-addon2"
@@ -197,6 +221,7 @@ export default function ToDo() {
               checked={selectedTasks.has(task._id)}
               taskEdit={setEditableTask}
               number={index + 1}
+              changeStatus={updateTask}
             />
           );
         })}
