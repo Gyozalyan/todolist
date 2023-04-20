@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { InputGroup, Form, Button, Modal } from "react-bootstrap";
 import { formatDate } from "../../utils/helper";
 import DatePicker from "react-datepicker";
@@ -7,18 +7,20 @@ import styles from "./TaskModal.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 
-export default function TaskModal({ onCancel, onSave, data }) {
+ function TaskModal({ onCancel, onSave, data, addTaskTemplate }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState(new Date());
-  const [isTitleValid, setTitleValid] = useState(false);
+  const [isTitleValid, setTitleValid] = useState(true);
 
   useEffect(() => {
     if (data) {
       setTitle(data.title);
       setDescription(data.description);
       setStartDate(new Date(data.date));
+  
     }
+     
   }, []);
 
   const SaveTask = () => {
@@ -38,14 +40,15 @@ export default function TaskModal({ onCancel, onSave, data }) {
   const onTitleChange = (event) => {
     const { value } = event.target;
     const trimmedTitle = value.trim();
-    setTitleValid(!!trimmedTitle);
+    setTitleValid(trimmedTitle);
     setTitle(value);
+
+ 
   };
 
   const handleEvent = (event) => {
     if (event.key === "Enter") {
-      console.log("a");
-      // addTaskTemplate();
+      SaveTask()
     }
   };
 
@@ -91,7 +94,7 @@ export default function TaskModal({ onCancel, onSave, data }) {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success" disabled={!isTitleValid} onClick={SaveTask}>
+        <Button variant="success" disabled={title === "" ? isTitleValid : !isTitleValid} onClick={SaveTask}>
           Save
         </Button>
         <Button variant="warning" onClick={onCancel}>
@@ -107,3 +110,6 @@ TaskModal.propTypes = {
   data: PropTypes.object,
   // onSave : PropTypes.func.isRequired
 };
+
+
+export default memo(TaskModal)

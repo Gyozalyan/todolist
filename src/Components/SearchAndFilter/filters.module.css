@@ -1,0 +1,12 @@
+
+.accordion{
+    display: flex;
+    width: calc(100% - 40px);
+}
+
+.filterItem{
+    font-size:13px;
+}
+.filterItem>legend{
+    font-size: 20px;
+}
