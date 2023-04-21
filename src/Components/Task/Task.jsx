@@ -21,6 +21,7 @@ function Task({
   taskEdit,
   changeStatus,
 }) {
+
   return (
     <Card.Body>
       <div className={styles.task}>

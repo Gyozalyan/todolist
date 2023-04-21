@@ -7,17 +7,17 @@ import styles from "./TaskModal.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 
- function TaskModal({ onCancel, onSave, data, addTaskTemplate }) {
+ function TaskModal({ onCancel, onSave, data }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
+  const [deadline, setDeadline] = useState(new Date());
   const [isTitleValid, setTitleValid] = useState(true);
 
   useEffect(() => {
     if (data) {
       setTitle(data.title);
       setDescription(data.description);
-      setStartDate(new Date(data.date));
+      setDeadline(new Date(data.date));
   
     }
      
@@ -27,7 +27,7 @@ import PropTypes from "prop-types";
     const newTask = {
       title: title.trim(),
       description: description.trim(),
-      date: formatDate(startDate),
+      date: formatDate(deadline),
     };
 
     if (data) {
@@ -87,8 +87,8 @@ import PropTypes from "prop-types";
         <h6 className="mt-3">Set the deadline:</h6>
         <DatePicker
           showIcon
-          selected={startDate}
-          onChange={setStartDate}
+          selected={deadline}
+          onChange={(date)=>setDeadline(date)}
           className="mt-1"
         />
       </Modal.Body>

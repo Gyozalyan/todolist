@@ -19,17 +19,20 @@ export default function ToDo() {
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [editableTask, setEditableTask] = useState(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [deadline, setDeadline] = useState(new Date());
+
+  const getInitialTasks = (filters)=>{
+    taskApi.getAllTasks(filters)
+    .then((tasks) => {
+        setTasks(tasks);
+    })
+    .catch((err) => {
+      toast.error(err.message);
+    });
+  }
 
   useEffect(() => {
-    taskApi
-      .getAllTasks()
-      .then((tasks) => {
-        setTasks(tasks);
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
+    getInitialTasks()
   }, []);
 
   const addTaskTemplate = (newTask) => {
@@ -43,10 +46,15 @@ export default function ToDo() {
         toast.success("Your task has been added successfully");
       })
       .catch((err) => {
-        console.log("err", err);
         toast.error(err.message);
       });
   };
+
+  const searchFilteredTasks =(filters)=>{
+   
+
+    getInitialTasks(filters)
+  }
 
   const deleteTask = (taskID) => {
     taskApi
@@ -85,7 +93,6 @@ export default function ToDo() {
         toast.success(`${deletedTasksCount} have been deleted successfully`);
       })
       .catch((err) => {
-        console.log("err", err);
         toast.error(err.message);
       });
   };
@@ -116,6 +123,7 @@ export default function ToDo() {
             task.title = taskForEditing.title;
             task.description = taskForEditing.description;
             task.status = taskForEditing.status;
+            task.date = taskForEditing.date           
           }
 
           return task;
@@ -128,24 +136,11 @@ export default function ToDo() {
       })
 
       .catch((err) => {
-        console.log("err", err);
         toast.error(err.message);
       });
   };
 
-  const searchTask = (tasks) => {
-    taskApi.searchTasks(tasks).then((tasks) => {
-      const filteredTasks = [...tasks].filter((task) =>
-        task.title.toLowerCase().includes(searchValue.toLowerCase()) || task.description.toLowerCase().includes(searchValue.toLowerCase())
-      );
 
-      setTasks(filteredTasks);
-    })
-    .catch((err) => {
-      console.log("err", err);
-      toast.error(err.message);
-    });
-  };
   return (
     <Container>
       <Row>
@@ -155,9 +150,9 @@ export default function ToDo() {
           </p>
 
           <SearchAndFilter
-            searchTask={() => searchTask(tasks)}
-            value={searchValue}
-            onChange={(targetVal) => setSearchValue(targetVal)}
+            searchFilteredTasks={searchFilteredTasks}
+           
+            getInitialTasks = {getInitialTasks}
           />
           <Button
             variant="success"
@@ -191,7 +186,10 @@ export default function ToDo() {
                 setAddTaskModalOpen(false);
               }}
               onSave={addTaskTemplate}
+              deadline = {deadline}
+              onChange = {setDeadline}
             />
+            
           )}
 
           {editableTask && (

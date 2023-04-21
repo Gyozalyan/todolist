@@ -2,7 +2,7 @@ const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
 
 export default class TaskAPI {
   #request(method, data = {}) {
-    const { body, id } = data;
+    const { body, id, filters } = data;
 
     const fetchObj = {
       method: method,
@@ -20,18 +20,29 @@ export default class TaskAPI {
       url = `${url}/${id}`;
     }
 
+    if (filters) {
+      let query = '?'
+      Object.entries(filters).forEach(([key,value])=>{
+        if(!value){
+          return
+        }
+        query += `${key}=${value}&`;
+      })
+      url+=query
+    }
+
    return fetch(url, fetchObj)
     .then((result) => result.json())
-    .then((request)=>{
-      if(request.error){
-        throw request.error
+    .then((data)=>{
+      if(data.error){
+        throw data.error
       }
-      return request
+      return data
     })
   }
 
-  getAllTasks(){
-    return this.#request("GET")
+  getAllTasks(filters){
+    return this.#request("GET", {filters: filters})
   }
 
   addTask (newTask){
