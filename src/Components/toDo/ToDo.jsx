@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
-// import styles from "./todo.module.css";
+import styles from "./todo.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import Task from "../Task/Task";
 import DeleteSelected from "../DeleteSelected/DeleteSelected";
@@ -150,19 +150,24 @@ export default function ToDo() {
             Hello {name}. What are we going to succeed today?
           </p>
 
-          <SearchAndFilter
+
+           <div className={styles.container}>
+      <div className={styles.buttonWrapper}>
+        <button
+         className={styles.circleButton}
+         id="button-addon2"
+         onClick={() => setAddTaskModalOpen(true)}
+        >
+          <span className={styles.buttonText}>+ Add</span>
+        </button>
+      </div>
+    </div> 
+   <SearchAndFilter
             searchFilteredTasks={searchFilteredTasks}
            
             getInitialTasks = {getInitialTasks}
           />
-          <Button
-            variant="success"
-            id="button-addon2"
-            onClick={() => setAddTaskModalOpen(true)}
-            // disabled={!taskTitle}
-          >
-            +Add
-          </Button>
+   
           <Button
             variant="danger"
             id="button-addon2"
