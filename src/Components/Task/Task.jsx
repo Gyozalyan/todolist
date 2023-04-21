@@ -58,7 +58,7 @@ function Task({
                 <Button
                   title="Mark as done"
                   className="float-end btns action"
-                  variant="success"
+                  variant="outline-success"
                   onClick={() =>
                     changeStatus({ status: "done", _id: data._id })
                   }
@@ -69,7 +69,7 @@ function Task({
                 <Button
                   title="Mark as active"
                   className="float-end btns action"
-                  variant="info"
+                  variant="outline-info"
                   onClick={() =>
                     changeStatus({ status: "active", _id: data._id })
                   }
