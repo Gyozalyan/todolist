@@ -1,7 +1,14 @@
-.deleteselected{
-    position: fixed;
-  right: 10px;
-  bottom: 30px;
-  z-index: 2;
-  
+
+
+
+
+  .filterAndSearch{
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .search{
+    width: 20%;
+    border: 4px solid #f2dada;
   }

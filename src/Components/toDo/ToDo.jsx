@@ -1,170 +1,243 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
+import { Col, Container, Row, Button } from "react-bootstrap";
 import styles from "./todo.module.css";
-import { Col, Container, Row, InputGroup, Form, Button } from "react-bootstrap";
-import Task from "../task/Task";
-import { idGenerator } from "../../Utils/Helper";
-import ConfirmDialog from "../ConfirmDialog";
+import "react-toastify/dist/ReactToastify.css";
+import Task from "../Task/Task";
 
-export default class ToDo extends Component {
-  state = {
-    tasks: [],
-    newText: "",
-    selectedTasks: new Set(),
-    openModal:false
-  };
+import DeleteSelected from "../DeleteSelected/DeleteSelected";
+import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
+import TaskAPI from "../../API/TaskAPI";
+import TaskModal from "../TaskModal/TaskModal";
+import { ToastContainer, toast } from "react-toastify";
 
-  getValue = (event) => {
-    const newText = event.target.value.trim();
-    this.setState({
-      newText,
+const taskApi = new TaskAPI();
+
+export default function ToDo() {
+  const [tasks, setTasks] = useState([]);
+  const [selectedTasks, setSelectedTasks] = useState(new Set());
+  const [filterTasksBy, setFilterTasksBy] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [taskToDelete, setTaskToDelete] = useState(null);
+  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
+  const [editableTask, setEditableTask] = useState(null);
+
+  useEffect(() => {
+    taskApi.get().then((tasks) => {
+      setTasks(tasks);
     });
-  };
+  }, []);
 
-  addTemplate = () => {
-    if (this.state.newText === "") {
-      return;
-    }
-
-    const tasks = [...this.state.tasks];
-    tasks.push({
-      id: idGenerator(),
-      text: this.state.newText,
-    });
-
-    this.setState({
-      tasks,
-      newText: "",
-    });
-  };
-
-  handleEvent = (event) => {
-    if (event.key === "Enter") {
-      this.addTemplate();
-    }
-  };
-
-  deleteTask = (id) => {
-    const { tasks, selectedTasks } = this.state;
-    const savedTasks = tasks.filter((task) => {
-      return task.id !== id;
-    });
-
-    const updatedState = {
-      tasks: savedTasks,
-    };
-
-    if (selectedTasks.has(id)) {
-      const selectedTasksCopy = new Set(selectedTasks);
-      selectedTasksCopy.delete(id);
-      updatedState.selectedTasks = selectedTasksCopy;
-    }
-
-    this.setState(updatedState);
-  };
-
-  deleteSelectedTasks = () => {
-    const { tasks, selectedTasks } = this.state;
-    const savedTasks = [];
-    console.log(selectedTasks);
-
-    tasks.forEach((task) => {
-      if (!selectedTasks.has(task.id)) {
-        savedTasks.push(task.id);
-      }
-    });
-
-    this.setState({
-      tasks: savedTasks,
-      selectedTasks: new Set(),
-      openModal:false
-    });
-  };
-
-  checkedTasks = (id) =>{
-    const selectedTasksCopy = new Set(this.state.selectedTasks);
-    if (selectedTasksCopy.has(id)) {
-      selectedTasksCopy.delete(id);
-    } else {
-      this.setState({
-        selectedTasks: selectedTasksCopy.add(id),
+  const addTaskTemplate = (newTask) => {
+    taskApi
+      .add(newTask)
+      .then((task) => {
+        const tasksCopy = [...tasks];
+        tasksCopy.push(task);
+        setTasks(tasksCopy);
+        setAddTaskModalOpen(false);
+        toast.success("Your task has been added successfully");
+      })
+      .catch((err) => {
+        console.log("err", err);
+        toast.error(err.message);
       });
+  };
+
+  const deleteTask = (taskID) => {
+    console.log(taskID);
+    taskApi
+      .delete(taskID)
+      .then(() => {
+        const newTasks = tasks.filter((task) => task._id !== taskID);
+        setTasks(newTasks);
+
+        if (selectedTasks.has(taskID)) {
+          const newSelectedTasks = new Set(selectedTasks);
+          newSelectedTasks.delete(taskID);
+          setSelectedTasks(newSelectedTasks);
+        }
+
+        toast.success("The task has been deleted successfully!");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
+  const deleteSelectedTasks = () => {
+    taskApi
+      .deleteSelectedTasks([...selectedTasks])
+      .then(() => {
+        const savedTasks = [];
+        const deletedTasksCount = selectedTasks.size;
+        tasks.forEach((task) => {
+          if (!selectedTasks.has(task._id)) {
+            savedTasks.push(task);
+          }
+        });
+
+        setTasks(savedTasks);
+        setSelectedTasks(new Set());
+        toast.success(`${deletedTasksCount} have been deleted successfully`);
+      })
+      .catch((err) => {
+        console.log("err", err);
+        toast.error(err.message);
+      });
+  };
+
+  const checkedTasks = (_id) => {
+    const selectedTasksCopy = new Set(selectedTasks);
+
+    if (selectedTasksCopy.has(_id)) {
+      selectedTasksCopy.delete(_id);
+      setSelectedTasks(selectedTasksCopy);
+    } else {
+      selectedTasksCopy.add(_id);
     }
+    setSelectedTasks(selectedTasksCopy);
+  };
 
-  }
+  const FilterTasksBy = (sortby) => {
+    setFilterTasksBy(sortby);
 
-  isShown=()=>{
-   this.setState({
-    openModal: true
-  })}
-  
-  toCancel=()=>{
-    this.setState({
-      openModal:false
-    })
-  }
-
-  render() {
-    const taskJsx = this.state.tasks.map((task) => {
-      return (
-        <Task
-          data={task}
-          key={task.id}
-          deleteTask={this.deleteTask}
-          selecteTasks={this.checkedTasks}
-        />
-      );
-    });
-
-
-    return (
-      <Container>
-        <Row>
-          <Col className="heading mt-5">
-            <p className="text-center mt-4 fs-1">
-              Hello Tamara. What are we going to success today?
-            </p>
-
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Great job! Next one?"
-                aria-describedby="basic-addon2"
-                onChange={this.getValue}
-                onKeyDown={this.handleEvent}
-                value={this.state.newText}
-              />
-              <Button
-                variant="success"
-                id="button-addon2"
-                onClick={this.addTemplate}
-                disabled={!this.state.newText}
-              >
-                +Add
-              </Button>
-            </InputGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button
-              variant="danger"
-              className={styles.deleteselected}
-              // onClick={this.deleteSelectedTasks}
-              onClick={this.isShown}
-              disabled={this.state.selectedTasks.size === 0}
-            >
-              Delete Selected
-            </Button>
-          </Col>
-        </Row>
-
-        <Row>{taskJsx}</Row>
-        <ConfirmDialog 
-        isOpen = {this.state.openModal}
-        confirmDelete = {this.deleteSelectedTasks}
-        cancellation = {this.toCancel}
-        />
-      </Container>
+    setTasks(
+      tasks.sort((a, b) => {
+        return a[sortby].localeCompare(b[sortby]);
+      })
     );
-  }
+  };
+
+  const getSearchQuery = (event) => {
+    setSearchQuery(event.target.value);
+    setTasks(
+      [...tasks].filter((task) => {
+        return task.title.toLowerCase().includes(searchQuery.toLowerCase());
+      })
+    );
+  };
+
+  const onEditTask = (taskForEditing) => {
+    taskApi
+      .update(taskForEditing)
+      .then((task) => {
+        console.log("task", task);
+
+        toast.success(`Task has been updated successfully`);
+        setEditableTask(null);
+      })
+
+      .catch((err) => {
+        console.log("err", err);
+        toast.error(err.message);
+      });
+  };
+  return (
+    <Container>
+      <Row>
+        <Col className="heading mt-5">
+          <p className="text-center mt-4 fs-1">
+            Hello Tamara. What are we going to succeed today?
+          </p>
+
+          <Button
+            variant="success"
+            id="button-addon2"
+            onClick={() => setAddTaskModalOpen(true)}
+            // disabled={!taskTitle}
+          >
+            +Add
+          </Button>
+          <Button
+            variant="danger"
+            id="button-addon2"
+            onClick={() => {
+              const taskIDs = tasks.map((task) => task._id);
+              setSelectedTasks(new Set(taskIDs));
+            }}
+          >
+            Select All
+          </Button>
+          <Button
+            id="button-addon2"
+            variant="primary"
+            onClick={() => setSelectedTasks(new Set())}
+          >
+            Reset
+          </Button>
+
+          {isAddTaskModalOpen && (
+            <TaskModal
+              onCancel={() => {
+                setAddTaskModalOpen(false);
+              }}
+              onSave={addTaskTemplate}
+            />
+          )}
+
+          {editableTask && (
+            <TaskModal
+              onCancel={() => {
+                setEditableTask(null);
+              }}
+              onSave={onEditTask}
+              data={editableTask}
+            />
+          )}
+
+          
+        </Col>
+      </Row>
+
+      <div>
+        {tasks.map((task, index) => {
+          return (
+            <Task
+              data={task}
+              key={task._id}
+              deleteTask={(_id) => {
+                setTaskToDelete(_id);
+              }}
+              selecteTasks={checkedTasks}
+              checked={selectedTasks.has(task._id)}
+              taskEdit={setEditableTask}
+              number={index + 1}
+            />
+          );
+        })}
+      </div>
+
+      <DeleteSelected
+        disabled={!selectedTasks.size}
+        taskCount={selectedTasks.size}
+        confirmDelete={deleteSelectedTasks}
+      />
+
+      {taskToDelete && (
+        <ConfirmDialog
+          isOpen={taskToDelete}
+          taskCount={1}
+          confirmCancellation={() => {
+            setTaskToDelete(null);
+          }}
+          confirmDelete={() => {
+            deleteTask(taskToDelete);
+            setTaskToDelete(null);
+          }}
+        />
+      )}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </Container>
+  );
 }
