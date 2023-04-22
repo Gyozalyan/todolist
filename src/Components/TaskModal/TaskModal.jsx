@@ -11,13 +11,14 @@ import PropTypes from "prop-types";
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState(new Date());
-  const [isTitleValid, setTitleValid] = useState(true);
+  const [isTitleValid, setTitleValid] = useState(false);
 
   useEffect(() => {
     if (data) {
       setTitle(data.title);
       setDescription(data.description);
       setDeadline(new Date(data.date));
+      setTitleValid(true)
   
     }
      

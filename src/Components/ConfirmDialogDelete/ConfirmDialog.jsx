@@ -1,5 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 import { PropTypes } from "prop-types";
+import { memo } from "react";
 
 function ConfirmDialog({
   isOpen,
@@ -41,4 +42,5 @@ ConfirmDialog.propTypes = {
   confirmCancellation: PropTypes.func.isRequired,
   taskCount: PropTypes.number.isRequired,
 };
-export default ConfirmDialog;
+
+export default memo(ConfirmDialog);

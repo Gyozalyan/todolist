@@ -1,59 +1,57 @@
+import styles from './todo.module.css'
+import Task from '../Task/Task'
+import DeleteSelected from '../DeleteSelected/DeleteSelected'
+import ConfirmDialog from '../ConfirmDialogDelete/ConfirmDialog'
+import TaskAPI from '../../API/TaskAPI'
+import TaskModal from '../TaskModal/TaskModal'
+import 'react-toastify/dist/ReactToastify.css'
+import SearchAndFilter from '../SearchAndFilter/SearchAndFilter'
+import { useState, useEffect } from 'react'
+import { Col, Container, Row, Button } from 'react-bootstrap'
+import { ToastContainer, toast } from 'react-toastify'
 
-import { useState, useEffect } from "react";
-import { Col, Container, Row, Button } from "react-bootstrap";
-import styles from "./todo.module.css";
-import "react-toastify/dist/ReactToastify.css";
-import Task from "../Task/Task";
-import DeleteSelected from "../DeleteSelected/DeleteSelected";
-import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
-import TaskAPI from "../../API/TaskAPI";
-import TaskModal from "../TaskModal/TaskModal";
-import { ToastContainer, toast } from "react-toastify";
-import SearchAndFilter from "../SearchAndFilter/SearchAndFilter";
-
-const taskApi = new TaskAPI();
+const taskApi = new TaskAPI()
 
 export default function ToDo() {
-  const [name] = useState("");
-  const [tasks, setTasks] = useState([]);
-  const [selectedTasks, setSelectedTasks] = useState(new Set());
-  const [taskToDelete, setTaskToDelete] = useState(null);
-  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
-  const [editableTask, setEditableTask] = useState(null);
-  const [deadline, setDeadline] = useState(new Date());
+  const [name] = useState('')
+  const [tasks, setTasks] = useState([])
+  const [selectedTasks, setSelectedTasks] = useState(new Set())
+  const [taskToDelete, setTaskToDelete] = useState(null)
+  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false)
+  const [editableTask, setEditableTask] = useState(null)
+  const [deadline, setDeadline] = useState(new Date())
 
-  const getInitialTasks = (filters)=>{
-    taskApi.getAllTasks(filters)
-    .then((tasks) => {
-        setTasks(tasks);
-    })
-    .catch((err) => {
-      toast.error(err.message);
-    });
+  const getInitialTasks = (filters) => {
+    taskApi
+      .getAllTasks(filters)
+      .then((tasks) => {
+        setTasks(tasks)
+      })
+      .catch((err) => {
+        toast.error(err.message)
+      })
   }
 
   useEffect(() => {
     getInitialTasks()
-  }, []);
+  }, [])
 
   const addTaskTemplate = (newTask) => {
     taskApi
       .addTask(newTask)
       .then((task) => {
-        const tasksCopy = [...tasks];
-        tasksCopy.push(task);
-        setTasks(tasksCopy);
-        setAddTaskModalOpen(false);
-        toast.success("Your task has been added successfully");
+        const tasksCopy = [...tasks]
+        tasksCopy.push(task)
+        setTasks(tasksCopy)
+        setAddTaskModalOpen(false)
+        toast.success('Your task has been added successfully')
       })
       .catch((err) => {
-        toast.error(err.message);
-      });
-  };
+        toast.error(err.message)
+      })
+  }
 
-  const searchFilteredTasks =(filters)=>{
-   
-
+  const searchFilteredTasks = (filters) => {
     getInitialTasks(filters)
   }
 
@@ -61,74 +59,73 @@ export default function ToDo() {
     taskApi
       .deleteIdenticalTask(taskID)
       .then(() => {
-        const newTasks = tasks.filter((task) => task._id !== taskID);
-        setTasks(newTasks);
+        const newTasks = tasks.filter((task) => task._id !== taskID)
+        setTasks(newTasks)
 
         if (selectedTasks.has(taskID)) {
-          const newSelectedTasks = new Set(selectedTasks);
-          newSelectedTasks.delete(taskID);
-          setSelectedTasks(newSelectedTasks);
+          const newSelectedTasks = new Set(selectedTasks)
+          newSelectedTasks.delete(taskID)
+          setSelectedTasks(newSelectedTasks)
         }
-
-        toast.success("The task has been deleted successfully!");
+        toast.success('The task has been deleted successfully!')
       })
       .catch((err) => {
-        toast.error(err.message);
-      });
-  };
+        toast.error(err.message)
+      })
+  }
 
   const deleteSelectedTasks = () => {
     taskApi
       .deleteSelectedTasks([...selectedTasks])
       .then(() => {
-        const savedTasks = [];
-        const deletedTasksCount = selectedTasks.size;
+        const savedTasks = []
+        const deletedTasksCount = selectedTasks.size
         tasks.forEach((task) => {
           if (!selectedTasks.has(task._id)) {
-            savedTasks.push(task);
+            savedTasks.push(task)
           }
-        });
+        })
 
-        setTasks(savedTasks);
-        setSelectedTasks(new Set());
-        toast.success(`${deletedTasksCount} have been deleted successfully`);
+        setTasks(savedTasks)
+        setSelectedTasks(new Set())
+        toast.success(`${deletedTasksCount} have been deleted successfully`)
       })
       .catch((err) => {
-        toast.error(err.message);
-      });
-  };
+        toast.error(err.message)
+      })
+  }
 
   const checkedTasks = (_id) => {
-    const selectedTasksCopy = new Set(selectedTasks);
+    const selectedTasksCopy = new Set(selectedTasks)
 
     if (selectedTasksCopy.has(_id)) {
-      selectedTasksCopy.delete(_id);
-      setSelectedTasks(selectedTasksCopy);
+      selectedTasksCopy.delete(_id)
+      setSelectedTasks(selectedTasksCopy)
     } else {
-      selectedTasksCopy.add(_id);
+      selectedTasksCopy.add(_id)
     }
-    setSelectedTasks(selectedTasksCopy);
-  };
+    setSelectedTasks(selectedTasksCopy)
+  }
 
   const updateTask = (taskForEditing) => {
     taskApi
       .update(taskForEditing)
       .then((taskForEditing) => {
-        const tasksCopy = [...tasks];
+        const tasksCopy = [...tasks]
         const taskIndex = tasksCopy.findIndex(
-          (task) => task._id === taskForEditing._id
-        );
+          (task) => task._id === taskForEditing._id,
+        )
 
         const updated = tasksCopy.map((task, index) => {
           if (index === taskIndex) {
-            task.title = taskForEditing.title;
-            task.description = taskForEditing.description;
-            task.status = taskForEditing.status;
-            task.date = taskForEditing.date           
+            task.title = taskForEditing.title
+            task.description = taskForEditing.description
+            task.status = taskForEditing.status
+            task.date = taskForEditing.date
           }
 
-          return task;
-        });
+          return task
+        })
 
         setTasks(updated);
 
@@ -138,9 +135,8 @@ export default function ToDo() {
 
       .catch((err) => {
         toast.error(err.message);
-      });
-  };
-
+      })
+  }
 
   return (
     <Container>
@@ -150,81 +146,60 @@ export default function ToDo() {
             Hello {name}. What are we going to succeed today?
           </p>
 
+          <div className={styles.container}>
+            <div className={styles.buttonWrapper}>
+              <button
+                className={styles.circleButton}
+                id="button-addon2"
+                onClick={() => setAddTaskModalOpen(true)}
+              >
+                <span className={styles.buttonText}>+ Add</span>
+              </button>
+            </div>
+          </div>
 
-           <div className={styles.container}>
-      <div className={styles.buttonWrapper}>
-        <button
-         className={styles.circleButton}
-         id="button-addon2"
-         onClick={() => setAddTaskModalOpen(true)}
-        >
-          <span className={styles.buttonText}>+ Add</span>
-        </button>
-      </div>
-    </div> 
-
-   <SearchAndFilter
+          <SearchAndFilter
             searchFilteredTasks={searchFilteredTasks}
-           
-            getInitialTasks = {getInitialTasks}
+            getInitialTasks={getInitialTasks}
+          
           />
 
-<div className={styles.selectAllReset}>
-    <Button
-          variant="outline-secondary"
-          id="button-addon2"
-            onClick={() => {
-              const taskIDs = tasks.map((task) => task._id);
-              setSelectedTasks(new Set(taskIDs));
-            }}
-          >
-            Select All
-          </Button>
-          <Button
-            id="button-addon2"
-            variant="outline-secondary"
-            className={styles.selectReset}
-            onClick={() => setSelectedTasks(new Set())}
-          >
-            Clear selection
-          </Button>
-
+          <div className={styles.selectAllReset}>
+            <Button
+              variant="outline-secondary"
+              id="button-addon2"
+              onClick={() => {
+                const taskIDs = tasks.map((task) => task._id)
+                setSelectedTasks(new Set(taskIDs))
+              }}
+            >
+              Select All
+            </Button>
+            <Button
+              id="button-addon2"
+              variant="outline-secondary"
+              className={styles.selectReset}
+              onClick={() => setSelectedTasks(new Set())}
+            >
+              Clear selection
+            </Button>
           </div>
-   
-          {/* <Button
-            variant="danger"
-            id="button-addon2"
-            onClick={() => {
-              const taskIDs = tasks.map((task) => task._id);
-              setSelectedTasks(new Set(taskIDs));
-            }}
-          >
-            Select All
-          </Button>
-          <Button
-            id="button-addon2"
-            variant="primary"
-            onClick={() => setSelectedTasks(new Set())}
-          >
-            Reset
-          </Button> */}
 
           {isAddTaskModalOpen && (
             <TaskModal
               onCancel={() => {
-                setAddTaskModalOpen(false);
+                setAddTaskModalOpen(false)
               }}
               onSave={addTaskTemplate}
-              deadline = {deadline}
-              onChange = {setDeadline}
+              deadline={deadline}
+              onChange={setDeadline}
             />
-            
           )}
 
           {editableTask && (
             <TaskModal
               onCancel={() => {
-                setEditableTask(null);
+                setEditableTask(null)
               }}
               onSave={updateTask}
               data={editableTask}
@@ -240,7 +215,7 @@ export default function ToDo() {
               data={task}
               key={task._id}
               deleteTask={(_id) => {
-                setTaskToDelete(_id);
+                setTaskToDelete(_id)
               }}
               selecteTasks={checkedTasks}
               checked={selectedTasks.has(task._id)}
@@ -248,7 +223,7 @@ export default function ToDo() {
               number={index + 1}
               changeStatus={updateTask}
             />
-          );
+          )
         })}
       </div>
 
@@ -263,11 +238,11 @@ export default function ToDo() {
           isOpen={taskToDelete}
           taskCount={1}
           confirmCancellation={() => {
-            setTaskToDelete(null);
+            setTaskToDelete(null)
           }}
           confirmDelete={() => {
-            deleteTask(taskToDelete);
-            setTaskToDelete(null);
+            deleteTask(taskToDelete)
+            setTaskToDelete(null)
           }}
         />
       )}
@@ -284,5 +259,5 @@ export default function ToDo() {
         theme="colored"
       />
     </Container>
-  );
+  )
 }

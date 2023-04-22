@@ -1,12 +1,14 @@
+import DatePicker from "react-datepicker";
+import styles from "./filters.module.css";
 import { memo, useState } from "react";
 import { Accordion, Form, Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { formatDate } from "../../utils/helper";
-import DatePicker from "react-datepicker";
-import styles from "./filters.module.css";
+import { PropTypes } from "prop-types";
 
-function SearchAndFilter({ value, onChange, searchFilteredTasks, getInitialTasks }) {
+
+function SearchAndFilter({ searchFilteredTasks, getInitialTasks }) {
   
   const initialDates = {
     create_lte: null,
@@ -75,6 +77,13 @@ function SearchAndFilter({ value, onChange, searchFilteredTasks, getInitialTasks
     searchFilteredTasks(filters)
   }
 
+  const handleEvent = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();      
+      searchTask();
+    }
+  };
+
   
 
   return (
@@ -92,6 +101,7 @@ function SearchAndFilter({ value, onChange, searchFilteredTasks, getInitialTasks
               aria-label="Search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
+              onKeyDown={handleEvent}
             />
             <span
               className="btn btn-outline-success me-2"
@@ -191,4 +201,10 @@ function SearchAndFilter({ value, onChange, searchFilteredTasks, getInitialTasks
   );
 }
 
+
+SearchAndFilter.propTypes = {
+  searchFilteredTasks: PropTypes.func.isRequired,
+  getInitialTasks: PropTypes.func.isRequired,
+ 
+};
 export default memo(SearchAndFilter);
