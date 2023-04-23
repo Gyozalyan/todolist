@@ -9,6 +9,9 @@ import SearchAndFilter from '../SearchAndFilter/SearchAndFilter'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row, Button } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify'
+import {Outlet} from "react-router-dom";
+
+
 
 const taskApi = new TaskAPI()
 
@@ -141,6 +144,8 @@ export default function ToDo() {
   return (
     <Container>
       <Row>
+      {/* <Nav /> */}
+      <Outlet />
         <Col className="heading mt-5">
           <p className="text-center mt-4 fs-1">
             Hello {name}. What are we going to succeed today?
