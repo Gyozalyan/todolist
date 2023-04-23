@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-function NavBar() {
+function NavBarMenu() {
   return (
     <Navbar bg="light" expand="sm">
       <Container fluid>
@@ -22,4 +22,4 @@ function NavBar() {
   );
 }
 
-export default memo(NavBar);
+export default memo(NavBarMenu);

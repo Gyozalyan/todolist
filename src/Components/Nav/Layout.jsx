@@ -1,11 +1,11 @@
 import React from "react";
-import {Outlet} from "react-router-dom";
-import NavBar from "./Nav";
+// import {Outlet} from "react-router-dom";
+import NavBarMenu from "./Nav"
 
 const Layout = () => {
   return (
     <>
-      <NavBar />
+      <NavBarMenu />
       {/* <Outlet /> */}
     </>
   );
