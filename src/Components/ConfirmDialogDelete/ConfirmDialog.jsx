@@ -12,9 +12,7 @@ function ConfirmDialog({
     <Modal
       size="sm"
       show={true}
-      onHide={() => {
-        confirmCancellation();
-      }}
+      onHide={confirmCancellation}
     >
       <Modal.Header>
         <Modal.Title> </Modal.Title>

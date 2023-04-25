@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from'./Nav.module.css';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 
 const ContactUs = ()=>{
@@ -19,7 +19,7 @@ const [name, setName] = useState('');
        
       <div className={styles.fill}>     
       <div>
-      <h2>We'd Love to hear From You !</h2>
+      <h2 className={styles.contactPageTitle}>We'd Love to hear From You !</h2>
       <form onSubmit={handleFormSubmit} className={styles.contactForm}>
         <label htmlFor="name" className={styles.label}>Full name</label>
         <input

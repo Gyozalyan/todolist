@@ -6,6 +6,7 @@ import TaskAPI from '../../API/TaskAPI'
 import TaskModal from '../TaskModal/TaskModal'
 import 'react-toastify/dist/ReactToastify.css'
 import SearchAndFilter from '../SearchAndFilter/SearchAndFilter'
+import NumberCounter from '../TaskCounter/TaskCounter'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row, Button } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify'
@@ -212,6 +213,8 @@ export default function ToDo() {
           )}
         </Col>
       </Row>
+
+      <NumberCounter/>
 
       <div>
         {tasks.map((task, index) => {
