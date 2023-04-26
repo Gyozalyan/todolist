@@ -102,4 +102,9 @@ div.fill {
   color: #777;
   margin-top: 30px;
 }
+
+.navBar{
+  position: fixed;
+  width: 100%;
+}
   

@@ -53,11 +53,7 @@
     opacity: 1; 
   } 
 
-.selectAllReset{
-  display: flex;
-  justify-content: flex-end;
-  gap: 5px;
-}
+
 
 @media (min-width: 1900px){
   .toDoContainer{

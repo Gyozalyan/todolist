@@ -165,7 +165,7 @@ export default function ToDo() {
           
           />
 
-          <div className={styles.selectAllReset}>
+          {/* <div className={styles.selectAllReset}>
             <Button
               variant="outline-secondary"
               id="button-addon2"
@@ -184,7 +184,7 @@ export default function ToDo() {
             >
               Clear selection
             </Button>
-          </div>
+          </div> */}
 
           {isAddTaskModalOpen && (
             <TaskModal
@@ -240,6 +240,8 @@ export default function ToDo() {
         disabled={!selectedTasks.size}
         taskCount={selectedTasks.size}
         onConfirmDelete={deleteSelectedTasks}
+        tasks = {tasks}
+        setSelectedTasks = {setSelectedTasks}
       />
 
       {taskToDelete && (

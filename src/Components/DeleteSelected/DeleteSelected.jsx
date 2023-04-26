@@ -5,7 +5,7 @@ import { useState, memo } from "react";
 import { Col, Row,  Button } from "react-bootstrap";
 
 
- const DeleteSelected = ({disabled, taskCount, onConfirmDelete, })=>{
+ const DeleteSelected = ({disabled, taskCount, onConfirmDelete, tasks, setSelectedTasks })=>{
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -18,7 +18,30 @@ import { Col, Row,  Button } from "react-bootstrap";
         <>
         <Row>
         <Col>
-          <Button
+        <div className={styles.selectAllReset}>
+      
+            <Button
+              variant="outline-secondary"
+              id="button-addon2"
+              onClick={() => {
+                const taskIDs = tasks.map((task) => task._id)
+                setSelectedTasks(new Set(taskIDs))
+              }}
+              className={styles.selectAll}
+            >
+              Select All
+            </Button>
+
+            <Button
+              id="button-addon2"
+              variant="outline-secondary"
+              className={styles.clearSelection}
+              onClick={() => setSelectedTasks(new Set())}
+            >
+              Clear selection
+            </Button>
+           
+            <Button
             variant="danger"
             className={styles.deleteselected}
             onClick={toggleConfirmDialog}
@@ -26,6 +49,8 @@ import { Col, Row,  Button } from "react-bootstrap";
           >
             Delete Selected
           </Button>
+          </div>
+          
         </Col>
       </Row>
 
