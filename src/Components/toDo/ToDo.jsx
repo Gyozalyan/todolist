@@ -164,28 +164,6 @@ export default function ToDo() {
             getInitialTasks={getInitialTasks}
           
           />
-
-          {/* <div className={styles.selectAllReset}>
-            <Button
-              variant="outline-secondary"
-              id="button-addon2"
-              onClick={() => {
-                const taskIDs = tasks.map((task) => task._id)
-                setSelectedTasks(new Set(taskIDs))
-              }}
-            >
-              Select All
-            </Button>
-            <Button
-              id="button-addon2"
-              variant="outline-secondary"
-              className={styles.selectReset}
-              onClick={() => setSelectedTasks(new Set())}
-            >
-              Clear selection
-            </Button>
-          </div> */}
-
           {isAddTaskModalOpen && (
             <TaskModal
               onCancel={() => {

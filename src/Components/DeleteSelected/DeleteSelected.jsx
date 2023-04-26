@@ -17,7 +17,7 @@ import { Col, Row,  Button } from "react-bootstrap";
     return(
         <>
         <Row>
-        <Col>
+        <Col sm={12} md={12}>
         <div className={styles.selectAllReset}>
       
             <Button

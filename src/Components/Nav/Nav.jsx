@@ -7,7 +7,7 @@ import styles from "./Nav.module.css"
 
 function NavBarMenu() {
   return (
-    <Navbar bg="light" expand="sm" className={styles.navBar}>
+    <Navbar bg="light" expand="sm">
       <Container fluid>
         <Navbar.Brand href="/">Todo</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -16,7 +16,7 @@ function NavBarMenu() {
             <Nav.Link href="/About">About</Nav.Link>
             <Nav.Link href="/ContactUs">Contact us</Nav.Link>
           </Nav>
-         
+          
         </Navbar.Collapse>
        
       </Container>
