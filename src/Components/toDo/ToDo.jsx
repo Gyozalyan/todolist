@@ -144,7 +144,7 @@ const taskApi = new TaskAPI()
      
         <Col className="heading mt-5">
           <p className="text-center mt-4 fs-1">
-            Hello {userName}. What are we going to succeed today?
+            Hello {userName}. What are our goals for today?
           </p>
 
           <div className={styles.circleButtonPosition}>

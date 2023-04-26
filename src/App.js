@@ -2,15 +2,13 @@ import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import ToDo from "./Components/toDo/ToDo";
-import { Component, useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ContactUs from "./Components/Nav/ContactUs";
 import Layout from "./Components/Nav/Layout";
 import About from "./Components/Nav/About";
 import Form from "react-bootstrap/Form";
-import { Button, InputGroup } from "react-bootstrap";
-
-import WelcomeModal from "./Components/WelcomeModal/WelcomeModal";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const App = () => {
   const [showWelcomePage, setShowWelcomePage] = useState(false);
@@ -25,14 +23,18 @@ const App = () => {
   }, []);
 
   const handleButtonClick = (event) => {
-    event.preventDefault()
-    setShowWelcomePage(false);
-    localStorage.setItem("name", name);
+    event.preventDefault();
+    if (name) {
+      setShowWelcomePage(false);
+      localStorage.setItem("name", name);
+    }
   };
 
-  const handleEventEnter = () =>{
-    handleButtonClick()
-  }
+  const handleEventEnter = (event) => {
+    if (event.key === "Enter") {
+      handleButtonClick(event);
+    }
+  };
 
   return (
     <div>
@@ -49,13 +51,13 @@ const App = () => {
                   type="text"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
+                  onKeyDown={handleEventEnter}
                 />
               </Form.Label>
               <Button
                 className="submit"
                 variant="outline-success"
                 onClick={handleButtonClick}
-                onKeyDown={handleEventEnter}
               >
                 Submit
               </Button>
@@ -66,12 +68,10 @@ const App = () => {
         <Router>
           <Layout />
           <Routes>
-            <Route path="/WelcomeModal" element={<WelcomeModal />} />
             <Route path="/" element={<ToDo userName={name} />} />
             <Route path="/About" element={<About />} />
             <Route path="/ContactUs" element={<ContactUs />} />
           </Routes>
-          {/* <ToDo /> */}
         </Router>
       )}
     </div>

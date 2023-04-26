@@ -7,7 +7,6 @@
   }
 
   .task{
-    /* display: flex; */
     padding: 15px;
     border: 4px double rgb(255, 255, 255);
     margin: 15px auto;
@@ -23,7 +22,6 @@
   align-items: center
 }
 .taskBackground{
-  /* display: flex; */
   justify-content: space-between;
   align-items: center;
   background: white;
