@@ -11,7 +11,6 @@ function NavBarMenu() {
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto my-2 my-lg-0">
-            <Nav.Link href="/Tasks">Tasks</Nav.Link>
             <Nav.Link href="/About">About</Nav.Link>
             <Nav.Link href="/ContactUs">Contact us</Nav.Link>
           </Nav>

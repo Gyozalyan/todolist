@@ -40,4 +40,66 @@ div.fill {
     cursor: pointer;
     max-width: 200px;
   }
+
+  /* Style for the todo-about-page */
+.todoSection  {
+  width: 100%;
+  padding: 50px;
+  background-color: #f8f8f8;
+  text-align: center;
+  margin: 30px auto;
+}
+
+
+.sectionTitle  {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.sectionIntro{
+  font-size: 18px;
+  color: #777;
+  margin-top: 20px;
+}
+
+
+.featuresContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+
+.feature {
+  flex-basis: 300px;
+  padding: 20px;
+  text-align: left;
+  margin: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+}
+
+
+.featureTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.featureDescription{
+  font-size: 16px;
+  color: #777;
+  margin-top: 10px;
+}
+
+
+.sectionConclusion {
+  font-size: 18px;
+  color: #777;
+  margin-top: 30px;
+}
   

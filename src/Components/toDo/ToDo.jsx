@@ -149,7 +149,7 @@ export default function ToDo() {
             Hello {name}. What are we going to succeed today?
           </p>
 
-          <div className={styles.container}>
+          <div className={styles.circleButtonPosition}>
             <div className={styles.buttonWrapper}>
               <button
                 className={styles.circleButton}
@@ -237,17 +237,17 @@ export default function ToDo() {
       <DeleteSelected
         disabled={!selectedTasks.size}
         taskCount={selectedTasks.size}
-        confirmDelete={deleteSelectedTasks}
+        onConfirmDelete={deleteSelectedTasks}
       />
 
       {taskToDelete && (
         <ConfirmDialog
           isOpen={taskToDelete}
           taskCount={1}
-          confirmCancellation={() => {
+          onConfirmCancellation={() => {
             setTaskToDelete(null)
           }}
-          confirmDelete={() => {
+          onConfirmDelete={() => {
             deleteTask(taskToDelete)
             setTaskToDelete(null)
           }}

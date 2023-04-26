@@ -5,7 +5,7 @@ import { useState, memo } from "react";
 import { Col, Row,  Button } from "react-bootstrap";
 
 
- const DeleteSelected = ({disabled, taskCount, confirmDelete, })=>{
+ const DeleteSelected = ({disabled, taskCount, onConfirmDelete, })=>{
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -33,8 +33,8 @@ import { Col, Row,  Button } from "react-bootstrap";
       <ConfirmDialog
         taskCount={taskCount}
         isOpen={openModal}
-        confirmDelete={()=>{
-            confirmDelete();
+        onConfirmDelete={()=>{
+          onConfirmDelete();
             toggleConfirmDialog()
         }}
 
@@ -49,6 +49,6 @@ import { Col, Row,  Button } from "react-bootstrap";
 DeleteSelected.propTypes= {
   disabled: PropTypes.bool.isRequired,
   taskCount:PropTypes.number.isRequired,
-  confirmDelete:PropTypes.func.isRequired,
+  onConfirmDelete:PropTypes.func.isRequired,
 }
 export default memo(DeleteSelected)
