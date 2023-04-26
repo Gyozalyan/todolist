@@ -54,7 +54,8 @@ import PropTypes from "prop-types";
   };
 
   return (
-    <Modal size="md" show={true} onHide={onCancel}>
+    <Modal size="lg" show={true} onHide={onCancel} >
+      <div className="modalContent">
       <Modal.Header>
         <Modal.Title> Add new Task </Modal.Title>
       </Modal.Header>
@@ -102,6 +103,7 @@ import PropTypes from "prop-types";
           Cancel
         </Button>
       </Modal.Footer>
+      </div>
     </Modal>
   );
 }

@@ -59,3 +59,9 @@
   gap: 5px;
 }
 
+@media (min-width: 1900px){
+  .toDoContainer{
+    max-width: 1800px;
+  }
+}
+

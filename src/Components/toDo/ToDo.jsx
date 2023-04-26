@@ -10,7 +10,6 @@ import TaskCounter from '../TaskCounter/TaskCounter'
 import { useState, useEffect } from 'react'
 import { Col, Container, Row, Button } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify'
-import {Outlet} from "react-router-dom";
 
 
 
@@ -140,10 +139,9 @@ export default function ToDo() {
   }
 
   return (
-    <Container>
+    <Container className={styles.toDoContainer}>
       <Row>
-      {/* <Nav /> */}
-      <Outlet />
+     
         <Col className="heading mt-5">
           <p className="text-center mt-4 fs-1">
             Hello {name}. What are we going to succeed today?
@@ -210,13 +208,14 @@ export default function ToDo() {
           )}
         </Col>
       </Row>
-
+      <Row>
       <TaskCounter
       tasks = {tasks}
       />
+      </Row>
 
-      <div>
-        {tasks.map((task, index) => {
+      <Row>
+      {tasks.map((task, index) => {
           return (
             <Task
               data={task}
@@ -232,7 +231,10 @@ export default function ToDo() {
             />
           )
         })}
-      </div>
+      </Row>
+      
+       
+    
 
       <DeleteSelected
         disabled={!selectedTasks.size}

@@ -1,5 +1,5 @@
 import styles from "./task.module.css";
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Button, Card, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashCan,
@@ -23,6 +23,7 @@ function Task({
 }) {
 
   return (
+    <Col xs={12} sm ={12} md={6} lg={6} xxl={6}>
     <Card.Body>
       <div className={styles.task}>
         <div className={styles.taskBackground}>
@@ -57,7 +58,7 @@ function Task({
               {data.status === "active" ? (
                 <Button
                   title="Mark as done"
-                  className="float-end btns action"
+                  className={`${styles.buttonsforXS} float-end btns action`}
                   variant="outline-success"
                   onClick={() =>
                     onChangeStatus({ status: "done", _id: data._id })
@@ -68,7 +69,7 @@ function Task({
               ) : (
                 <Button
                   title="Mark as active"
-                  className="float-end btns action"
+                  className= {`${styles.buttonsforXS} float-end btns action`}
                   variant="outline-info"
                   onClick={() =>
                     onChangeStatus({ status: "active", _id: data._id })
@@ -81,7 +82,7 @@ function Task({
               <Button
                 title="Delete"
                 variant="outline-danger"
-                className="float-end btns action"
+                className={`${styles.buttonsforXS} float-end btns action`}
                 onClick={() => {
                   onDeleteTask(data._id);
                 }}
@@ -91,7 +92,7 @@ function Task({
               <Button
                 title="edit"
                 variant="outline-warning"
-                className="float-end btns action"
+                className={`${styles.buttonsforXS} float-end btns action`}
                 onClick={() => {
                   onTaskEdit(data);
                 }}
@@ -103,6 +104,7 @@ function Task({
         </div>
       </div>
     </Card.Body>
+    </Col>
   );
 }
 
