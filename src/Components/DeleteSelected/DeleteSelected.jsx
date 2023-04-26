@@ -15,13 +15,14 @@ import { Col, Row,  Button } from "react-bootstrap";
       };
 
     return(
+      
         <>
         <Row>
         <Col sm={12} md={12}>
         <div className={styles.selectAllReset}>
       
             <Button
-              variant="outline-secondary"
+              variant="secondary"
               id="button-addon2"
               onClick={() => {
                 const taskIDs = tasks.map((task) => task._id)
@@ -34,7 +35,7 @@ import { Col, Row,  Button } from "react-bootstrap";
 
             <Button
               id="button-addon2"
-              variant="outline-secondary"
+              variant="secondary"
               className={styles.clearSelection}
               onClick={() => setSelectedTasks(new Set())}
             >

@@ -61,6 +61,7 @@
   align-items: flex-end;
   position: relative;
   right: 10px;
+  gap:4px;
 
 }
 

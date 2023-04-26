@@ -1,13 +1,38 @@
-import { memo } from "react";
+import { useState, memo } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import styles from "./Nav.module.css"
+import { Modal,Button } from "react-bootstrap";
 
+import WelcomeModal from "../WelcomeModal/WelcomeModal";
 
 function NavBarMenu() {
+  const [showModal, setShowModal] = useState(true);
+  const handleCloseModal = () => {
+    setShowModal(false); // function to hide modal
+  };
+
   return (
-    <Navbar bg="light" expand="sm">
+<div>
+{/* {showModal && <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Welcome to My Site</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>This is the welcome modal content.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>} */}
+
+        
+
+
+
+   <Navbar bg="light" expand="sm">
       <Container fluid>
         <Navbar.Brand href="/">Todo</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -21,6 +46,7 @@ function NavBarMenu() {
        
       </Container>
     </Navbar>
+    </div>
   );
 }
 
