@@ -71,7 +71,7 @@ const TaskCounter = ({ tasks }) => {
 }
 
 TaskCounter.propTypes = {
-    tasks: PropTypes.object.isRequired,
+    tasks: PropTypes.array.isRequired,
   };
 
 export default TaskCounter

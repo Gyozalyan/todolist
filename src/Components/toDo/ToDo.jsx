@@ -55,9 +55,6 @@ export default function ToDo() {
       })
   }
 
-  const searchFilteredTasks = (filters) => {
-    getInitialTasks(filters)
-  }
 
   const deleteTask = (taskID) => {
     taskApi
@@ -165,7 +162,7 @@ export default function ToDo() {
           </div>
 
           <SearchAndFilter
-            searchFilteredTasks={searchFilteredTasks}
+            searchFilteredTasks={getInitialTasks}
             getInitialTasks={getInitialTasks}
           
           />
@@ -224,14 +221,14 @@ export default function ToDo() {
             <Task
               data={task}
               key={task._id}
-              deleteTask={(_id) => {
+              onDeleteTask={(_id) => {
                 setTaskToDelete(_id)
               }}
-              selecteTasks={checkedTasks}
-              checked={selectedTasks.has(task._id)}
-              taskEdit={setEditableTask}
+              onSelecteTasks={checkedTasks}
+              isChecked={selectedTasks.has(task._id)}
+              onTaskEdit={setEditableTask}
               number={index + 1}
-              changeStatus={updateTask}
+              onChangeStatus={updateTask}
             />
           )
         })}

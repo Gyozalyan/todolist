@@ -14,12 +14,12 @@ import { formatDate } from "../../utils/helper";
 
 function Task({
   data,
-  deleteTask,
-  selecteTasks,
-  checked,
+  onDeleteTask,
+  onSelecteTasks,
+  isChecked,
   number,
-  taskEdit,
-  changeStatus,
+  onTaskEdit,
+  onChangeStatus,
 }) {
 
   return (
@@ -30,9 +30,9 @@ function Task({
             <Form.Check
               className={styles.selectTask}
               onChange={() => {
-                selecteTasks(data._id);
+                onSelecteTasks(data._id);
               }}
-              checked={checked}
+              checked={isChecked}
             />
 
             <Card.Title className={styles.textElipsis}>
@@ -60,7 +60,7 @@ function Task({
                   className="float-end btns action"
                   variant="outline-success"
                   onClick={() =>
-                    changeStatus({ status: "done", _id: data._id })
+                    onChangeStatus({ status: "done", _id: data._id })
                   }
                 >
                     <FontAwesomeIcon icon={faCheck} />
@@ -71,7 +71,7 @@ function Task({
                   className="float-end btns action"
                   variant="outline-info"
                   onClick={() =>
-                    changeStatus({ status: "active", _id: data._id })
+                    onChangeStatus({ status: "active", _id: data._id })
                   }
                 >
                <FontAwesomeIcon icon={faHistory} />
@@ -83,7 +83,7 @@ function Task({
                 variant="outline-danger"
                 className="float-end btns action"
                 onClick={() => {
-                  deleteTask(data._id);
+                  onDeleteTask(data._id);
                 }}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
@@ -93,7 +93,7 @@ function Task({
                 variant="outline-warning"
                 className="float-end btns action"
                 onClick={() => {
-                  taskEdit(data);
+                  onTaskEdit(data);
                 }}
               >
                 <FontAwesomeIcon icon={faPenToSquare} />
@@ -108,10 +108,10 @@ function Task({
 
 Task.propTypes = {
   data: PropTypes.object.isRequired,
-  deleteTask: PropTypes.func.isRequired,
-  selecteTasks: PropTypes.func.isRequired,
-  checked: PropTypes.bool.isRequired,
-  taskEdit: PropTypes.func,
+  onDeleteTask: PropTypes.func.isRequired,
+  onSelecteTasks: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  onTaskEdit: PropTypes.func,
 };
 
 export default memo(Task);
