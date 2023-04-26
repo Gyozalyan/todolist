@@ -2,8 +2,9 @@ const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
 
 export default class TaskAPI {
   #request(method, data = {}) {
-    const { body, params } = data;
-    const factors = {
+    const { body, id, filters } = data;
+
+    const fetchObj = {
       method: method,
       headers: {
         "Content-Type": "application/json",
@@ -11,42 +12,58 @@ export default class TaskAPI {
     };
 
     if (body) {
-      factors.body = JSON.stringify(body);
+      fetchObj.body = JSON.stringify(body);
     }
 
     let url = taskApiUrl;
-    if(params){
-      url = `${url}/${params}`;
+    if (id) {
+      url = `${url}/${id}`;
     }
-  
 
-    return fetch(taskApiUrl, factors)
-      .then((result) => result.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error;
+    if (filters) {
+      let query = '?'
+      Object.entries(filters).forEach(([key,value])=>{
+        if(!value){
+          return
         }
-        return data;
-      });
+        query += `${key}=${value}&`;
+      })
+      url+=query
+    }
+
+   return fetch(url, fetchObj)
+    .then((result) => result.json())
+    .then((data)=>{
+      if(data.error){
+        throw data.error
+      }
+      return data
+    })
   }
 
-  get() {
-    return this.#request("GET");
+  getAllTasks(filters){
+    return this.#request("GET", {filters: filters})
   }
 
-  add(task) {
-    return this.#request("POST", { body: task });
+  addTask (newTask){
+    return this.#request("POST", {body:newTask})
   }
 
-  update(editedTask) {
-    return this.#request("PUT", { body: editedTask, params: editedTask._id });
+  update(taskToUpdate){
+    return this.#request("PUT", {body: taskToUpdate, id: taskToUpdate._id});  
   }
 
-  delete(taskID) {
-    return this.#request("DELETE", { params: taskID });
+  deleteIdenticalTask(taskId){
+    return this.#request("DELETE",{id:taskId})
   }
 
-  deleteSelectedTasks(taskIDs) {
-    return this.#request("PATCH", { body: { tasks: taskIDs } });
+  deleteSelectedTasks (taskIdsArray){
+
+    return this.#request("PATCH", {body:{tasks:taskIdsArray}})
+
+  }
+
+  searchTasks(){
+    return this.#request("GET")
   }
 }

@@ -1,7 +1,7 @@
 import ConfirmDialog from "../ConfirmDialogDelete/ConfirmDialog";
 import styles from './DeleteSelected.module.css'
 import { PropTypes } from "prop-types";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Col, Row,  Button } from "react-bootstrap";
 
 
@@ -51,4 +51,4 @@ DeleteSelected.propTypes= {
   taskCount:PropTypes.number.isRequired,
   confirmDelete:PropTypes.func.isRequired,
 }
-export default DeleteSelected
+export default memo(DeleteSelected)

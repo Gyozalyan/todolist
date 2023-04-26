@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { InputGroup, Form, Button, Modal } from "react-bootstrap";
 import { formatDate } from "../../utils/helper";
 import DatePicker from "react-datepicker";
@@ -7,25 +7,28 @@ import styles from "./TaskModal.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 
-export default function TaskModal({ onCancel, onSave, data }) {
+ function TaskModal({ onCancel, onSave, data }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
+  const [deadline, setDeadline] = useState(new Date());
   const [isTitleValid, setTitleValid] = useState(false);
 
   useEffect(() => {
     if (data) {
       setTitle(data.title);
       setDescription(data.description);
-      setStartDate(new Date(data.date));
+      setDeadline(new Date(data.date));
+      setTitleValid(true)
+  
     }
+     
   }, []);
 
   const SaveTask = () => {
     const newTask = {
       title: title.trim(),
       description: description.trim(),
-      date: formatDate(startDate),
+      date: formatDate(deadline),
     };
 
     if (data) {
@@ -38,14 +41,15 @@ export default function TaskModal({ onCancel, onSave, data }) {
   const onTitleChange = (event) => {
     const { value } = event.target;
     const trimmedTitle = value.trim();
-    setTitleValid(!!trimmedTitle);
+    setTitleValid(trimmedTitle);
     setTitle(value);
+
+ 
   };
 
   const handleEvent = (event) => {
     if (event.key === "Enter") {
-      console.log("a");
-      // addTaskTemplate();
+      SaveTask()
     }
   };
 
@@ -84,14 +88,14 @@ export default function TaskModal({ onCancel, onSave, data }) {
         <h6 className="mt-3">Set the deadline:</h6>
         <DatePicker
           showIcon
-          selected={startDate}
-          onChange={setStartDate}
+          selected={deadline}
+          onChange={(date)=>setDeadline(date)}
           className="mt-1"
         />
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success" disabled={!isTitleValid} onClick={SaveTask}>
+        <Button variant="success" disabled={title === "" ? isTitleValid : !isTitleValid} onClick={SaveTask}>
           Save
         </Button>
         <Button variant="warning" onClick={onCancel}>
@@ -107,3 +111,6 @@ TaskModal.propTypes = {
   data: PropTypes.object,
   // onSave : PropTypes.func.isRequired
 };
+
+
+export default memo(TaskModal)
