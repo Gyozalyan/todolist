@@ -111,7 +111,6 @@ import PropTypes from "prop-types";
 TaskModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   data: PropTypes.object,
-  // onSave : PropTypes.func.isRequired
 };
 
 

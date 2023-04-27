@@ -38,8 +38,8 @@ const TaskCounter = ({ tasks }) => {
       allTasks: tasks.length,
     })
     
-
-  }, [tasks]) 
+    // eslint-disable-next-line
+  }, []) 
 
   return (
     <div className={styles.counterWidget}>
