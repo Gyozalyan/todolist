@@ -36,6 +36,7 @@ const taskApi = new TaskAPI()
 
   useEffect(() => {
     getInitialTasks()
+    // eslint-disable-next-line
   }, [])
 
   const addTaskTemplate = (newTask) => {
@@ -208,18 +209,19 @@ const taskApi = new TaskAPI()
             />
           )
         })}
-      </Row>
-      
-       
-    
 
-      <DeleteSelected
+<DeleteSelected
         disabled={!selectedTasks.size}
         taskCount={selectedTasks.size}
         onConfirmDelete={deleteSelectedTasks}
         tasks = {tasks}
         setSelectedTasks = {setSelectedTasks}
       />
+      </Row>
+      
+          
+
+   
 
       {taskToDelete && (
         <ConfirmDialog

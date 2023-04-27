@@ -20,6 +20,7 @@ const App = () => {
       setShowWelcomePage(true);
       localStorage.setItem("hasShownWelcomePage", true);
     }
+    // eslint-disable-next-line
   }, []);
 
   const handleButtonClick = (event) => {
