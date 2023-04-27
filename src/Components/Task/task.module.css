@@ -7,7 +7,6 @@
   }
 
   .task{
-    /* display: flex; */
     padding: 15px;
     border: 4px double rgb(255, 255, 255);
     margin: 15px auto;
@@ -23,7 +22,6 @@
   align-items: center
 }
 .taskBackground{
-  /* display: flex; */
   justify-content: space-between;
   align-items: center;
   background: white;
@@ -59,7 +57,31 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  margin: 3px;
+  position: relative;
+  right: 10px;
+  gap:4px;
+
 }
+
+.buttonsforXS{
+  position: relative;
+  right: -9px;
+}
+
+@media (max-width:1400px){
+  .actionButtons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    
+  }
+  .task{
+    width: 100%;
+    }
+}
+
+
+
 
 

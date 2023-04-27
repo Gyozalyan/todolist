@@ -6,13 +6,16 @@ import TaskAPI from '../../API/TaskAPI'
 import TaskModal from '../TaskModal/TaskModal'
 import 'react-toastify/dist/ReactToastify.css'
 import SearchAndFilter from '../SearchAndFilter/SearchAndFilter'
-import { useState, useEffect } from 'react'
+import TaskCounter from '../TaskCounter/TaskCounter'
+import { useState, useEffect, memo } from 'react'
 import { Col, Container, Row, Button } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify'
 
+
+
 const taskApi = new TaskAPI()
 
-export default function ToDo() {
+ const ToDo =({userName}) => {
   const [name] = useState('')
   const [tasks, setTasks] = useState([])
   const [selectedTasks, setSelectedTasks] = useState(new Set())
@@ -51,9 +54,6 @@ export default function ToDo() {
       })
   }
 
-  const searchFilteredTasks = (filters) => {
-    getInitialTasks(filters)
-  }
 
   const deleteTask = (taskID) => {
     taskApi
@@ -139,14 +139,15 @@ export default function ToDo() {
   }
 
   return (
-    <Container>
+    <Container className={styles.toDoContainer}>
       <Row>
+     
         <Col className="heading mt-5">
           <p className="text-center mt-4 fs-1">
-            Hello {name}. What are we going to succeed today?
+            Hello {userName}. What are our goals for today?
           </p>
 
-          <div className={styles.container}>
+          <div className={styles.circleButtonPosition}>
             <div className={styles.buttonWrapper}>
               <button
                 className={styles.circleButton}
@@ -159,32 +160,10 @@ export default function ToDo() {
           </div>
 
           <SearchAndFilter
-            searchFilteredTasks={searchFilteredTasks}
+            searchFilteredTasks={getInitialTasks}
             getInitialTasks={getInitialTasks}
           
           />
-
-          <div className={styles.selectAllReset}>
-            <Button
-              variant="outline-secondary"
-              id="button-addon2"
-              onClick={() => {
-                const taskIDs = tasks.map((task) => task._id)
-                setSelectedTasks(new Set(taskIDs))
-              }}
-            >
-              Select All
-            </Button>
-            <Button
-              id="button-addon2"
-              variant="outline-secondary"
-              className={styles.selectReset}
-              onClick={() => setSelectedTasks(new Set())}
-            >
-              Clear selection
-            </Button>
-          </div>
-
           {isAddTaskModalOpen && (
             <TaskModal
               onCancel={() => {
@@ -207,30 +186,40 @@ export default function ToDo() {
           )}
         </Col>
       </Row>
+      <Row>
+      <TaskCounter
+      tasks = {tasks}
+      />
+      </Row>
 
-      <div>
-        {tasks.map((task, index) => {
+      <Row>
+      {tasks.map((task, index) => {
           return (
             <Task
               data={task}
               key={task._id}
-              deleteTask={(_id) => {
+              onDeleteTask={(_id) => {
                 setTaskToDelete(_id)
               }}
-              selecteTasks={checkedTasks}
-              checked={selectedTasks.has(task._id)}
-              taskEdit={setEditableTask}
+              onSelecteTasks={checkedTasks}
+              isChecked={selectedTasks.has(task._id)}
+              onTaskEdit={setEditableTask}
               number={index + 1}
-              changeStatus={updateTask}
+              onChangeStatus={updateTask}
             />
           )
         })}
-      </div>
+      </Row>
+      
+       
+    
 
       <DeleteSelected
         disabled={!selectedTasks.size}
         taskCount={selectedTasks.size}
-        confirmDelete={deleteSelectedTasks}
+        onConfirmDelete={deleteSelectedTasks}
+        tasks = {tasks}
+        setSelectedTasks = {setSelectedTasks}
       />
 
       {taskToDelete && (
@@ -240,7 +229,7 @@ export default function ToDo() {
           confirmCancellation={() => {
             setTaskToDelete(null)
           }}
-          confirmDelete={() => {
+          onConfirmDelete={() => {
             deleteTask(taskToDelete)
             setTaskToDelete(null)
           }}
@@ -261,3 +250,5 @@ export default function ToDo() {
     </Container>
   )
 }
+
+export default memo(ToDo)

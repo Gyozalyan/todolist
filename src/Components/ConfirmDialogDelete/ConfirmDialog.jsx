@@ -4,7 +4,7 @@ import { memo } from "react";
 
 function ConfirmDialog({
   isOpen,
-  confirmDelete,
+  onConfirmDelete,
   confirmCancellation,
   taskCount,
 }) {
@@ -12,9 +12,7 @@ function ConfirmDialog({
     <Modal
       size="sm"
       show={true}
-      onHide={() => {
-        confirmCancellation();
-      }}
+      onHide={confirmCancellation}
     >
       <Modal.Header>
         <Modal.Title> </Modal.Title>
@@ -26,7 +24,7 @@ function ConfirmDialog({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="danger" onClick={confirmDelete}>
+        <Button variant="danger" onClick={onConfirmDelete}>
           Yes
         </Button>
         <Button variant="success" onClick={confirmCancellation}>
@@ -38,7 +36,7 @@ function ConfirmDialog({
 }
 
 ConfirmDialog.propTypes = {
-  confirmDelete: PropTypes.func.isRequired,
+  onConfirmDelete: PropTypes.func.isRequired,
   confirmCancellation: PropTypes.func.isRequired,
   taskCount: PropTypes.number.isRequired,
 };

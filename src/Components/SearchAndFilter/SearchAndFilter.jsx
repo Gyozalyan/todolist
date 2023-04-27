@@ -77,7 +77,7 @@ function SearchAndFilter({ searchFilteredTasks, getInitialTasks }) {
     searchFilteredTasks(filters)
   }
 
-  const handleEvent = (event) => {
+  const handleEventEnter = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();      
       searchTask();
@@ -101,7 +101,7 @@ function SearchAndFilter({ searchFilteredTasks, getInitialTasks }) {
               aria-label="Search"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              onKeyDown={handleEvent}
+              onKeyDown={handleEventEnter}
             />
             <span
               className="btn btn-outline-success me-2"
