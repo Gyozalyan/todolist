@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from "react";
 import { InputGroup, Form, Button, Modal } from "react-bootstrap";
-import { formatDate } from "../../utils/helper";
+import { formatDate } from "../../utils/helpers";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./TaskModal.module.css";
@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 
  function TaskModal({ onCancel, onSave, data }) {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(" ");
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState(new Date());
   const [isTitleValid, setTitleValid] = useState(false);
@@ -21,10 +21,10 @@ import PropTypes from "prop-types";
       setTitleValid(true)
   
     }
-     
+     // eslint-disable-next-line
   }, []);
 
-  const SaveTask = () => {
+  const onSaveTask = () => {
     const newTask = {
       title: title.trim(),
       description: description.trim(),
@@ -47,14 +47,15 @@ import PropTypes from "prop-types";
  
   };
 
-  const handleEvent = (event) => {
+  const handleEventEnter = (event) => {
     if (event.key === "Enter") {
-      SaveTask()
+      onSaveTask()
     }
   };
 
   return (
-    <Modal size="md" show={true} onHide={onCancel}>
+    <Modal size="lg" show={true} onHide={onCancel} >
+      <div className="modalContent">
       <Modal.Header>
         <Modal.Title> Add new Task </Modal.Title>
       </Modal.Header>
@@ -68,7 +69,7 @@ import PropTypes from "prop-types";
             placeholder="Task title"
             aria-describedby="basic-addon2"
             onChange={onTitleChange}
-            onKeyDown={handleEvent}
+            onKeyDown={handleEventEnter}
             value={title}
           />
         </InputGroup>
@@ -89,19 +90,20 @@ import PropTypes from "prop-types";
         <DatePicker
           showIcon
           selected={deadline}
-          onChange={(date)=>setDeadline(date)}
+          onChange={setDeadline}
           className="mt-1"
         />
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="success" disabled={title === "" ? isTitleValid : !isTitleValid} onClick={SaveTask}>
+        <Button variant="success" disabled={title === "" ? isTitleValid : !isTitleValid} onClick={onSaveTask}>
           Save
         </Button>
         <Button variant="warning" onClick={onCancel}>
           Cancel
         </Button>
       </Modal.Footer>
+      </div>
     </Modal>
   );
 }
@@ -109,7 +111,6 @@ import PropTypes from "prop-types";
 TaskModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   data: PropTypes.object,
-  // onSave : PropTypes.func.isRequired
 };
 
 

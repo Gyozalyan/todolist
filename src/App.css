@@ -1,51 +1,76 @@
-body{
+body {
   background: #f2dadf;
 }
 
-.heading{
+.heading {
   background-color: white;
   padding: 30px;
   border-radius: 10%;
 }
 
-Container{
+
+
+.root {
   background: #f2dadf;
 }
 
-.root{
-
-    background: #f2dadf;
-  
-}
-
-
-span.input-group-text{
-  border: none;
-  background-color: white;
-  padding-top: 15px;
-}
-
-  
-input.inputCheckBox{
-  margin: 0;
-}
-
-div.input-group{
-  justify-content: flex-end;
-  margin-bottom: 0;
-}
-
-div.card-body {
-  padding-top: 0;
-  
-}
-
-.btns{
-  margin-right: 4px;
-}
-
-.makeCenter{
-  
+.makeCenter {
   margin: 0 auto;
+}
 
+.welcomeForm h1 {
+  font-size: 10vh;
+  opacity: 0;
+  transform: translateY(100%);
+  animation-name: slideUp;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.welcomeContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+h4 {
+  text-align: center;
+}
+
+.welcomeModal {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 480px) {
+  .welcomeModal {
+    padding: 10px;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  .btn {
+    font-size: 14px;
+  }
 }

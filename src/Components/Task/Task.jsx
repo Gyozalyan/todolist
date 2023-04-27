@@ -1,5 +1,5 @@
 import styles from "./task.module.css";
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Button, Card, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashCan,
@@ -10,19 +10,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { memo } from "react";
 import { PropTypes } from "prop-types";
-import { formatDate } from "../../utils/helper";
+import { formatDate } from "../../utils/helpers";
 
 function Task({
   data,
-  deleteTask,
-  selecteTasks,
-  checked,
+  onDeleteTask,
+  onSelecteTasks,
+  isChecked,
   number,
-  taskEdit,
-  changeStatus,
+  onTaskEdit,
+  onChangeStatus,
 }) {
 
   return (
+    <Col xs={12} sm ={12} md={6} lg={6} xxl={6}>
     <Card.Body>
       <div className={styles.task}>
         <div className={styles.taskBackground}>
@@ -30,9 +31,9 @@ function Task({
             <Form.Check
               className={styles.selectTask}
               onChange={() => {
-                selecteTasks(data._id);
+                onSelecteTasks(data._id);
               }}
-              checked={checked}
+              checked={isChecked}
             />
 
             <Card.Title className={styles.textElipsis}>
@@ -57,10 +58,10 @@ function Task({
               {data.status === "active" ? (
                 <Button
                   title="Mark as done"
-                  className="float-end btns action"
+                  className={`${styles.buttonsforXS} float-end btns action`}
                   variant="outline-success"
                   onClick={() =>
-                    changeStatus({ status: "done", _id: data._id })
+                    onChangeStatus({ status: "done", _id: data._id })
                   }
                 >
                     <FontAwesomeIcon icon={faCheck} />
@@ -68,10 +69,10 @@ function Task({
               ) : (
                 <Button
                   title="Mark as active"
-                  className="float-end btns action"
+                  className= {`${styles.buttonsforXS} float-end btns action`}
                   variant="outline-info"
                   onClick={() =>
-                    changeStatus({ status: "active", _id: data._id })
+                    onChangeStatus({ status: "active", _id: data._id })
                   }
                 >
                <FontAwesomeIcon icon={faHistory} />
@@ -81,9 +82,9 @@ function Task({
               <Button
                 title="Delete"
                 variant="outline-danger"
-                className="float-end btns action"
+                className={`${styles.buttonsforXS} float-end btns action`}
                 onClick={() => {
-                  deleteTask(data._id);
+                  onDeleteTask(data._id);
                 }}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
@@ -91,9 +92,9 @@ function Task({
               <Button
                 title="edit"
                 variant="outline-warning"
-                className="float-end btns action"
+                className={`${styles.buttonsforXS} float-end btns action`}
                 onClick={() => {
-                  taskEdit(data);
+                  onTaskEdit(data);
                 }}
               >
                 <FontAwesomeIcon icon={faPenToSquare} />
@@ -103,15 +104,20 @@ function Task({
         </div>
       </div>
     </Card.Body>
+
+    
+    </Col>
+
+   
   );
 }
 
 Task.propTypes = {
   data: PropTypes.object.isRequired,
-  deleteTask: PropTypes.func.isRequired,
-  selecteTasks: PropTypes.func.isRequired,
-  checked: PropTypes.bool.isRequired,
-  taskEdit: PropTypes.func,
+  onDeleteTask: PropTypes.func.isRequired,
+  onSelecteTasks: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  onTaskEdit: PropTypes.func,
 };
 
 export default memo(Task);
