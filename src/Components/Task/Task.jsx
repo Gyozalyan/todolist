@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { memo } from "react";
 import { PropTypes } from "prop-types";
-import { formatDate } from "../../utils/helper";
+import { formatDate } from "../../utils/helpers";
 
 function Task({
   data,

@@ -7,7 +7,7 @@ import Layout from "./Components/Nav/Layout";
 import About from "./Components/Nav/About";
 import Form from "react-bootstrap/Form";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 const App = () => {
@@ -21,7 +21,7 @@ const App = () => {
       localStorage.setItem("hasShownWelcomePage", true);
     }
     // eslint-disable-next-line
-  }, []);
+  });
 
   const handleButtonClick = (event) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ const App = () => {
     <div>
       {showWelcomePage ? (
         <div className="welcomeModal">
-          <Form>
+          <Form className="welcomeForm">
             <h1>Hello!</h1>
 
             <div className="welcomeContent">
@@ -66,14 +66,15 @@ const App = () => {
           </Form>
         </div>
       ) : (
-        <Router>
-          <Layout />
-          <Routes>
-            <Route path="/" element={<ToDo userName={name} />} />
-            <Route path="/About" element={<About />} />
-            <Route path="/ContactUs" element={<ContactUs />} />
-          </Routes>
-        </Router>
+        <ToDo userName={name}/>
+        // <Router>
+        //   <Layout />
+        //   <Routes>
+        //     <Route path="/" element={<ToDo userName={name} />} />
+        //     <Route path="/About" element={<About />} />
+        //     <Route path="/ContactUs" element={<ContactUs />} />
+        //   </Routes>
+        // </Router>
       )}
     </div>
   );

@@ -8,9 +8,7 @@ body {
   border-radius: 10%;
 }
 
-Container {
-  background: #f2dadf;
-}
+
 
 .root {
   background: #f2dadf;
@@ -20,7 +18,7 @@ Container {
   margin: 0 auto;
 }
 
-Form h1 {
+.welcomeForm h1 {
   font-size: 10vh;
   opacity: 0;
   transform: translateY(100%);

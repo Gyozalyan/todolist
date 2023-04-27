@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from "react";
 import { InputGroup, Form, Button, Modal } from "react-bootstrap";
-import { formatDate } from "../../utils/helper";
+import { formatDate } from "../../utils/helpers";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./TaskModal.module.css";
