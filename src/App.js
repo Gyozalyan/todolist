@@ -3,12 +3,13 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import ToDo from "./Components/toDo/ToDo";
 import ContactUs from "./Components/Nav/ContactUs";
-import Layout from "./Components/Nav/Layout";
 import About from "./Components/Nav/About";
 import Form from "react-bootstrap/Form";
 import { useState, useEffect } from "react";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Button } from "react-bootstrap";
+import NavBarMenu from "./Components/Nav/Nav"
+
 
 const App = () => {
   const [showWelcomePage, setShowWelcomePage] = useState(false);
@@ -66,15 +67,15 @@ const App = () => {
           </Form>
         </div>
       ) : (
-        <ToDo userName={name}/>
-        // <Router>
-        //   <Layout />
-        //   <Routes>
-        //     <Route path="/" element={<ToDo userName={name} />} />
-        //     <Route path="/About" element={<About />} />
-        //     <Route path="/ContactUs" element={<ContactUs />} />
-        //   </Routes>
-        // </Router>
+       
+        <Router>
+        <NavBarMenu />
+        <Routes>
+          <Route path="/" element={<ToDo userName={name} />} />
+          <Route path="/About" element={<About />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
+        </Routes>
+      </Router>
       )}
     </div>
   );
