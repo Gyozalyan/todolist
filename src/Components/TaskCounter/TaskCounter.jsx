@@ -37,9 +37,8 @@ const TaskCounter = ({ tasks }) => {
       activeTasks: activeTasks.length,
       allTasks: tasks.length,
     })
-    
-    // eslint-disable-next-line
-  }, []) 
+      // eslint-disable-next-line
+  }, [tasks]); 
 
   return (
     <div className={styles.counterWidget}>
