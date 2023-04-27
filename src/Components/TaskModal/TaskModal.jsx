@@ -21,8 +21,8 @@ import PropTypes from "prop-types";
       setTitleValid(true)
   
     }
-     
-  }, [data]);
+     // eslint-disable-next-line
+  }, []);
 
   const onSaveTask = () => {
     const newTask = {
