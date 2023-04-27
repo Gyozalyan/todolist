@@ -57,7 +57,7 @@ const TaskCounter = ({ tasks }) => {
         <h1 id="ongoingCounter" className={styles.counterValue}>
         {tasksCounter.activeTasks}
         </h1>
-        <h2 className={styles.counterTitle}>Pending</h2>
+        <h2 className={styles.counterTitle}>Active</h2>
       </div>
       <div className={styles.counterSection}>
         <FontAwesomeIcon icon={faListUl} />

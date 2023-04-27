@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import SearchAndFilter from '../SearchAndFilter/SearchAndFilter'
 import TaskCounter from '../TaskCounter/TaskCounter'
 import { useState, useEffect, memo } from 'react'
-import { Col, Container, Row, Button } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify'
 
 
@@ -16,7 +16,6 @@ import { ToastContainer, toast } from 'react-toastify'
 const taskApi = new TaskAPI()
 
  const ToDo =({userName}) => {
-  const [name] = useState('')
   const [tasks, setTasks] = useState([])
   const [selectedTasks, setSelectedTasks] = useState(new Set())
   const [taskToDelete, setTaskToDelete] = useState(null)

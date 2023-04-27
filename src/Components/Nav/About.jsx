@@ -29,11 +29,11 @@ const About = ()=>{
         <h3 className={styles.featureTitle}>Prioritize and Sort Tasks</h3>
         <p className={styles.featureDescription}>Our website allows you to set priority levels for your tasks, such as high, medium, or low, to help you determine which tasks are most important or urgent. You can also sort your tasks based on different criteria, such as due date, priority, or alphabetically, to easily identify which tasks require immediate attention and which ones can be addressed later.</p>
       </div>
-      <div class="feature">
+      <div className={styles.feature}>
         <h3 className={styles.featureTitle}>Mark and Complete Tasks</h3>
         <p className={styles.featureDescription}>Once you've completed a task, you can mark it as "complete" in our website. This will help you keep track of your progress and visually see which tasks are done. You can also view completed tasks separately, archive them, or delete them if you no longer need them, helping you maintain a clean and organized task list.</p>
       </div>
-      <div class="feature">
+      <div className={styles.feature}>
         <h3 className={styles.featureTitle}>Collaborate and Share Tasks</h3>
         <p className={styles.featureDescription}>Our website allows you to collaborate and share tasks with others. You can assign tasks to team members, set due dates and reminders for shared tasks, and communicate with your team through comments or notifications. This makes it easy to work together on group projects, assignments, or team tasks, and ensures everyone is on the same page.</p>
       </div>
