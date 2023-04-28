@@ -12,6 +12,6 @@ export const formatDate = (date) => {
     if(!date){
       return ''
     }
-    return moment(date).format('YYYY-MM-DD');
+    return moment(date).format("MMM Do YY");
   };
   
