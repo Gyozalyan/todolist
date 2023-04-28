@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const formatDate = (date) => {
 
     if (date instanceof Date) {
@@ -6,6 +8,10 @@ export const formatDate = (date) => {
     if (typeof date === "string") {
       return date.slice(0, 10);
     }
-    return "";
+
+    if(!date){
+      return ''
+    }
+    return moment(date).format("MMM Do YY");
   };
   

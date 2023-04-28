@@ -36,7 +36,7 @@ const taskApi = new TaskAPI()
 
   useEffect(() => {
     getInitialTasks()
-    // eslint-disable-next-line
+    
   }, [])
 
   const addTaskTemplate = (newTask) => {
