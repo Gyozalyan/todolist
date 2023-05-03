@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from'./Nav.module.css';
+import styles from './ContactUs.module.css';
 import { Button } from 'react-bootstrap';
 
 

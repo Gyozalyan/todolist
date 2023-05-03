@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Castoro'; 
+    src: url('../../Components/Fonts/CastoroTitling-Regular.ttf') 
+   
+  }
+div.fill {
+   display: flex;
+   justify-content: center;
+   margin-top: 20vh;
+  }
+
+.contactPageTitle{
+    margin-bottom: 5vh;
+    font-family: 'Castoro'
+  }
+
+  
+  .contactForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 5px;
+   
+  }
+  
+  .textInputs,
+  .message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    max-width: 500px;
+  }
+  
+  .submit {
+    padding: 10px;
+  
+    border: none;
+    cursor: pointer;
+    max-width: 200px;
+  }
