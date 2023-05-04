@@ -41,6 +41,9 @@ export default class TaskAPI {
     })
   }
 
+  getSingle(taskId){
+    return this.#request("GET",{id:taskId})  }
+
   getAllTasks(filters){
     return this.#request("GET", {filters: filters})
   }

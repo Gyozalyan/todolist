@@ -61,6 +61,10 @@ h4 {
   justify-content: center;
 }
 
+.navbar-expand-lg .navbar-collapse{
+  margin-left: 10px;
+}
+
 @media screen and (max-width: 480px) {
   .welcomeModal {
     padding: 10px;
