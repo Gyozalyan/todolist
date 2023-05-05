@@ -12,7 +12,8 @@ import styles from "./SingleTask.module.css";
 import TaskAPI from "../../API/TaskAPI";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
+
 
 const taskApi = new TaskAPI();
 
@@ -33,9 +34,10 @@ export default function SingleTask() {
   }, [taskID]);
 
   return (
-    
-    <div>
-      {task ? (
+    <Container>
+      <Row>
+        <Col>
+        {task ? (
         <div className={styles.task}>
           <div className={styles.taskBackground }>
 
@@ -127,7 +129,12 @@ export default function SingleTask() {
         pauseOnHover
         theme="colored"
       />
-    </div>
+        </Col>
+      </Row>
+    </Container>
+   
+
+  
  
   );
 }
