@@ -57,7 +57,7 @@ import PropTypes from "prop-types";
     <Modal size="lg" show={true} onHide={onCancel} >
       <div className="modalContent">
       <Modal.Header>
-        <Modal.Title> Add new Task </Modal.Title>
+        <Modal.Title> {data ? 'Update task' : "Add new Task"} </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>

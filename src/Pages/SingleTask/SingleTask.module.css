@@ -39,4 +39,10 @@
   gap:4px;
 }
 
+.singleContainer{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
 

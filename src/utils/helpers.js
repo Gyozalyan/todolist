@@ -1,9 +1,8 @@
 import moment from 'moment';
 
-export const formatDate = (date) => {
-    if(!date){
-      return ''
-    }
-    return moment(date).format("MMM Do YY");
-  };
-  
+export function formatDate(date) {
+  if(!date){
+    return '';
+  }
+    return moment(date).format('YYYY-MM-DD');
+}
