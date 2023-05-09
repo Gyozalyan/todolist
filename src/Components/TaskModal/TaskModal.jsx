@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import { InputGroup, Form, Button, Modal } from "react-bootstrap";
 import { formatDate } from "../../utils/helpers";
 import DatePicker from "react-datepicker";
@@ -7,11 +7,18 @@ import styles from "./TaskModal.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 
+
  function TaskModal({ onCancel, onSave, data }) {
   const [title, setTitle] = useState(" ");
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState(new Date());
   const [isTitleValid, setTitleValid] = useState(false);
+  const titleRef = useRef(null)
+
+  useEffect(()=>{
+    titleRef.current.focus()
+  },[])
+
 
   useEffect(() => {
     if (data) {
@@ -22,7 +29,7 @@ import PropTypes from "prop-types";
   
     }
      // eslint-disable-next-line
-  }, []);
+  }, [data]);
 
   const onSaveTask = () => {
     const newTask = {
@@ -71,6 +78,7 @@ import PropTypes from "prop-types";
             onChange={onTitleChange}
             onKeyDown={handleEventEnter}
             value={title}
+            ref = {titleRef}
           />
         </InputGroup>
 
