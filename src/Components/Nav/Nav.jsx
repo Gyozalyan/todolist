@@ -4,14 +4,13 @@ import { NavLink } from "react-router-dom";
 import styles from "./Nav.module.css";
 
 const activeLinkClass = ({ isActive }) => {
- return isActive ? styles.active : ''
-  // const classes = [styles.linkStyle];
+  const classes = [styles.linkStyle];
 
-  // if (isActive) {
-  //   classes.push(styles.active);
-  // }
+  if (isActive) {
+    classes.push(styles.active);
+  }
 
-  // return classes.join(" ");
+  return classes.join(" ");
 };
 
 function NavBarMenu() {
