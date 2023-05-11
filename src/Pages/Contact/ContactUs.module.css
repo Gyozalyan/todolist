@@ -25,7 +25,7 @@ div.fill {
    
   }
   
-  .textInputs,
+  .textInput,
   .message {
     padding: 10px;
     margin-bottom: 10px;
@@ -39,4 +39,8 @@ div.fill {
     border: none;
     cursor: pointer;
     max-width: 200px;
+  }
+
+  .errorMessage,  .invalid{
+    border: 1px solid #f00;
   }
