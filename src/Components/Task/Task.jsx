@@ -11,6 +11,7 @@ import {
 import { memo } from "react";
 import { PropTypes } from "prop-types";
 import { formatDate } from "../../utils/helpers";
+import { Link } from "react-router-dom";
 
 function Task({
   data,
@@ -50,6 +51,11 @@ function Task({
 
               <Card.Text> <FontAwesomeIcon icon={faAngleRight} /> Created: {formatDate(data.created_at)}</Card.Text>
               <Card.Text> <FontAwesomeIcon icon={faAngleRight} />  Deadline: {formatDate(data.date)}</Card.Text>
+               <Button
+              title = 'Show details'
+              variant="info"
+              >  <Link to={`/task/${data._id}`}>  Show more</Link> </Button>
+          
             </div>
 
             <div className={styles.actionButtons}>

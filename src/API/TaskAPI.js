@@ -1,69 +1,36 @@
+import API from "./API";
 const taskApiUrl = process.env.REACT_APP_API_URL + "/task";
 
-export default class TaskAPI {
-  #request(method, data = {}) {
-    const { body, id, filters } = data;
-
-    const fetchObj = {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    if (body) {
-      fetchObj.body = JSON.stringify(body);
-    }
-
-    let url = taskApiUrl;
-    if (id) {
-      url = `${url}/${id}`;
-    }
-
-    if (filters) {
-      let query = '?'
-      Object.entries(filters).forEach(([key,value])=>{
-        if(!value){
-          return
-        }
-        query += `${key}=${value}&`;
-      })
-      url+=query
-    }
-
-   return fetch(url, fetchObj)
-    .then((result) => result.json())
-    .then((data)=>{
-      if(data.error){
-        throw data.error
-      }
-      return data
-    })
+export default class TaskAPI extends API {
+  constructor() {
+    super(taskApiUrl);
   }
 
-  getAllTasks(filters){
-    return this.#request("GET", {filters: filters})
+  getSingle(taskId) {
+    return this.request("GET", { id: taskId });
   }
 
-  addTask (newTask){
-    return this.#request("POST", {body:newTask})
+  getAllTasks(filters) {
+    return this.request("GET", { filters: filters });
   }
 
-  update(taskToUpdate){
-    return this.#request("PUT", {body: taskToUpdate, id: taskToUpdate._id});  
+  addTask(newTask) {
+    return this.request("POST", { body: newTask });
   }
 
-  deleteIdenticalTask(taskId){
-    return this.#request("DELETE",{id:taskId})
+  update(taskToUpdate) {
+    return this.request("PUT", { body: taskToUpdate, id: taskToUpdate._id });
   }
 
-  deleteSelectedTasks (taskIdsArray){
-
-    return this.#request("PATCH", {body:{tasks:taskIdsArray}})
-
+  deleteIdenticalTask(taskId) {
+    return this.request("DELETE", { id: taskId });
   }
 
-  searchTasks(){
-    return this.#request("GET")
+  deleteSelectedTasks(taskIdsArray) {
+    return this.request("PATCH", { body: { tasks: taskIdsArray } });
+  }
+
+  searchTasks() {
+    return this.request("GET");
   }
 }

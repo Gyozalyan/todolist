@@ -1,14 +1,17 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import ToDo from "./Components/toDo/ToDo";
-import ContactUs from "./Components/Nav/ContactUs";
-import About from "./Components/Nav/About";
+import ToDo from "./Pages/ToDo/ToDo";
+import ContactUs from "./Pages/Contact/ContactUs";
+import About from "./Pages/About/About";
 import Form from "react-bootstrap/Form";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import NavBarMenu from "./Components/Nav/Nav"
+import NavBarMenu from "./Components/Nav/Nav";
+import SingleTask from "./Pages/SingleTask/SingleTask";
+import NotFound from "./Pages/NotFound/NotFound";
+import { ToastContainer } from 'react-toastify'
 
 
 const App = () => {
@@ -22,7 +25,7 @@ const App = () => {
       localStorage.setItem("hasShownWelcomePage", true);
     }
     // eslint-disable-next-line
-  },[]);
+  }, []);
 
   const handleButtonClick = (event) => {
     event.preventDefault();
@@ -37,6 +40,15 @@ const App = () => {
       handleButtonClick(event);
     }
   };
+
+  const pages = [
+    { path: "/", element: <ToDo userName={name} /> },
+    { path: "/ToDo", element: <ToDo userName={name} /> },
+    { path: "/About", element: <About/> },
+    { path: "/ContactUs", element: <ContactUs /> },
+    { path: "/task/:taskID", element: <SingleTask /> },
+    { path: "*", element: <NotFound /> },
+  ];
 
   return (
     <div>
@@ -67,15 +79,32 @@ const App = () => {
           </Form>
         </div>
       ) : (
-       
         <Router>
-        <NavBarMenu />
-        <Routes>
-          <Route path="/" element={<ToDo userName={name} />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
-        </Routes>
-      </Router>
+          <main>
+            <NavBarMenu />
+            <Routes>
+              {pages.map((page) => (
+                <Route
+                  key={page.path}
+                  path={page.path}
+                  element={page.element}
+                />
+              ))}
+            </Routes>
+            <ToastContainer
+          position="bottom-left"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+          </main>
+        </Router>
       )}
     </div>
   );

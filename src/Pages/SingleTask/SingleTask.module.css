@@ -1,0 +1,48 @@
+.task{
+  padding: 15px;
+  border: 4px double rgb(255, 255, 255);
+  margin: 15px auto;
+  display: flex;
+  align-items: center;
+
+}
+
+.taskBackground{
+  align-items: center;
+  background: white;
+  width: 100%;
+  padding: 20px;
+  font-size: 30px;
+
+}
+
+.taskDescription{
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.taskCondition{
+  font-size: 15px;
+}
+
+.taskDetails{
+  display: flex;
+  justify-content: space-between;
+}
+
+.actionButtons{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: relative;
+  right: 10px;
+  gap:4px;
+}
+
+.singleContainer{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+

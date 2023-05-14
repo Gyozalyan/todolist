@@ -1,26 +1,42 @@
-import { memo } from 'react'
-import { Nav, Navbar } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { memo } from "react";
+import { Nav, Navbar } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import styles from "./Nav.module.css";
+
+const activeLinkClass = ({ isActive }) => {
+  const classes = [styles.linkStyle];
+
+  if (isActive) {
+    classes.push(styles.active);
+  }
+
+  return classes.join(" ");
+};
 
 function NavBarMenu() {
   return (
-    <Navbar bg="light" expand="lg">
-      <LinkContainer to="/">
-        <Navbar.Brand>ToDo</Navbar.Brand>
-      </LinkContainer>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <LinkContainer to="/about">
-            <Nav.Link>About</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/contactus">
-            <Nav.Link>Contact Us</Nav.Link>
-          </LinkContainer>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+    <div>
+      <Navbar bg="light" expand="lg">
+        <NavLink to="/" className={activeLinkClass}>
+          ToDo
+        </NavLink>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <NavLink to="/about" className={activeLinkClass}>
+              About
+            </NavLink>
+            <NavLink to="/SingleTask" className={activeLinkClass}>
+              Task
+            </NavLink>
+            <NavLink to="/contactus" className={activeLinkClass}>
+              Contact Us
+            </NavLink>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
   );
 }
 
-export default memo(NavBarMenu)
+export default memo(NavBarMenu);

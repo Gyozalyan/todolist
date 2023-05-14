@@ -1,15 +1,15 @@
 import styles from './todo.module.css'
-import Task from '../Task/Task'
-import DeleteSelected from '../DeleteSelected/DeleteSelected'
-import ConfirmDialog from '../ConfirmDialogDelete/ConfirmDialog'
+import Task from '../../Components/Task/Task'
+import DeleteSelected from '../../Components/DeleteSelected/DeleteSelected'
+import ConfirmDialog from '../../Components/ConfirmDialogDelete/ConfirmDialog'
 import TaskAPI from '../../API/TaskAPI'
-import TaskModal from '../TaskModal/TaskModal'
+import TaskModal from '../../Components/TaskModal/TaskModal'
 import 'react-toastify/dist/ReactToastify.css'
-import SearchAndFilter from '../SearchAndFilter/SearchAndFilter'
-import TaskCounter from '../TaskCounter/TaskCounter'
+import SearchAndFilter from '../../Components/SearchAndFilter/SearchAndFilter'
+import TaskCounter from '../../Components/TaskCounter/TaskCounter'
 import { useState, useEffect, memo } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 
 
@@ -236,18 +236,7 @@ const taskApi = new TaskAPI()
           }}
         />
       )}
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+
     </Container>
   )
 }
