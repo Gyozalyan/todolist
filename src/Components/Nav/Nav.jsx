@@ -2,6 +2,7 @@ import { memo } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import styles from "./Nav.module.css";
+import { useSelector } from "react-redux";
 
 const activeLinkClass = ({ isActive }) => {
   const classes = [styles.linkStyle];
@@ -14,6 +15,7 @@ const activeLinkClass = ({ isActive }) => {
 };
 
 function NavBarMenu() {
+  const counter = useSelector(state=>state.counter.value)
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -32,6 +34,7 @@ function NavBarMenu() {
             <NavLink to="/contactus" className={activeLinkClass}>
               Contact Us
             </NavLink>
+            <h1>{counter}</h1>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

@@ -8,13 +8,11 @@ import { Button } from "react-bootstrap";
 import NavBarMenu from "./Components/Nav/Nav";
 import { ToastContainer } from "react-toastify";
 import {routes} from './routes';
-import { configureStore } from '@reduxjs/toolkit'
+import { store } from './redux/store'
 import { Provider } from 'react-redux'
 
 
-const store = configureStore({
-  reducer: {},
-})
+
 
 const App = () => {
   const [showWelcomePage, setShowWelcomePage] = useState(false);
