@@ -8,17 +8,16 @@ import { Button } from "react-bootstrap";
 import NavBarMenu from "./Components/Nav/Nav";
 import { ToastContainer } from "react-toastify";
 import {routes} from './routes';
-import { configureStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
+
+import { useSelector } from "react-redux";
+import Loader from './Components/Loader/Loader'
 
 
-const store = configureStore({
-  reducer: {},
-})
 
 const App = () => {
   const [showWelcomePage, setShowWelcomePage] = useState(false);
   const [name, setName] = useState(localStorage.getItem("name") || "");
+
 
   useEffect(() => {
     const hasShownWelcomePage = localStorage.getItem("hasShownWelcomePage");
@@ -43,14 +42,15 @@ const App = () => {
     }
   };
 
+  const isLoaderActive = useSelector(state => state.loader.isLoading)
+
   return (
-    <Provider store={store}>
     <div>
       {showWelcomePage ? (
         <div className="welcomeModal">
           <Form className="welcomeForm">
             <h1>Hello!</h1>
-
+          
             <div className="welcomeContent">
               <Form.Label>
                 <h4>Your Name:</h4>
@@ -75,6 +75,7 @@ const App = () => {
       ) : (
         <Router>
           <main>
+       
             <NavBarMenu />
             <Routes>
               {routes.map((page) => (
@@ -97,11 +98,15 @@ const App = () => {
               pauseOnHover
               theme="colored"
             />
+
+{
+              isLoaderActive && <Loader/>
+            }
           </main>
         </Router>
       )}
     </div>
-    </Provider>
+ 
   );
 };
 

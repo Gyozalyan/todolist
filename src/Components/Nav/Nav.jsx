@@ -2,10 +2,11 @@ import { memo } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import styles from "./Nav.module.css";
+import { useSelector } from "react-redux";
 
 const activeLinkClass = ({ isActive }) => {
   const classes = [styles.linkStyle];
-
+ 
   if (isActive) {
     classes.push(styles.active);
   }
@@ -14,6 +15,8 @@ const activeLinkClass = ({ isActive }) => {
 };
 
 function NavBarMenu() {
+  const count = useSelector(state=>state.count.taskCount)
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -32,6 +35,7 @@ function NavBarMenu() {
             <NavLink to="/contactus" className={activeLinkClass}>
               Contact Us
             </NavLink>
+            Count:{count}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

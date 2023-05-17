@@ -1,44 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import styles from './TaskCounter.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState, useEffect } from "react";
+import styles from "./TaskCounter.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PropTypes } from "prop-types";
+import { useSelector } from "react-redux";
 
 import {
   faSpinner,
   faCheckDouble,
   faListUl,
-} from '@fortawesome/free-solid-svg-icons'
+} from "@fortawesome/free-solid-svg-icons";
 
 const TaskCounter = ({ tasks }) => {
   const [tasksCounter, setTasksCounter] = useState({
     doneTasks: 0,
     activeTasks: 0,
-    allTasks: tasks.length,
-  })
+  });
 
+  const allTasksCount = useSelector((state) => state.count.taskCount);
 
   useEffect(() => {
-    const doneTasks = []
-    const activeTasks = []
+    const doneTasks = [];
+    const activeTasks = [];
 
     tasks.forEach((task) => {
-      if (task.status === 'done') {
-        doneTasks.push(task.status)
+      if (task.status === "done") {
+        doneTasks.push(task.status);
       }
 
-      if (task.status === 'active') {
-        activeTasks.push(task.status)
+      if (task.status === "active") {
+        activeTasks.push(task.status);
       }
-    })
+    });
 
     setTasksCounter({
       ...tasksCounter,
       doneTasks: doneTasks.length,
       activeTasks: activeTasks.length,
       allTasks: tasks.length,
-    })
-      // eslint-disable-next-line
-  }, [tasks]); 
+    });
+    // eslint-disable-next-line
+  }, [tasks]);
 
   return (
     <div className={styles.counterWidget}>
@@ -54,23 +55,23 @@ const TaskCounter = ({ tasks }) => {
         <FontAwesomeIcon icon={faSpinner} spin />
 
         <h1 id="ongoingCounter" className={styles.counterValue}>
-        {tasksCounter.activeTasks}
+          {tasksCounter.activeTasks}
         </h1>
         <h2 className={styles.counterTitle}>Active</h2>
       </div>
       <div className={styles.counterSection}>
         <FontAwesomeIcon icon={faListUl} />
         <h1 id="summaryCounter" className={styles.counterValue}>
-        {tasksCounter.allTasks}
+          {allTasksCount}
         </h1>
         <h2 className={styles.counterTitle}>Tasks</h2>
       </div>
     </div>
-  )
-}
+  );
+};
 
 TaskCounter.propTypes = {
-    tasks: PropTypes.array.isRequired,
-  };
+  tasks: PropTypes.array.isRequired,
+};
 
-export default TaskCounter
+export default TaskCounter;
