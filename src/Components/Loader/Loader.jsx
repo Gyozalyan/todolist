@@ -4,7 +4,7 @@
  const Loader = () =>{
 
     return (
-        <div className='lds-default'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div className='lds-default'><div className="lds"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>
        
     )
 

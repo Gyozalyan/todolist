@@ -7,17 +7,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import NavBarMenu from "./Components/Nav/Nav";
 import { ToastContainer } from "react-toastify";
-import {routes} from './routes';
-
+import { routes } from "./routes";
 import { useSelector } from "react-redux";
-import Loader from './Components/Loader/Loader'
-
-
+import Loader from "./Components/Loader/Loader";
 
 const App = () => {
   const [showWelcomePage, setShowWelcomePage] = useState(false);
   const [name, setName] = useState(localStorage.getItem("name") || "");
-
 
   useEffect(() => {
     const hasShownWelcomePage = localStorage.getItem("hasShownWelcomePage");
@@ -42,7 +38,7 @@ const App = () => {
     }
   };
 
-  const isLoaderActive = useSelector(state => state.loader.isLoading)
+  const isLoaderActive = useSelector((state) => state.loader.isLoading);
 
   return (
     <div>
@@ -50,7 +46,7 @@ const App = () => {
         <div className="welcomeModal">
           <Form className="welcomeForm">
             <h1>Hello!</h1>
-          
+
             <div className="welcomeContent">
               <Form.Label>
                 <h4>Your Name:</h4>
@@ -75,8 +71,8 @@ const App = () => {
       ) : (
         <Router>
           <main>
-       
             <NavBarMenu />
+            {isLoaderActive && <Loader />}
             <Routes>
               {routes.map((page) => (
                 <Route
@@ -98,15 +94,10 @@ const App = () => {
               pauseOnHover
               theme="colored"
             />
-
-{
-              isLoaderActive && <Loader/>
-            }
           </main>
         </Router>
       )}
     </div>
- 
   );
 };
 

@@ -36,7 +36,7 @@ const ToDo = ({ userName }) => {
       .catch((err) => {
         toast.error(err.message);
       })
-      // .finally(()=>dispatch(setLoader(false)));
+      .finally(()=>dispatch(setLoader(false)));
   };
 
   useEffect(() => {
