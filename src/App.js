@@ -8,12 +8,14 @@ import { Button } from "react-bootstrap";
 import NavBarMenu from "./Components/Nav/Nav";
 import { ToastContainer } from "react-toastify";
 import { routes } from "./routes";
-import { useSelector } from "react-redux";
 import Loader from "./Components/Loader/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import {getUserName} from "./redux/userName"
 
 const App = () => {
   const [showWelcomePage, setShowWelcomePage] = useState(false);
-  const [name, setName] = useState(localStorage.getItem("name") || "");
+  const dispatch = useDispatch()
+  const name = useSelector(state=> state.userName.name)
 
   useEffect(() => {
     const hasShownWelcomePage = localStorage.getItem("hasShownWelcomePage");
@@ -54,7 +56,7 @@ const App = () => {
                 <Form.Control
                   type="text"
                   value={name}
-                  onChange={(event) => setName(event.target.value)}
+                  onChange={(event) => dispatch(getUserName(event.target.value))}
                   onKeyDown={handleEventEnter}
                 />
               </Form.Label>

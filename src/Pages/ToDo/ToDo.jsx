@@ -13,16 +13,18 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { getTaskCount } from "../../redux/taskCount";
 import { setLoader } from "../../redux/isLoading";
+import { useSelector } from "react-redux";
 
 const taskApi = new TaskAPI();
 
-const ToDo = ({ userName }) => {
+const ToDo = () => {
   const [tasks, setTasks] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState(new Set());
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [editableTask, setEditableTask] = useState(null);
   const [deadline, setDeadline] = useState(new Date());
+  const userName = useSelector(state=>state.userName.name)
   const dispatch = useDispatch();
 
   const getInitialTasks = (filters) => {
