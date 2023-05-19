@@ -29,9 +29,6 @@ function NavBarMenu() {
             <NavLink to="/about" className={activeLinkClass}>
               About
             </NavLink>
-            <NavLink to="/SingleTask" className={activeLinkClass}>
-              Task
-            </NavLink>
             <NavLink to="/contactus" className={activeLinkClass}>
               Contact Us
             </NavLink>

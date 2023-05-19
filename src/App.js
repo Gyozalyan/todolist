@@ -2,13 +2,13 @@ import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import Form from "react-bootstrap/Form";
+import NavBarMenu from "./Components/Nav/Nav";
+import Loader from "./Components/Loader/Loader";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import NavBarMenu from "./Components/Nav/Nav";
 import { ToastContainer } from "react-toastify";
 import { routes } from "./routes";
-import Loader from "./Components/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {getUserName} from "./redux/userName"
 
