@@ -38,7 +38,7 @@ const ToDo = () => {
         toast.error(err.message);
       })
       .finally(()=>dispatch(setLoader(false)));
-  }, [getInitialTasks]);
+  },[dispatch]);
 
   useEffect(() => {
     getInitialTasks();
