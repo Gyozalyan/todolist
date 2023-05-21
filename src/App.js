@@ -1,22 +1,21 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import ToDo from "./Pages/ToDo/ToDo";
-import ContactUs from "./Pages/Contact/ContactUs";
-import About from "./Pages/About/About";
 import Form from "react-bootstrap/Form";
+import NavBarMenu from "./Components/Nav/Nav";
+import Loader from "./Components/Loader/Loader";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import NavBarMenu from "./Components/Nav/Nav";
-import SingleTask from "./Pages/SingleTask/SingleTask";
-import NotFound from "./Pages/NotFound/NotFound";
-import { ToastContainer } from 'react-toastify'
-
+import { ToastContainer } from "react-toastify";
+import { routes } from "./routes";
+import { useDispatch, useSelector } from "react-redux";
+import {getUserName} from "./redux/userName"
 
 const App = () => {
   const [showWelcomePage, setShowWelcomePage] = useState(false);
-  const [name, setName] = useState(localStorage.getItem("name") || "");
+  const dispatch = useDispatch()
+  const name = useSelector(state=> state.userName.name)
 
   useEffect(() => {
     const hasShownWelcomePage = localStorage.getItem("hasShownWelcomePage");
@@ -41,14 +40,7 @@ const App = () => {
     }
   };
 
-  const pages = [
-    { path: "/", element: <ToDo userName={name} /> },
-    { path: "/ToDo", element: <ToDo userName={name} /> },
-    { path: "/About", element: <About/> },
-    { path: "/ContactUs", element: <ContactUs /> },
-    { path: "/task/:taskID", element: <SingleTask /> },
-    { path: "*", element: <NotFound /> },
-  ];
+  const isLoaderActive = useSelector((state) => state.loader.isLoading);
 
   return (
     <div>
@@ -64,7 +56,7 @@ const App = () => {
                 <Form.Control
                   type="text"
                   value={name}
-                  onChange={(event) => setName(event.target.value)}
+                  onChange={(event) => dispatch(getUserName(event.target.value))}
                   onKeyDown={handleEventEnter}
                 />
               </Form.Label>
@@ -82,8 +74,9 @@ const App = () => {
         <Router>
           <main>
             <NavBarMenu />
+            {isLoaderActive && <Loader />}
             <Routes>
-              {pages.map((page) => (
+              {routes.map((page) => (
                 <Route
                   key={page.path}
                   path={page.path}
@@ -92,17 +85,17 @@ const App = () => {
               ))}
             </Routes>
             <ToastContainer
-          position="bottom-left"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
+              position="bottom-left"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
           </main>
         </Router>
       )}

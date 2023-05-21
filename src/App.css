@@ -8,8 +8,6 @@ body {
   border-radius: 10%;
 }
 
-
-
 .root {
   background: #f2dadf;
 }
@@ -61,7 +59,7 @@ h4 {
   justify-content: center;
 }
 
-.navbar-expand-lg .navbar-collapse{
+.navbar-expand-lg .navbar-collapse {
   margin-left: 10px;
 }
 
