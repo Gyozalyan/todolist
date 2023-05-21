@@ -7,7 +7,7 @@ import TaskModal from "../../Components/TaskModal/TaskModal";
 import "react-toastify/dist/ReactToastify.css";
 import SearchAndFilter from "../../Components/SearchAndFilter/SearchAndFilter";
 import TaskCounter from "../../Components/TaskCounter/TaskCounter";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,7 @@ const ToDo = () => {
   const userName = useSelector(state=>state.userName.name)
   const dispatch = useDispatch();
 
-  const getInitialTasks = (filters) => {
+  const getInitialTasks = useCallback((filters) => {
     dispatch(setLoader(true));
     taskApi
       .getAllTasks(filters)
@@ -38,12 +38,12 @@ const ToDo = () => {
         toast.error(err.message);
       })
       .finally(()=>dispatch(setLoader(false)));
-  };
+  }, [getInitialTasks]);
 
   useEffect(() => {
     getInitialTasks();
     // eslint-disable-next-line
-  }, [getInitialTasks]);
+  }, []);
 
   useEffect(() => {
     dispatch(getTaskCount(tasks.length));
