@@ -5,6 +5,10 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useRef } from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/isLoading";
+
+
 
 
 const formAPI = new FormAPI();
@@ -12,6 +16,8 @@ const formAPI = new FormAPI();
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 const ContactUs = () => {
+  const dispatch = useDispatch();
+
   const nameRef = useRef();
   const emailRef = useRef();
   const messageRef = useRef();
@@ -61,6 +67,7 @@ const ContactUs = () => {
     };
 
     try {
+      dispatch(setLoader(true));
       await formAPI.sendForm(form);
       toast.success("Your task has been added successfully");
       emailRef.current.value = "";
@@ -71,6 +78,10 @@ const ContactUs = () => {
     
     catch (err) {
       toast.error(err.message);
+    }
+
+    finally{
+      dispatch(setLoader(false))
     }
   };
 

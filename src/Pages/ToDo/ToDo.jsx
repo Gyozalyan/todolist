@@ -10,10 +10,9 @@ import TaskCounter from "../../Components/TaskCounter/TaskCounter";
 import { useState, useEffect, memo } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getTaskCount } from "../../redux/taskCount";
 import { setLoader } from "../../redux/isLoading";
-import { useSelector } from "react-redux";
 
 const taskApi = new TaskAPI();
 

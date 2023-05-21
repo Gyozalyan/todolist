@@ -13,6 +13,8 @@ import TaskAPI from "../../API/TaskAPI";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/isLoading";
 import TaskModal from "../../Components/TaskModal/TaskModal";
 
 const taskApi = new TaskAPI();
@@ -22,8 +24,11 @@ export default function SingleTask() {
   const [task, setTask] = useState(null);
   const [isEditSingleTaskOpen, setEditSingleTaskOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
+    dispatch(setLoader(true));
     taskApi
       .getSingle(taskID)
       .then((task) => {
@@ -31,13 +36,14 @@ export default function SingleTask() {
       })
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(()=>dispatch(setLoader(false)));
   }, [taskID]);
 
-  const onSingleTaskEdit = (y) => {
-    console.log(y);
+  const onSingleTaskEdit = (taskEdit) => {
+    dispatch(setLoader(true));
     taskApi
-      .update(y)
+      .update(taskEdit)
       .then((updatedTaskForEditing) => {
         console.log(updatedTaskForEditing);
         setTask(updatedTaskForEditing);
@@ -47,10 +53,12 @@ export default function SingleTask() {
 
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(()=>dispatch(setLoader(false)));;
   };
 
   const onDeleteSingleTask = () => {
+    dispatch(setLoader(true));
     taskApi
       .deleteIdenticalTask(taskID)
       .then(() => {
@@ -59,7 +67,8 @@ export default function SingleTask() {
       })
       .catch((err) => {
         toast.error(err.message);
-      });
+      })
+      .finally(()=>dispatch(setLoader(false)));
   };
 
   return (
