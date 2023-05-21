@@ -42,11 +42,13 @@ const ToDo = () => {
 
   useEffect(() => {
     getInitialTasks();
-  }, []);
+    // eslint-disable-next-line
+  }, [getInitialTasks]);
 
   useEffect(() => {
     dispatch(getTaskCount(tasks.length));
-  }, [tasks.length]);
+    // eslint-disable-next-line
+  }, [tasks.length,dispatch]);
 
   const addTaskTemplate = (newTask) => {
     dispatch(setLoader(true));

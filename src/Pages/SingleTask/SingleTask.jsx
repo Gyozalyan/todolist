@@ -38,7 +38,8 @@ export default function SingleTask() {
         toast.error(err.message);
       })
       .finally(()=>dispatch(setLoader(false)));
-  }, [taskID]);
+      // eslint-disable-next-line
+  }, [taskID, dispatch]);
 
   const onSingleTaskEdit = (taskEdit) => {
     dispatch(setLoader(true));
