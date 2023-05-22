@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/isLoading";
+import { setLoader } from "../../redux/Loader";
 import TaskModal from "../../Components/TaskModal/TaskModal";
 
 const taskApi = new TaskAPI();

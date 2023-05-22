@@ -12,7 +12,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getTaskCount } from "../../redux/taskCount";
-import { setLoader } from "../../redux/isLoading";
+import { setLoader } from "../../redux/Loader";
 
 const taskApi = new TaskAPI();
 

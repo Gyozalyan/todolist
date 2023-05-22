@@ -6,7 +6,7 @@ import { Button } from "react-bootstrap";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/isLoading";
+import { setLoader } from "../../redux/Loader";
 
 
 

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import taskCountReducer from './taskCount'
-import loaderReducer from './isLoading'
+import loaderReducer from './Loader'
 import userNameReducer from './userName'
 
 export const store = configureStore({
